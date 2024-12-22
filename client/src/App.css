@@ -1,0 +1,11 @@
+/* CSS that affects the App only */
+
+.app {
+  text-align: center;
+  width: 100%;
+}
+
+.App-Header {
+  margin: 10px;
+  padding: 10px;
+}
