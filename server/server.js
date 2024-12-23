@@ -9,6 +9,17 @@ const { Client } = pkg;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const media_request = {
+  url: 'https://api.themoviedb.org/3/search/multi',
+  options: {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZTZlNDc5ZDg1ZTIzYjEyZGI3NDQxZjIyZTYzZjQ0ZSIsIm5iZiI6MTczNDk4MDg2MC44LCJzdWIiOiI2NzY5YjRmYzVkNmUzNjdjMmI1ZDAyNmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Ykp2aOZAZH3BRxNYmhOY7T9de3t-QThF4hisc8SVn3U'
+    }
+  }
+}
+
 const app = express();
 const port = 3000;
 
@@ -51,8 +62,45 @@ app.get('/api/posts', (req, res) => {
   });
 });
 
-app.get('/api', (req, res) => {
-  res.json({ users: ["userOne", "userTwo", "userThree"] });
+app.get('/api/search', (req, res) => {
+  // const media_name = req.query.media_name;
+  // const url = `${media_request.url}?query=${media_name}`;
+  // fetch(url, media_request.options)
+  //   .then(response => response.json())
+  //   .then(data => res.json(data))
+  //   .catch(error => console.log(error));
+  let media_name = req.query.media_name;
+  if(media_name === undefined){
+    media_name = "Deadpool";
+  } else {
+    media_name = media_name.replace(/ /g, "%20");
+  }
+  const url = `https://api.themoviedb.org/3/search/multi?query=${media_name}&include_adult=false&language=en-US&page=1`;
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZTZlNDc5ZDg1ZTIzYjEyZGI3NDQxZjIyZTYzZjQ0ZSIsIm5iZiI6MTczNDk4MDg2MC44LCJzdWIiOiI2NzY5YjRmYzVkNmUzNjdjMmI1ZDAyNmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Ykp2aOZAZH3BRxNYmhOY7T9de3t-QThF4hisc8SVn3U'
+    }
+  };
+
+  fetch(url, options)
+    .then(result => {
+      console.log("Fetching media details");
+      console.log(result.json());
+      let results = result.results
+      if(results.length > 5){
+        results = results.slice(0, 5);
+      } else if(results.length === 0){
+        results = [{name: "No results found"}];
+        //! Prob will want to add error handling here
+      }
+      res.json({ media: results });
+    })
+    .then(json => {
+      console.log("Success!", json.media[0].name)
+    })
+    .catch(err => console.error(err));
 });
 
 

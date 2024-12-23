@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -13,10 +13,31 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 // Credit (www.brighttv.co.th)
 const media_data = {
-  "need_shit_here":true
+  "Title": ""
 }
 
 export default function MediaDetails({appSettings:{darkMode}, post}) {
+
+  const [media_details, setMediaDetails] = React.useState([]);
+
+  useEffect(() => {
+    console.log("Fetching media details");
+    fetch("http://localhost:3000/api/search?media_name=Rick%20and%20Morty")
+        .then(res => res.json())
+        .then(data => {
+            setMediaDetails(data.results.slice(0, 5));
+        })
+        .catch(err => {
+            console.log(err);
+        });
+  }, []);
+  useEffect(() => {
+    console.log(media_details[0]);
+  }, [media_details]);
+
+
+
+
   return (
       <Container fluid className={`sticky-top mt-5 justify-content-center border border-3 rounded border-secondary`} style={{height:"90vh"}}>
         <Row>
