@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Post from './Post';
+import PostHorizontal from '../material-ui/PostHorizontal';
+import MediaDetails from '../material-ui/MediaDetails';
+import { Card } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
-function Posts(){   
+function Posts({ appSettings }){   
 
     const [posts, setPosts] = useState([]);
 
@@ -15,17 +18,23 @@ function Posts(){
                 console.log(err);
             });
     }, []);
-
-
     return (
-        <div>
-            {posts.map((post, index) => {
-                return <Post key={index} post={post} />
-            })}
-        </div>
+        <Container fluid>
+            <Row>
+                <Col lg={4} md={6}>
+                    {posts.length>0&&<MediaDetails appSettings={appSettings} post={posts[0]} id={0} />}
+                </Col>
+                <Col lg={8} md={6}>
+                    {posts.map((post, index) => {
+                        return <PostHorizontal appSettings={appSettings} post={post} key={index} id={index} />
+                    })}
+                </Col>
+            </Row>
+        </Container>
         
-    )
+    );
 }
+
 
 
 

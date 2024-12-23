@@ -1,5 +1,5 @@
 /* CSS that affects the App only */
-
+/* The hexadecimal color value for Bootstrap's bg-dark class is #343a40 */
 .app {
   text-align: center;
   width: 100%;
@@ -9,3 +9,22 @@
   margin: 10px;
   padding: 10px;
 }
+
+.bg-darker {
+  background-color: #212529;
+}
+
+.bg-gray {
+  background-color: #dfdfdf;
+}
+
+/*
+
+ Note: Bootstrap sizes are as follows
+  xs: <576px
+  sm: ≥576px
+  md: ≥768px
+  lg: ≥992px
+  xl: ≥1200px
+
+*/
