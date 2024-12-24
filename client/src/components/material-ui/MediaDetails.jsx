@@ -39,7 +39,7 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
 
 
   return (
-      <Container fluid className={`sticky-top mt-5 justify-content-center border border-3 rounded border-secondary`} style={{height:"90vh"}}>
+      <Container fluid className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary`} style={{height:"90vh", top:"5vh"}}>
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
             <img src={ "https://posters.movieposterdb.com/22_03/1/13880104/t_13880104_29fc33be.jpg"} alt="Media" className="w-50 img-fluid mt-3 rounded-4" />
