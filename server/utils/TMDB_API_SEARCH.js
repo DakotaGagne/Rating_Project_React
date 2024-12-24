@@ -4,8 +4,6 @@ import Levenshtein from 'levenshtein';
 //! Need to add a function to escape single quotes after JSON.stringify for the media_name parameter
 
 /*
-
-
 4.1.2.4. Dollar-Quoted String Constants 
 While the standard syntax for specifying string constants is usually convenient, it can be difficult to 
 understand when the desired string contains many single quotes, since each of those must be doubled. To allow more 
@@ -14,11 +12,21 @@ readable queries in such situations, PostgreSQL provides another way, called “
   sign, an arbitrary sequence of characters that makes up the string content, a dollar sign, the same tag that began this 
   dollar quote, and a dollar sign. For example, here are two different ways to specify the string “Dianne's horse” using 
   dollar quoting:
-
-
 */
 
-export default function TMDB_API_SEARCH(media_name, url, options, english_only=true){
+export default function TMDB_API_SEARCH(media_name, english_only=true){
+    let url = {
+      movie: `https://api.themoviedb.org/3/search/movie?query=${media_name}`,
+      tv: `https://api.themoviedb.org/3/search/tv?query=${media_name}`
+    }
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        //! Hide the API key in a .env file
+        Authorization: process.env.TMDB_API_KEY
+      }
+    };
     // Searches the TMDB API for a list of movies and TV shows based on the media_name parameter
     function media_restructure(list){
         // Restructures the list of media objects to include only the necessary information

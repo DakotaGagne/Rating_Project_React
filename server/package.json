@@ -13,6 +13,7 @@
   "description": "Uses React and Node to create a ratings social media app. Talk about favourite tv shows, movies, and games, and rank them as you see fit",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "levenshtein": "^1.0.5",
     "morgan": "^1.10.0",
