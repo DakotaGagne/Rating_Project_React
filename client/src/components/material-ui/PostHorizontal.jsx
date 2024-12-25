@@ -67,7 +67,8 @@ export default function PostHorizontal({appSettings:{darkMode}, post, id, setHig
         </Box>
         <Box
           component="p"
-          sx={{ fontSize: 18, color: "grey.500", mb: "1.275rem" }}
+          className={`${darkMode?"text-secondary":"text-dark"}`}
+          sx={{ fontSize: 18, mb: "1.275rem" }}
         >
           {post.post_content}
         </Box>

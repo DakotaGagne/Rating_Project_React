@@ -38,7 +38,7 @@ app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/posts', (req, res) => {
-  client.query('SELECT * FROM posts', (err, result) => {
+  client.query('SELECT * FROM public.posts ORDER BY id DESC', (err, result) => {
     if (err) {
       console.log(err);
       res.status(500).send('Internal server error');

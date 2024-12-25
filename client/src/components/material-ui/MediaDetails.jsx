@@ -15,7 +15,8 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
   const [media_details, setMediaDetails] = React.useState([]);
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
-  console.log(api_data.rating/2);
+
+  const charLimit = 313;
 
   useEffect(() => {
     fetch("http://localhost:3000/api/search?media_name=Rick%20and%20Morty")
@@ -64,10 +65,10 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                   display: "inline-block",
                 }}
               >
-                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className="text-muted text-top">
+                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className={`${darkMode?"text-muted":"text-dark"} text-top`}>
                   {"Mean Score "}
                 </span>
-                <span style = {{fontSize: '1.5vh'}} className="text-muted text-top">
+                <span style = {{fontSize: '1.5vh'}} className={`${darkMode?"text-muted":"text-dark"} text-top`}>
                   {` (${api_data.vote_count||""}) `}
                 </span>
                 <Rating
@@ -88,7 +89,7 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                 }}
               >
                 <span style = {{fontSize: '2.2vh', fontWeight: "Normal"}} className="text-top">
-                  {api_data.overview||"No Content"}
+                  {api_data.overview.length>charLimit?api_data.overview.substring(0,charLimit)+"...":api_data.overview}
                 </span>
               </Box>
             </Box>
