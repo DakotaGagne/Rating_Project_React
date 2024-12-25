@@ -56,7 +56,7 @@ CREATE SEQUENCE public.posts_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
+ 
 ALTER SEQUENCE public.posts_id_seq OWNER TO postgres;
 
 --
