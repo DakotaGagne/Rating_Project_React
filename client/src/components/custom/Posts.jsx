@@ -8,6 +8,9 @@ function Posts({ appSettings }){
 
     const [posts, setPosts] = useState([]);
 
+    const [highlightedPost, setHighlightedPost] = useState(1);
+
+    //! POSTS TV ARE MISSING RELEASE DATE IN DB!!!!!!
     useEffect(() => {
         fetch("http://localhost:3000/api/posts")
             .then(res => res.json())
@@ -22,11 +25,11 @@ function Posts({ appSettings }){
         <Container fluid>
             <Row>
                 <Col lg={4} md={6}>
-                    {posts.length>0&&<MediaDetails appSettings={appSettings} post={posts[0]} id={0} />}
+                    {posts.length>0&&<MediaDetails appSettings={appSettings} post={posts.find(post => post.id==highlightedPost)} id={highlightedPost} />}
                 </Col>
                 <Col lg={8} md={6}>
                     {posts.map((post, index) => {
-                        return <PostHorizontal appSettings={appSettings} post={post} key={index} id={index} />
+                        return <PostHorizontal appSettings={appSettings} setHighlightedPost={setHighlightedPost} post={post} key={index} id={index} />
                     })}
                 </Col>
             </Row>

@@ -7,18 +7,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import Rating from "@mui/material/Rating";
-import CustomCardMedia from "./CustomCardMedia";
+import PosterImage from "./PosterImage";
 
 // Credit (www.brighttv.co.th)
 
 
-export default function PostHorizontal({appSettings:{darkMode}, post, id}) {
+export default function PostHorizontal({appSettings:{darkMode}, post, id, setHighlightedPost}) {
+  let api_data = post.api_data?JSON.parse(post.api_data):{};
   return (
     <Card
-      elevation={0}
-      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode?"text-light bg-dark":"bg-light text-dark"} p-2 `}
+      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode?"text-light bg-dark poster-shadow-l":"bg-light text-dark poster-shadow-d"}`}
+      onClick={() => {setHighlightedPost(post.id)}}
     >
-      <CardContent sx={{ pr: 2 }}>
+      <CardContent sx={{ pr: 2 }} className={`p-2 ${darkMode?"poster-shadow-l":"poster-shadow-d"}`}>
         <Box mb={1}>
           <Box
             component="h3"
@@ -42,8 +43,6 @@ export default function PostHorizontal({appSettings:{darkMode}, post, id}) {
           />
           <Divider className="my-1" />
           <Box
-            component="h3"
-            className=""
             sx={{
               fontSize: 20,
               fontStyle: "italic",
@@ -55,8 +54,6 @@ export default function PostHorizontal({appSettings:{darkMode}, post, id}) {
             {`${post.media_type}: ${post.media_title}`}
           </Box>
           <Box
-            component="h3"
-            className=""
             sx={{
               fontSize: 20,
               fontStyle: "italic",
@@ -77,7 +74,7 @@ export default function PostHorizontal({appSettings:{darkMode}, post, id}) {
 
         <Divider className="my-1"/>
       </CardContent>
-      <CustomCardMedia />
+      <PosterImage url={api_data.poster_path} darkMode={darkMode} />
       
     </Card>
   );

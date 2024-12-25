@@ -23,7 +23,6 @@ export default function TMDB_API_SEARCH(media_name, english_only=true){
       method: 'GET',
       headers: {
         accept: 'application/json',
-        //! Hide the API key in a .env file
         Authorization: process.env.TMDB_API_KEY
       }
     };
@@ -37,14 +36,15 @@ export default function TMDB_API_SEARCH(media_name, english_only=true){
           if(list[i].title === undefined){
             structured_obj.title = list[i].name;
             structured_obj.media_type = 'tv';
+            structured_obj.release_date = list[i].first_air_date;
           } else {
             structured_obj.title = list[i].title;
             structured_obj.media_type = 'movie';
+            structured_obj.release_date = list[i].release_date;
           }
           structured_obj.poster_path = 'https://image.tmdb.org/t/p/original/'+list[i].poster_path;
           structured_obj.id = list[i].id;
           structured_obj.overview = list[i].overview;
-          structured_obj.release_date = list[i].release_date;
           structured_obj.rating = parseFloat(list[i].vote_average.toFixed(1));
           structured_obj.vote_count = list[i].vote_count;
           structured_obj.original_language = list[i].original_language;
