@@ -27,6 +27,7 @@ function App(){
         <BrowserRouter>
           <Routes>
             <Route index element={<MainPage appSettings={appSettings} updateAppSettings={updateAppSettings} />}></Route>
+            <Route path="/create" element={<h1>Create Page</h1>}></Route>
             <Route path="*" element={<h1>404 Page Not Found</h1>}></Route>
           </Routes>
         </BrowserRouter>
