@@ -8,13 +8,10 @@ function CreatePage({ updateAppSettings, appSettings }) {
     return (
         <div>
         <Header page="Home" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings}/>
-        <Container>
-            <Posts page="Home" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings}/>
-            <CreatePost appSettings={appSettings} updateAppSettings={updateAppSettings}/>
-        </Container>
+        <CreatePost appSettings={appSettings} updateAppSettings={updateAppSettings}/>
         <Footer />
         </div>
-    );
+    ); 
 }
 
 export default CreatePage;

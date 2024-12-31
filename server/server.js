@@ -7,7 +7,6 @@ import pkg from 'pg';
 import TMDB_API_SEARCH from './utils/TMDB_API_SEARCH.js';
 import dotenv from 'dotenv';
 
-
 const { Client } = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -50,9 +49,10 @@ app.get('/api/posts', (req, res) => {
 
 app.get('/api/search', (req, res) => {
   let media_name = req.query.media_name;
+  let media_type = req.query.media_type||"";
   let english_only = req.query.english_only || true;
 
-  TMDB_API_SEARCH(media_name, english_only)
+  TMDB_API_SEARCH(media_name, media_type, english_only)
     .then(data => {
       res.status(data.status).send(data.err||data.result);
     })

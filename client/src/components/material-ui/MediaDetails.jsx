@@ -16,7 +16,7 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
-  const charLimit = 313;
+  const charLimit = 300;
 
   useEffect(() => {
     fetch("http://localhost:3000/api/search?media_name=Rick%20and%20Morty")

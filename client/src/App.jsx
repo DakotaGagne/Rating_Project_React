@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 // Custom Imports
 import MainPage from "./pages/MainPage";
+import CreatePage from "./pages/CreatePage";
 
 // TODO: Fix the way posts look
 // TODO: Add filters and ttl posts per page and pages to main page
@@ -27,7 +28,7 @@ function App(){
         <BrowserRouter>
           <Routes>
             <Route index element={<MainPage appSettings={appSettings} updateAppSettings={updateAppSettings} />}></Route>
-            <Route path="/create" element={<h1>Create Page</h1>}></Route>
+            <Route path="/create" element={<CreatePage appSettings={appSettings} updateAppSettings={updateAppSettings} />}></Route>
             <Route path="*" element={<h1>404 Page Not Found</h1>}></Route>
           </Routes>
         </BrowserRouter>

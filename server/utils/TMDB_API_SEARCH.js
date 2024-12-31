@@ -14,7 +14,7 @@ readable queries in such situations, PostgreSQL provides another way, called “
   dollar quoting:
 */
 
-export default function TMDB_API_SEARCH(media_name, english_only=true){
+export default function TMDB_API_SEARCH(media_name, media_type, english_only=true){
     let url = {
       movie: `https://api.themoviedb.org/3/search/movie?query=${media_name}`,
       tv: `https://api.themoviedb.org/3/search/tv?query=${media_name}`
