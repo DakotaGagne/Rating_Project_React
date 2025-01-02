@@ -11,6 +11,16 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 
 import { Container, Row, Col } from 'react-bootstrap';
+/**
+ * TODO: Image too large on some screens
+ * 
+ * 
+ * 
+ * 
+ *  
+ *  
+ */
+
 
 export default function MediaDetails({appSettings:{darkMode}, post}) {
 
@@ -18,13 +28,24 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
-  const charLimit = 300;
-
   const theme = createTheme({
       palette: {
           mode: darkMode?"dark":"light"
       }
   });
+
+  function formattedOverview(overview){
+    const charLimit = 290;
+    if (overview){
+      if (overview.length > charLimit){
+        return overview.substring(0,charLimit) + "...";
+      } else {
+        return overview;
+      }
+    } else {
+      return "";
+    }
+  }
 
   return (
       <Container
@@ -33,7 +54,7 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
        style={{height:"90vh", top:"5vh"}}>
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
-            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 ${darkMode?"poster-shadow-l":"poster-shadow-d"}`} style={{width:'65%'}}/>
+            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
           </Col>
         </Row>
         <Row>
@@ -88,7 +109,7 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                 }}
               >
                 <span style = {{fontSize: '2.2vh', fontWeight: "Normal"}} className="text-top">
-                  {api_data.overview.length>charLimit?api_data.overview.substring(0,charLimit)+"...":api_data.overview}
+                  {formattedOverview(api_data.overview)}
                 </span>
               </Box>
             </Box>

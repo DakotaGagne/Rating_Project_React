@@ -30,7 +30,7 @@ function Posts({ appSettings }){
                 </Col>
                 <Col lg={8} md={6}>
                     {posts.map((post, index) => {
-                        return <PostHorizontal appSettings={appSettings} setHighlightedPost={setHighlightedPost} post={post} key={index} id={index} />
+                        return <PostHorizontal appSettings={appSettings} highlightedPost={highlightedPost} setHighlightedPost={setHighlightedPost} post={post} key={index}/>
                     })}
                 </Col>
             </Row>

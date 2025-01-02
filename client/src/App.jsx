@@ -14,9 +14,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import MainPage from "./pages/MainPage";
 import CreatePage from "./pages/CreatePage";
 
-// TODO: Fix the way posts look
 // TODO: Add filters and ttl posts per page and pages to main page
-// TODO: Fix the OVAL
+// TODO: Need to make it responsive on mobile
 
 function App(){
 

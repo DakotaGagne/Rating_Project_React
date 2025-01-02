@@ -15,6 +15,7 @@ import {Container, Col, Row} from "react-bootstrap";
  * TODO: Make this upload to database
  * TODO: Error and Success messages for the user
  * TODO: Require to be logged in, redirect to login page if not
+ * TODO: Errors occur when the API is unreachable. Need to handle this
  */
 
 let post = {
@@ -85,12 +86,14 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
                 index: 0,
                 poster_path: searchResults[0].poster_path
             });
+            setSelectedAPI(0);
         } else {
             setAPIInputLabel({
                 value: "",
                 index: "",
                 poster_path: ""
             });
+            setSelectedAPI(-1);
         }
     }, [searchResults]);
 
@@ -148,7 +151,12 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
                 console.log(err);
             });
         } else {
-            alert("Please fill out all fields correctly!");
+            let errors = "\n";
+            if(searchResults.length<selectedAPI)errors+="No media selected!\n";
+            if(newPost.postTitle.length<=0)errors+="No post title!\n";
+            if(newPost.postContent.length<=0)errors+="No post content!\n";
+            if(newPost.postRating<0)errors+="No rating!\n";
+            alert("Please fill out all fields correctly! Errors:" + errors);
         }
     };
 

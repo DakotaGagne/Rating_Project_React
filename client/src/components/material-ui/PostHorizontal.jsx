@@ -10,8 +10,7 @@ import Rating from "@mui/material/Rating";
 import PosterImage from "./PosterImage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-
-export default function PostHorizontal({appSettings:{darkMode}, post, id, setHighlightedPost}) {
+export default function PostHorizontal({appSettings:{darkMode}, highlightedPost, post, setHighlightedPost}) {
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
   const theme = createTheme({
@@ -20,9 +19,16 @@ export default function PostHorizontal({appSettings:{darkMode}, post, id, setHig
       }
   });
 
+  let filter = ""
+  if(post.id==highlightedPost&&darkMode){
+    filter = "lighten";
+  } else if(post.id==highlightedPost&&!darkMode){
+    filter = "darken";
+  }
+
   return (
     <Card
-      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode?"text-light bg-dark poster-shadow-l":"bg-light text-dark poster-shadow-d"}`}
+      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode?"text-light bg-dark poster-shadow-l":"bg-light text-dark poster-shadow-d"} ${filter}`}
       onClick={() => {setHighlightedPost(post.id)}}
     >
       <CardContent sx={{ pr: 2 }} className={`p-2 ${darkMode?"poster-shadow-l":"poster-shadow-d"}`}>

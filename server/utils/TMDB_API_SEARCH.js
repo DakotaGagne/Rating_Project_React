@@ -14,7 +14,7 @@ readable queries in such situations, PostgreSQL provides another way, called “
   dollar quoting:
 */
 
-export default function TMDB_API_SEARCH(media_name, media_type, english_only=true){
+export default function TMDB_API_SEARCH(media_name, media_type, auth, english_only=true){
     let url = {
       movie: `https://api.themoviedb.org/3/search/movie?query=${media_name}`,
       tv: `https://api.themoviedb.org/3/search/tv?query=${media_name}`
@@ -23,7 +23,7 @@ export default function TMDB_API_SEARCH(media_name, media_type, english_only=tru
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization: process.env.TMDB_API_KEY
+        Authorization: auth
       }
     };
     // Searches the TMDB API for a list of movies and TV shows based on the media_name parameter
@@ -95,5 +95,5 @@ export default function TMDB_API_SEARCH(media_name, media_type, english_only=tru
           return {status: 200, result: media_list};
         }
       })
-      .catch(err => {return {status: 500, err: err}});
+      .catch(err => {console.log("Error when fetching data from API. Error: ", err);return {status: 500, err: err}});
 }
