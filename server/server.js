@@ -34,7 +34,8 @@ app.use((req, res, next) => {
 });
 
 app.use(morgan('tiny'));
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ strict: true }));
 
 app.get('/api/posts', (req, res) => {
   client.query('SELECT * FROM public.posts ORDER BY id DESC', (err, result) => {
@@ -60,6 +61,25 @@ app.get('/api/search', (req, res) => {
       console.error(error);
       res.status(500).send('Internal server error');
   });
+});
+
+app.post('/api/create_post', (req, res) => {
+  try {
+    let data = req.body;
+    console.log("data", req.body);
+    client.query('INSERT INTO public.posts (media_title, media_type, media_rating, post_title, post_author, post_content, user_id, api_data) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', 
+      [data.media_title, data.media_type, data.media_rating, data.post_title, data.post_author, data.post_content, data.user_id, data.api_data], (err) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send('Internal server error');
+        } else {
+          res.status(201).send('Post created');
+        }
+    });
+  } catch (err) {
+    console.error('Invalid JSON:', err);
+    res.status(400).send('Invalid JSON');
+  }
 });
 
 app.listen(port, () => {

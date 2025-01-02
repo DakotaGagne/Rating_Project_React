@@ -8,9 +8,7 @@ function MainPage({ updateAppSettings, appSettings }) {
     return (
         <div>
         <Header page="Home" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings}/>
-        <Container>
-            <Posts page="Home" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings}/>
-        </Container>
+        <Posts appSettings={appSettings} updateAppSettings={updateAppSettings}/>
         <Footer />
         </div>
     );

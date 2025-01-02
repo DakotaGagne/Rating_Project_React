@@ -8,12 +8,18 @@ import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import Rating from "@mui/material/Rating";
 import PosterImage from "./PosterImage";
-
-// Credit (www.brighttv.co.th)
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 
 export default function PostHorizontal({appSettings:{darkMode}, post, id, setHighlightedPost}) {
   let api_data = post.api_data?JSON.parse(post.api_data):{};
+
+  const theme = createTheme({
+      palette: {
+          mode: darkMode?"dark":"light"
+      }
+  });
+
   return (
     <Card
       className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode?"text-light bg-dark poster-shadow-l":"bg-light text-dark poster-shadow-d"}`}
@@ -33,14 +39,16 @@ export default function PostHorizontal({appSettings:{darkMode}, post, id, setHig
           >
             {post.post_title||""}
           </Box>
-          <Rating
-            name={"rating"}
-            value={post.media_rating||""}
-            size={"large"}
-            precision = {0.25}
-            readOnly
-            sx={{ verticalAlign: "text-bottom" }}
-          />
+          <ThemeProvider theme={theme}>
+            <Rating
+              name={"rating"}
+              value={post.media_rating||""}
+              size={"large"}
+              precision = {0.25}
+              readOnly
+              sx={{ verticalAlign: "text-bottom" }}
+            />
+          </ThemeProvider>
           <Divider className="my-1" />
           <Box
             sx={{

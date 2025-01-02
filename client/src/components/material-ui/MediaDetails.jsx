@@ -7,6 +7,8 @@ import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import Rating from "@mui/material/Rating";
 import PosterImage from "./PosterImage";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -18,16 +20,11 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
 
   const charLimit = 300;
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/search?media_name=Rick%20and%20Morty")
-        .then(res => res.json())
-        .then(data => {
-            setMediaDetails(data.results);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-  }, []);
+  const theme = createTheme({
+      palette: {
+          mode: darkMode?"dark":"light"
+      }
+  });
 
   return (
       <Container
@@ -71,14 +68,16 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                 <span style = {{fontSize: '1.5vh'}} className={`${darkMode?"text-muted":"text-dark"} text-top`}>
                   {` (${api_data.vote_count||""}) `}
                 </span>
-                <Rating
-                  name={"rating"}
-                  value={api_data.rating/2||1}
-                  size={"medium"}
-                  precision = {0.1}
-                  readOnly
-                  sx={{ verticalAlign: "text-top" }}
-                />
+                <ThemeProvider theme={theme}>
+                  <Rating
+                    name={"rating"}
+                    value={api_data.rating/2||1}
+                    size={"medium"}
+                    precision = {0.1}
+                    readOnly
+                    sx={{ verticalAlign: "text-top" }}
+                  />
+                </ThemeProvider>
               </Box>
               <Box
                 className="mt-4 w-100 text-end px-2"

@@ -16,6 +16,7 @@ function Posts({ appSettings }){
             .then(res => res.json())
             .then(data => {
                 setPosts(data.posts);
+                setHighlightedPost(data.posts[0].id);
             })
             .catch(err => {
                 console.log(err);

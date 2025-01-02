@@ -7,7 +7,7 @@ import Footer from "../components/bootstrap/Footer";
 function CreatePage({ updateAppSettings, appSettings }) {
     return (
         <div>
-        <Header page="Home" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings}/>
+        <Header page="Create" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings}/>
         <CreatePost appSettings={appSettings} updateAppSettings={updateAppSettings}/>
         <Footer />
         </div>

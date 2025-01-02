@@ -1,15 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
 import PosterImage from "../material-ui/PosterImage";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import cssBaseline from "@mui/material/CssBaseline";
 import {Container, Col, Row} from "react-bootstrap";
 
 /**
@@ -69,6 +63,12 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
         poster_path: ""
     });
 
+    const theme = createTheme({
+        palette: {
+            mode: darkMode?"dark":"light"
+        }
+    });
+
     function updateSelectedAPI(e){
         setSelectedAPI(e.target.value);
         setAPIInputLabel({
@@ -109,7 +109,7 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
     useEffect(() => {
         // Fetch API for search results
         // Set search results
-        if(newPost.mediaTitle.length>0&&newPost.mediaType.length>0){
+        if(newPost.mediaTitle.length>0){
             fetch(`http://localhost:3000/api/search?media_name=${newPost.mediaTitle}&&media_type=${newPost.mediaType}`)
                 .then(res => res.json())
                 .then(data => {
@@ -119,33 +119,58 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
         }
     }, [newPost.mediaTitle, newPost.mediaType]);
 
-    // useEffect(() => {
-    //     // Fetch API for poster
-    //     // Set poster
-    //     //! Might not need to do this if the poster URL is set to searchResults[0].poster_path
-    //     // Try above first, use this otherwise
-    // }, [searchResults]);
-
+    function submitPost(){
+        // media_title, media_type, media_rating, post_title, post_author, user_id, post_content
+        if(searchResults.length>=selectedAPI&&newPost.postTitle.length>0&&newPost.postContent.length>0&&newPost.postRating>=0){
+            let mediaTypeUppercase = searchResults[selectedAPI].media_type.toLowerCase();
+            mediaTypeUppercase = mediaTypeUppercase.charAt(0).toUpperCase() + mediaTypeUppercase.slice(1);
+            let newPostData = {
+                media_title: searchResults[selectedAPI].title,
+                media_type: mediaTypeUppercase,
+                media_rating: newPost.postRating,
+                post_title: newPost.postTitle,
+                post_author: "John Doe",
+                user_id: 1,
+                post_content: newPost.postContent,
+                api_data: JSON.stringify(searchResults[selectedAPI])
+            }
+            fetch("http://localhost:3000/api/create_post", {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newPostData),
+            })
+            .then(response => response.ok?alert("Post Created!")&&window.location.reload():alert("Error creating post (server side)!")&&console.log(response))
+            .catch(err => {
+                alert("Error creating post!");
+                console.log(err);
+            });
+        } else {
+            alert("Please fill out all fields correctly!");
+        }
+    };
 
     return (
         <Container
             fluid
-            className={`h-100 my-5 justify-content-center border border-3 rounded border-secondary ${darkMode?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+            className={`d-flex flex-column my-5 justify-content-center border border-3 rounded border-secondary ${darkMode?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
             
         >
             <Row>
                 <Col md={8}>
                     {/* Main Body of input */}
-                    <Row className="my-3">
+                    <Row className="mt-3">
                         {/* //! Page title goes here */}
                         <h1>Create Post</h1>
                     </Row>
-                    <Row className="my-3">
+                    <Row className="my-2">
                         {/* //! Page desc goes here */}
                         <p>Enter the title for the media, select the correct Movie/TV from the list, then add your title, rating, and post content!</p>
                     </Row>
-                    <Row className="my-3">
-                        <Col md={4}>
+                    <Row className="my-5">
+                        <Col md={6}>
                             {/* Media Name */}
                             <input
                                 className={`h-100 w-100`}
@@ -153,7 +178,7 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
                                 type="text" 
                                 value={newPost.mediaTitle} 
                                 onChange={updateNewPost} 
-                                placeholder="Media Title:" 
+                                placeholder="Search for Media..."
                             />
                         </Col>
                         <Col md={4}>
@@ -171,7 +196,7 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
                             </select>
                         </Col>
                     </Row>
-                    <Row className="my-3">
+                    <Row className="my-5">
                         <Col md={4}>
                             {/* Rating */}
                             <input
@@ -185,14 +210,16 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
                         </Col>
                         <Col md={4}>
                             {/* Rating */}
-                            <Rating
-                                name={"postRating"}
-                                value={newPost.mediaRating}
-                                onChange={updateNewPost}
-                                size={"large"}
-                                precision = {1}
-                                sx={{ verticalAlign: "text-bottom" }}
-                            />
+                            <ThemeProvider theme={theme}>
+                                <Rating
+                                    name={"postRating"}
+                                    value={newPost.mediaRating}
+                                    onChange={updateNewPost}
+                                    size={"large"}
+                                    precision = {1}
+                                    sx={{ verticalAlign: "text-bottom" }}
+                                />
+                            </ThemeProvider>
                         </Col>
                     </Row>
                     <Row className="my-3">
@@ -208,10 +235,10 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
                             /> 
                         </Col>
                     </Row>
-                    <Row className="my-3">
+                    <Row className="mt-5 pt-5">
                         <Col>
                         {/* Submit Button */}
-                        <Button variant="contained">Create Post</Button>
+                        <Button variant="contained" onClick={submitPost}>Create Post</Button>
                         </Col>
                     </Row>
                 </Col>

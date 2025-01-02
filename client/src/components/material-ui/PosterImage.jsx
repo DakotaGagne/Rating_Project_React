@@ -2,10 +2,6 @@ import React from 'react';
 import CardMedia from '@mui/material/CardMedia';
 
 function PosterImage(props) {
-    if (props.url === "") {
-        props.url == 'https://fakeimg.pl/200x600?text=No+Poster+Found&font=noto&font_size=20'
-        console.log("No Poster Found")
-    }
     return (
         <CardMedia
             image={props.url}
