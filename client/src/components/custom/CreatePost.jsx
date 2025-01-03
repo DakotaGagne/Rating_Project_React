@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import cssBaseline from "@mui/material/CssBaseline";
 import {Container, Col, Row} from "react-bootstrap";
+import Alert from 'react-bootstrap/Alert';
 
 /**
  * TODO: Make the inputs and buttons, etc fit the entire height that it can
@@ -29,33 +30,16 @@ let post = {
     id: ""
 }
 
-export default function PostHorizontal({appSettings:{darkMode}}) {
+export default function CreatePost({appSettings:{darkMode}}) {
     let api_data = {};
-    // if(typeof post!=="undefined"){
-    //     api_data = JSON.parse(post.api_data)
-    // }
-    
 
-    /**
-     * Currently adapted from PostHorizontal.jsx
-     * Want it to look the same but have different content
-     * Slider for Movie/TV Show (or some sort of obv flip option)
-     * Want Movie title search bar and drop down for searching
-     *  The format should be Movie: [Search Bar]
-     *  Movie should change to TV Show if TV Show is selected (useEffect)
-     *  Dropdown beside the search bar that auto selects the first option
-     *  Every time the search bar is changed, the dropdown should update (API) (useEffect)
-     *  Everytime the dropdown is changed, the poster should update (useEffect)
-     *  The poster should be displayed beside on the far right (like post horizontal)
-     *  The title for the post should go below (max char lim that makes sense for the format of post horiz)
-     *  Rating should be beside the title
-     *  Author is auto selected based on the username of the user
-     *  Content should be below the title (textarea, max char lim of maybe 500)
-     */
-
-    // const [mediaType, setMediaType] = useState("Movie");
-    // const [searchValue, setSearchValue] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+
+    useEffect(() => {if(error!="")setTimeout(() => setError(""), 4000);}, [error])
+    useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), 3000);}, [success])
 
     const [selectedAPI, setSelectedAPI] = useState(-1);
     const [apiInputLabel, setAPIInputLabel] = useState({
@@ -69,6 +53,22 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
             mode: darkMode?"dark":"light"
         }
     });
+
+
+    useEffect(() => {
+        // Check authenticated
+        console.log("Checking if authenticated...");
+        fetch("http://localhost:3000/user/authenticated")
+        .then(res => res.json())
+        .then(data => {
+            if(data.authenticated){
+                console.log("Authenticated!");
+            } else {
+                console.log("Not Authenticated!");
+            }
+        })
+        
+    }, [])
 
     function updateSelectedAPI(e){
         setSelectedAPI(e.target.value);
@@ -169,9 +169,14 @@ export default function PostHorizontal({appSettings:{darkMode}}) {
             <Row>
                 <Col md={8}>
                     {/* Main Body of input */}
+
+                    
                     <Row className="mt-3">
-                        {/* //! Page title goes here */}
+                        {/* //! Page title goes here (and error success alerts) */}
+                        {error!=""&&<Alert className="mt-2 mb-3 py-2" variant="danger">{error}</Alert>}
+                        {success!=""&&<Alert className="mt-2, mb-3 py-2" variant="info">{success}</Alert>}
                         <h1>Create Post</h1>
+
                     </Row>
                     <Row className="my-2">
                         {/* //! Page desc goes here */}

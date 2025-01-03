@@ -17,7 +17,7 @@ function Header({page, post:{uid}, updateAppSettings, appSettings:{darkMode}}) {
 
                 <ul className="nav nav-pills mt-3">
                     <li className="nav-item"><a href="/" className={`nav-link fw-bold ${page=="Home"&&"active"}`}>Home</a></li>
-                    <li className="nav-item"><a href="/" className={`nav-link fw-bold ${page=="Login"&&"active"}${page=="Register"&&"active"}`}>Login / Register</a></li>
+                    <li className="nav-item"><a href="/login" className={`nav-link fw-bold ${page=="Login"&&"active"}${page=="Register"&&"active"}`}>Login / Register</a></li>
                     <li className="nav-item pr-1"><a href="/create" className={`nav-link fw-bold ${page=="Create"&&"active"}`}>Create A Post</a></li>
                     <li className="nav-item px-1">
                         <button className={`btn ${darkMode?"btn-light":"btn-dark"} rounded-circle ratio-1x1 h-100`} onClick={ () => {updateAppSettings({"darkMode": !darkMode})} }type="submit">
