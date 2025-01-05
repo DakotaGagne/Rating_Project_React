@@ -12,14 +12,22 @@
   "license": "MIT",
   "description": "Uses React and Node to create a ratings social media app. Talk about favourite tv shows, movies, and games, and rank them as you see fit",
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
+    "cookie-session": "^2.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
     "levenshtein": "^1.0.5",
     "morgan": "^1.10.0",
-    "passport": "^0.7.0",
+    "passport": "^0.5.3",
+    "passport-facebook": "^3.0.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pg": "^8.13.1"
   }

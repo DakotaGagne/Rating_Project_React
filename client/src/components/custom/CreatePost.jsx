@@ -7,6 +7,8 @@ import cssBaseline from "@mui/material/CssBaseline";
 import {Container, Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 
+import authenticate from "../../utils/authenticate";
+
 /**
  * TODO: Make the inputs and buttons, etc fit the entire height that it can
  * TODO: Input and dropdown should be taller than they need to be (too skinny rn)
@@ -30,7 +32,7 @@ let post = {
     id: ""
 }
 
-export default function CreatePost({appSettings:{darkMode}}) {
+export default function CreatePost({appSettings:{darkMode}, user}) {
     let api_data = {};
 
     const [searchResults, setSearchResults] = useState([]);
@@ -54,21 +56,20 @@ export default function CreatePost({appSettings:{darkMode}}) {
         }
     });
 
+    const [userData, setUserData] = useState(null);
+
 
     useEffect(() => {
         // Check authenticated
-        console.log("Checking if authenticated...");
-        fetch("http://localhost:3000/user/authenticated")
-        .then(res => res.json())
-        .then(data => {
-            if(data.authenticated){
-                console.log("Authenticated!");
-            } else {
-                console.log("Not Authenticated!");
-            }
-        })
-        
-    }, [])
+        if(user==false){
+            setError("You must be logged in to create a post!");
+            setSuccess("");
+            console.log("User not logged in, redirecting to login page",);
+            setTimeout(() => window.location.href = "/login", 3000);
+        } else {
+            authenticate().then(data => {setUserData(data.user);});
+        }
+    }, [user])
 
     function updateSelectedAPI(e){
         setSelectedAPI(e.target.value);
@@ -132,8 +133,8 @@ export default function CreatePost({appSettings:{darkMode}}) {
                 media_type: mediaTypeUppercase,
                 media_rating: newPost.postRating,
                 post_title: newPost.postTitle,
-                post_author: "John Doe",
-                user_id: 1,
+                post_author: userData?userData.username:"John Doe",
+                user_id: userData?userData.id:1,
                 post_content: newPost.postContent,
                 api_data: JSON.stringify(searchResults[selectedAPI])
             }

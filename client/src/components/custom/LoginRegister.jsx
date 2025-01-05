@@ -9,10 +9,10 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 
+import Cookies from 'js-cookie';
 
 
-
-export default function LoginRegister({appSettings:{darkMode}, updateAppSettings}) {
+export default function LoginRegister({appSettings:{darkMode}, updateAppSettings, user, localUserCookie}) {
     const [loginMode, setLoginMode] = useState(true);
 
     const [error, setError] = useState("");
@@ -21,8 +21,13 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
     const user_range = [5, 15];
     const pass_range = [8, 50];
 
-    useEffect(() => {if(error!="")setTimeout(() => setError(""), 5000);}, [error])
-    useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), 3000);}, [success])
+    const errorTimeout = 5000;
+    const successTimeout = 2000;
+
+    useEffect(() => {if(error!="")setTimeout(() => setError(""), errorTimeout);}, [error])
+    useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), successTimeout);}, [success])
+
+    
 
     const [formData, setFormData] = useState({
         username: "",
@@ -49,8 +54,11 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
         } else if(!loginMode&&formData.password!=formData.confirmPassword){
             err="Passwords do not match";
         }
-        return err
+        return err;
     }
+
+    const googleSignIn = () => window.open("http://localhost:3000/auth/google", "_self");
+    const githubSignIn = () => window.open("http://localhost:3000/auth/github", "_self");
 
     function submitFormData(){
         let err = checkFormData();
@@ -60,7 +68,7 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
         } else {
             // ! Submit Data Here
             let url = loginMode?"login":"register";
-            fetch(`http://localhost:3000/user/${url}`, {
+            fetch(`http://localhost:3000/auth/local/${url}`, {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -69,19 +77,17 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
                 },
                 body: JSON.stringify(formData),
             })
-            .then(res => {
-                console.log(res);
-                if(res.ok){
+            .then(res => {if(res.ok){return res.json()} else {throw new Error(`Error submitting data: ${res.status}`)};})
+            .then(data => {
+                if(loginMode){
+                    Cookies.set('localUserJWT', data);
                     setSuccess(`Welcome ${formData.username}! Redirecting...`);
+                    setTimeout(() => window.location.href='/', successTimeout);
                     setError("");
                 } else {
-                    if(res.status==400){
-                        setError("Username already exists! Try logging in instead.");
-                    } else {
-                        setError("Error submitting data (res not ok)!");
-                    }
-                    setSuccess("");
-                    console.log(res);
+                    setSuccess("Account created! Try Logging in...");
+                    setTimeout(() => setLoginMode(true), successTimeout);
+                    setError("");
                 }
             })
             .catch(err => {
@@ -128,6 +134,8 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
                             {loginMode?"Login":"Register"}
                         </Button>
                     </Form>
+                    <Button variant="secondary" onClick={googleSignIn} className="w-auto px-5 my-3">Sign in With Google</Button>
+                    <Button variant="secondary" onClick={githubSignIn} className="w-auto px-5 my-3">Sign in With Github</Button>
                 </Col>
                 <Col xs={0} lg={4}></Col>
             </Row>
