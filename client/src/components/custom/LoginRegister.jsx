@@ -18,7 +18,7 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    const user_range = [5, 15];
+    const user_range = [5, 25];
     const pass_range = [8, 50];
 
     const errorTimeout = 5000;
@@ -27,7 +27,11 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
     useEffect(() => {if(error!="")setTimeout(() => setError(""), errorTimeout);}, [error])
     useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), successTimeout);}, [success])
 
-    
+    useEffect(() => {
+        if(window.location.hash=="#error"){
+            setError("You must be logged in to create a post!");
+        }
+    }, [])
 
     const [formData, setFormData] = useState({
         username: "",
@@ -86,7 +90,7 @@ export default function LoginRegister({appSettings:{darkMode}, updateAppSettings
                     setError("");
                 } else {
                     setSuccess("Account created! Try Logging in...");
-                    setTimeout(() => setLoginMode(true), successTimeout);
+                    setTimeout(() => setLoginMode(true), successTimeout/3);
                     setError("");
                 }
             })

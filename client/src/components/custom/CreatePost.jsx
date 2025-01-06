@@ -62,10 +62,11 @@ export default function CreatePost({appSettings:{darkMode}, user}) {
     useEffect(() => {
         // Check authenticated
         if(user==false){
-            setError("You must be logged in to create a post!");
-            setSuccess("");
-            console.log("User not logged in, redirecting to login page",);
-            setTimeout(() => window.location.href = "/login", 3000);
+            // setError("You must be logged in to create a post!");
+            // setSuccess("");
+            // console.log("User not logged in, redirecting to login page",);
+            // setTimeout(() => window.location.href = "/login", 3000);
+            window.location.href="/login#error";
         } else {
             authenticate().then(data => {setUserData(data.user);});
         }
