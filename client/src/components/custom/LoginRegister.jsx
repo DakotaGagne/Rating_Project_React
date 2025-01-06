@@ -10,7 +10,7 @@ import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 
 import Cookies from 'js-cookie';
-
+                
 
 export default function LoginRegister({appSettings:{darkMode}, updateAppSettings, user, localUserCookie}) {
     const [loginMode, setLoginMode] = useState(true);

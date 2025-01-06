@@ -57,6 +57,10 @@
   filter: brightness(0.85);
 }
 
+.hovering-no-scale:hover {
+  filter: brightness(0.85);
+}
+
 /*
 ! Widths Modifier to increase how many are usable
 */

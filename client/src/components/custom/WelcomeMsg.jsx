@@ -6,7 +6,7 @@ import { usernameFormatter } from '../../utils/formatting';
 
 export default function WelcomeMsg({user}) {
     const [username, setUsername] = useState("");
-    if(user)authenticate().then((data) => {setUsername(usernameFormatter(data.user.username))});
+    if(user)authenticate().then((data) => {setUsername(usernameFormatter(data.user.username, false))});
 
     return (
         <Container>

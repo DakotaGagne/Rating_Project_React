@@ -10,7 +10,8 @@ import Rating from "@mui/material/Rating";
 import PosterImage from "./PosterImage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-export default function PostHorizontal({appSettings:{darkMode}, highlightedPost, post, setHighlightedPost}) {
+export default function PostHorizontal({appSettings:{darkMode}, post, highlightedPost, setHighlightedPost}) {
+  
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
   const theme = createTheme({
@@ -20,10 +21,12 @@ export default function PostHorizontal({appSettings:{darkMode}, highlightedPost,
   });
 
   let filter = ""
-  if(post.id==highlightedPost&&darkMode){
-    filter = "lighten";
-  } else if(post.id==highlightedPost&&!darkMode){
-    filter = "darken";
+  if(highlightedPost){
+    if(post.id==highlightedPost&&darkMode){
+      filter = "lighten";
+    } else if(post.id==highlightedPost&&!darkMode){
+      filter = "darken";
+    }
   }
 
   return (

@@ -80,6 +80,8 @@ app.use('/auth', authRouter);
 
 // Get Routes
 app.get('/api/posts', (req, res) => posts(req, res, pg));
+app.get('/api/posts/user', (req, res) => posts(req, res, pg, true));
+app.get('/api/posts/id', (req, res) => posts(req, res, pg, true, true));
 app.get('/api/search', search);
 
 // Post Routes

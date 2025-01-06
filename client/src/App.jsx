@@ -17,6 +17,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import MainPage from "./pages/MainPage";
 import CreatePage from "./pages/CreatePage";
 import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
 
 // TODO: Add filters and ttl posts per page and pages to main page
 // TODO: Need to make it responsive on mobile
@@ -52,6 +53,12 @@ function App(){
             />}></Route>
             <Route path="/login" element={
               <LoginPage 
+                appSettings={appSettings} 
+                updateAppSettings={updateAppSettings} 
+                user={user}
+            />}></Route>
+            <Route path="/profile" element={
+              <ProfilePage 
                 appSettings={appSettings} 
                 updateAppSettings={updateAppSettings} 
                 user={user}

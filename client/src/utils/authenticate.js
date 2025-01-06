@@ -16,7 +16,7 @@ export default function authenticate(setUser=null){
         throw new Error("User not authenticated with Oauth");
     })
     .then(data => {
-        console.log("User Authenticated with: ", data.type)
+        // console.log("User Authenticated with: ", data.type)
         if(setUser!=null)setUser(data.type);
         return data;
     })

@@ -10,7 +10,6 @@ function Posts({ appSettings }){
 
     const [highlightedPost, setHighlightedPost] = useState(1);
 
-    //! POSTS TV ARE MISSING RELEASE DATE IN DB!!!!!!
     useEffect(() => {
         fetch("http://localhost:3000/api/posts")
             .then(res => res.json())
