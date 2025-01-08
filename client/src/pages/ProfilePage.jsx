@@ -6,13 +6,12 @@ import Footer from "../components/bootstrap/Footer";
 import WelcomeMsg from "../components/custom/WelcomeMsg";
 import Profile from "../components/custom/Profile";
 
-function ProfilePage({ updateAppSettings, appSettings, user, localUserCookie }) {
+function ProfilePage({ updateAppSettings, appSettings, user, localUserCookie, mobile}) {
     return (
         <div>
-        <Header page="Profile" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings} user={user}/>
-        <WelcomeMsg user={user} />
-        <Profile appSettings={appSettings} updateAppSettings={updateAppSettings} user={user}/>
-        <Footer />
+        <Header page="Profile" post={{uid:1}} appSettings={appSettings} updateAppSettings={updateAppSettings} user={user} mobile={mobile}/>
+        <Profile appSettings={appSettings} updateAppSettings={updateAppSettings} user={user} mobile={mobile}/>
+        <Footer mobile={mobile}/>
         </div>
     ); 
 }

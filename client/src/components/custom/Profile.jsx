@@ -5,13 +5,9 @@ import { Card } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-bootstrap';
 import authenticate from '../../utils/authenticate';
 
-export default function Profile({ user, appSettings, updateAppSettings }) {
-
-
+export default function Profile({ user, appSettings, updateAppSettings, mobile }) {
     const [posts, setPosts] = useState([]);
-    
     const [highlightedPost, setHighlightedPost] = useState(1);
-
     const [postClicked, setPostClicked] = useState(false);
     const dblClickTimeout = 500;
     useEffect(() => {
@@ -34,6 +30,8 @@ export default function Profile({ user, appSettings, updateAppSettings }) {
         }
     }
     useEffect(() => {
+        // Check if User is Logged In, if not redirect to login page
+        if(!user)window.location.href="/login#error";
         // Fetch Posts for User From Server
         authenticate().then(userData => {
             fetch("http://localhost:3000/api/posts/user", {
@@ -56,9 +54,13 @@ export default function Profile({ user, appSettings, updateAppSettings }) {
     }, []);
     return (
         <Container fluid>
-            <Row>
-                <h1>Profile Page:</h1>
-                <p>Below is all of your posts that you have made. If you double click on any posts, you can edit or delete them!</p>
+            <Row className="pt-4">
+                <Col xs={12} className="text-center">
+                    <h1>Profile Page</h1>
+                </Col>
+                <Col xs={12} className="text-center">
+                    <p className="border-bottom pb-2">Below is all of your posts that you have made. If you double click on any posts, you can edit or delete them!</p>
+                </Col>
             </Row>
             {posts.length>0&&<Row>
                 <Col lg={2} md={3}></Col>

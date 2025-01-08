@@ -1,3 +1,15 @@
+/*
+Component that displays the header of the website. The header contains the website name, a navigation bar, and a button to toggle dark mode.
+The navigation bar contains links to the home page, login/register page, profile page, create post page, and a logout button. 
+The dark mode button toggles the dark mode of the website.
+Props:
+    - page: The current page of the website (string). Used to highlight the current page in the navigation bar.
+    - appSettings: The app settings of the website (object). Used to determine the current dark mode setting.
+    - updateAppSettings: Function to update the app settings (function). Used to toggle dark mode (attached to a useEffect elsewhere to store as cookie on change)
+    - user: The current user of the website (false or string of type ["github", "google", "local"]). Used to determine if the user is logged in.
+    - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
+*/
+
 import React from 'react';
 
 import IconBxMessageSquareEdit from '../icons/IconBxMessageSquareEdit';
@@ -8,8 +20,9 @@ import Cookies from 'js-cookie';
 
 const iconSize = "20";
 
-function Header({page, post:{uid}, updateAppSettings, appSettings:{darkMode}, user}) {
+function Header({page, appSettings:{darkMode}, updateAppSettings, user, mobile}) {
 
+    // Clear Login Cookie and redirect to logout page
     const logout = () => {if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');window.open("http://localhost:3000/auth/logout", "_self");}
 
     return (

@@ -23,33 +23,33 @@ When this gets clicked, somehow show the info we get from the api
 
 This could easily get to be too much work and perfectionism etc, so here is what I want from this
 
-- I want to use react
-- I want to use express
-- I want them to communicate
-- I want to use postgres or sqlite for database
-- I want secure storage of passwords in database
-- I want administration control over all the posts (the ability to delete only if the logged in user is me)
-- I want homepage to be the posts
-- I want login / register to be the same page, with dynamic logic
-- I want to use hooks, components, etc
-- I dont want to have to make my own css (steal components etc)
+- I want to use react - Done
+- I want to use express - Done
+- I want them to communicate - Done
+- I want to use postgres or sqlite for database - Done
+- I want secure storage of passwords in database - Done
+- I want administration control over all the posts (the ability to delete only if the logged in user is me) - Done
+- I want homepage to be the posts - Done
+- I want login / register to be the same page, with dynamic logic - Done
+- I want to use hooks, components, etc - Done
+- I dont want to have to make my own css (steal components etc) - Done
 - I want the basic usage to be:
 
-  - Open site, see posts made
-  - Have a nav bar to go to the login / register page, home page, account page, make a post
-    - if home page, make post page, or acct page is selected without being signed in, go to login page
-  - Login / Register page is simple log in form
-  - Account page shows you your posts, letting you edit or delete them
-    - Maybe let change username or password
-  - Admin page built into main page if I am the one logged in
+  - Open site, see posts made - Done
+  - Have a nav bar to go to the login / register page, home page, account page, make a post - Done
+    - if home page, make post page, or acct page is selected without being signed in, go to login page - Done
+  - Login / Register page is simple log in form - Done
+  - Account page shows you your posts, letting you edit or delete them - Done
+    - Maybe let change username or password - Not Done
+  - Admin page built into main page if I am the one logged in - Made it in Profile page instead
   - Post themselves should contain:
-    - Media Name (corrected to exact name of api return)
-    - Media Type (Tv Show or Movie)
-    - Rating (/5 or /10) (Represent with stars)
-    - Author of Post (username [automatic])
-    - Description of rating
-  - Show posts by page (arrows to navigate at top and bottom [identical], with page 1, 2, 3, ..., 20 and a choice of 10, 20, or 50 posts per page)
-  - If feeling fancy, add filter feature to posts, otherwise don't bother
+    - Media Name (corrected to exact name of api return) - Done
+    - Media Type (Tv Show or Movie) - Done
+    - Rating (/5 or /10) (Represent with stars) - Done
+    - Author of Post (username [automatic]) - Done
+    - Description of rating - Done
+  - Show posts by page (arrows to navigate at top and bottom [identical], with page 1, 2, 3, ..., 20 and a choice of 10, 20, or 50 posts per page) - Not Done (Not sure it will be)
+  - If feeling fancy, add filter feature to posts, otherwise don't bother - Not Done (instead maybe make author clickable and see just that persons posts)
 
 # Database
 
@@ -66,3 +66,31 @@ This could easily get to be too much work and perfectionism etc, so here is what
 - Author (username)
 - Rating
 - Content
+
+# Final Cleanup Notes
+
+- Need to go through each file, add comments, and clean up the code
+- Try to make files less than 200 lines each time (when possible)
+
+- SetError should be more declarative
+- Change appSettings Cookie to be dark mode only (since this is the only setting used anyways)
+- Make profile page force redirect to login
+- When post content is small, image is not all the way to the right
+- Need to make it more mobile friendly
+  - Get rid of the media description element if screen a certain width
+  - PostHoriz becomes post vertical
+    - Take media details and posthoriz and merge them for post vertical
+- Make Create post system prettier
+- Pressing enter inside a form should allow the form to be submitted
+- Make login and create post error messages more appropriate to the situation (wrong username or password, etc)
+- Rating Section of Create Post should be set to the prev rating when editing a post
+- Looks like author name changes to me when I edit a post that is not mine (must fix!) - The user id is still the correct user -- Think I fixed it
+- Make sure that post creation api searcher has no errors even when some data is missing from movies
+- Reconsider box shadows (especially in create post)
+- Sign in with Google/Github should look nicer than they do
+
+- Might need the hashing routes to login page to be more specific so that it gives a proper error message
+- Maybe make the conf of being logged in a better design than simple welcome message
+- Maybe make pages for posts on main page (and profile too)
+- Maybe add a filter to check username and post content for inappropriate words
+- Maybe make the create post api searcher use date too if date is known (like in update post specifically)

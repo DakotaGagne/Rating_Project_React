@@ -14,7 +14,7 @@ readable queries in such situations, PostgreSQL provides another way, called “
   dollar quoting:
 */
 
-export default function TMDB_API_SEARCH(media_name, media_type, auth, english_only=true){
+export default function TMDB_API_SEARCH(media_name, auth, english_only=false){
     let url = {
       movie: `https://api.themoviedb.org/3/search/movie?query=${media_name}`,
       tv: `https://api.themoviedb.org/3/search/tv?query=${media_name}`
@@ -45,7 +45,11 @@ export default function TMDB_API_SEARCH(media_name, media_type, auth, english_on
           structured_obj.poster_path = 'https://image.tmdb.org/t/p/original/'+list[i].poster_path;
           structured_obj.id = list[i].id;
           structured_obj.overview = list[i].overview;
-          structured_obj.rating = parseFloat(list[i].vote_average.toFixed(1));
+          if(list[i].vote_average == undefined){
+            structured_obj.rating = 0;
+          } else {
+            structured_obj.rating = parseFloat(list[i].vote_average.toFixed(1));
+          }
           structured_obj.vote_count = list[i].vote_count;
           structured_obj.original_language = list[i].original_language;
           list[i] = structured_obj;

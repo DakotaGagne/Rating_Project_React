@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import authenticate from '../../utils/authenticate';
 import { usernameFormatter } from '../../utils/formatting';
 
-export default function WelcomeMsg({user}) {
+export default function WelcomeMsg({ user, mobile }) {
     const [username, setUsername] = useState("");
     if(user)authenticate().then((data) => {setUsername(usernameFormatter(data.user.username, false))});
 

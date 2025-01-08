@@ -4,7 +4,7 @@ import MediaDetails from '../material-ui/MediaDetails';
 import { Card } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-bootstrap';
 
-function Posts({ appSettings }){   
+function Posts({ appSettings, mobile }){   
 
     const [posts, setPosts] = useState([]);
 

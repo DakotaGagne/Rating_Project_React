@@ -18,7 +18,7 @@ import bcrypt from 'bcrypt';
 import { create } from 'domain';
 
 // API GETS and POSTS
-import create_post from './routes/api/create_post.js';
+import { create_post, update_post, delete_post } from './routes/api/post_db_manipulation.js';
 import posts from './routes/api/posts.js';
 import search from './routes/api/search.js';
 // USER GETS and POSTS
@@ -86,6 +86,8 @@ app.get('/api/search', search);
 
 // Post Routes
 app.post('/api/create_post', (req, res) => create_post(req, res, pg));
+app.put('/api/update_post', (req, res) => update_post(req, res, pg));
+app.delete('/api/delete_post', (req, res) => delete_post(req, res, pg));
 
 // Passport setup
 passportStrategies(pg, bcrypt);

@@ -24,42 +24,6 @@ export default function passportSetup(pg, bcrypt) {
         return result;
     };
 
-    // passport.use(new LocalStrategy(
-    //     {
-    //         usernameField: 'username',
-    //         passwordField: 'password'
-    //     },
-    //     async function verify(username, password, cb) {
-    //         try {
-    //             const pgRes = await pg.query('SELECT * FROM public.users WHERE username = $1', [username]);
-    //             if(pgRes.rows.length > 0){
-    //                 const user = pgRes.rows[0];
-    //                 const storedHashedPassword = user.password;
-    //                 bcrypt.compare(password, storedHashedPassword, (err, result) => {
-    //                     if(err){
-    //                         console.error("Error comparing passwords: ", err);
-    //                         return cb(err);
-    //                     } else {
-    //                         if(result){
-    //                             console.log("User signed in");
-    //                             return cb(null, user);
-    //                         } else {
-    //                             return cb(null, false);
-    //                         };
-    //                     };
-    //                 });
-    //             } else {
-    //                 console.error("User not found");
-    //                 return cb("User not found");
-    //             };
-    //         } catch(err) {
-    //             console.error("Error when querying database: ", err);
-    //             return cb(err);
-    //         };
-    //     })
-    // );
-      
-
     passport.use(new LocalStrategy(
         {
             usernameField: 'username',
@@ -116,7 +80,6 @@ export default function passportSetup(pg, bcrypt) {
         callbackURL: "/auth/github/callback",
         },
         async function (accessToken, refreshToken, profile, cb) {
-            console.log("Github", profile);
             const result = await dbQuery(profile, "github");
             if(result.profile){
                 cb(result.err, result.profile);

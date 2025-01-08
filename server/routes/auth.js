@@ -69,7 +69,7 @@ router.get('/github/callback', passport.authenticate('github', {
   failureRedirect: '/auth/login/failure' 
 }));
 
-router.post('/local/login', passport.authenticate('local', ) , async (req, res) => {
+router.post('/local/login', passport.authenticate('local') , async (req, res) => {
   try {
     if (!req.user) {
       throw new Error('User not found');
