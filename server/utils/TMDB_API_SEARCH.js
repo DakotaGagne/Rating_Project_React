@@ -1,18 +1,17 @@
-import Levenshtein from 'levenshtein';
-
-
-//! Need to add a function to escape single quotes after JSON.stringify for the media_name parameter
 
 /*
-4.1.2.4. Dollar-Quoted String Constants 
-While the standard syntax for specifying string constants is usually convenient, it can be difficult to 
-understand when the desired string contains many single quotes, since each of those must be doubled. To allow more 
-readable queries in such situations, PostgreSQL provides another way, called “dollar quoting”, to write string constants.
- A dollar-quoted string constant consists of a dollar sign ($), an optional “tag” of zero or more characters, another dollar
-  sign, an arbitrary sequence of characters that makes up the string content, a dollar sign, the same tag that began this 
-  dollar quote, and a dollar sign. For example, here are two different ways to specify the string “Dianne's horse” using 
-  dollar quoting:
+This file contains a function that searches the TMDB API for a list of movies and TV shows based on the media_name parameter.
+Fetches data from the TMDB API and restructures the data to include only the necessary information.
+Also filters the data to only include media with the original_language key set to 'en' if the english_only parameter is set to true.
+Sorts the data based on the Levenshtein distance between the media title and the media_name parameter.
+Returns a JSON object with a status key and a result key.
+The status key is set to 200 if the data was fetched successfully, 404 if the media was not found, and 500 if there was an error when fetching the data.
+The result key contains the list of media objects if the status key is set to 200, and an error message if the status key is set to 404 or 500.
+The function itself is a promise that returns the JSON object. Usage requires the use of .then() and .catch() to handle the promise.
 */
+
+
+import Levenshtein from 'levenshtein';
 
 export default function TMDB_API_SEARCH(media_name, auth, english_only=false){
     let url = {

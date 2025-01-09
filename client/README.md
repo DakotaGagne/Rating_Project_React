@@ -69,28 +69,20 @@ This could easily get to be too much work and perfectionism etc, so here is what
 
 # Final Cleanup Notes
 
-- Need to go through each file, add comments, and clean up the code
-- Try to make files less than 200 lines each time (when possible)
-
-- SetError should be more declarative
-- Change appSettings Cookie to be dark mode only (since this is the only setting used anyways)
+- Pressing enter inside a form should allow the form to be submitted
 - Make profile page force redirect to login
+- Poster not found filler image
+- Make login and create post error messages more appropriate to the situation (wrong username or password, etc) - Should be done
+- Make sure that post creation api searcher has no errors even when some data is missing from movies - Might be good (need to confirm)
+- Reconsider box shadows (especially in create post)
+- Credits page Missing
 - When post content is small, image is not all the way to the right
+- Make mobile variable determined by screen size and by if it is actually a mobile device
 - Need to make it more mobile friendly
+
   - Get rid of the media description element if screen a certain width
   - PostHoriz becomes post vertical
     - Take media details and posthoriz and merge them for post vertical
-- Make Create post system prettier
-- Pressing enter inside a form should allow the form to be submitted
-- Make login and create post error messages more appropriate to the situation (wrong username or password, etc)
-- Rating Section of Create Post should be set to the prev rating when editing a post
-- Looks like author name changes to me when I edit a post that is not mine (must fix!) - The user id is still the correct user -- Think I fixed it
-- Make sure that post creation api searcher has no errors even when some data is missing from movies
-- Reconsider box shadows (especially in create post)
-- Sign in with Google/Github should look nicer than they do
 
-- Might need the hashing routes to login page to be more specific so that it gives a proper error message
-- Maybe make the conf of being logged in a better design than simple welcome message
 - Maybe make pages for posts on main page (and profile too)
 - Maybe add a filter to check username and post content for inappropriate words
-- Maybe make the create post api searcher use date too if date is known (like in update post specifically)

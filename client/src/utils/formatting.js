@@ -1,3 +1,17 @@
+/*
+Utility file that contains functions for any generalized formatting functions
+
+Functions:
+    - usernameFormatter: Formats a username to be capitalized correctly, taking username and firstOnly
+        - username: The username to format
+        - firstOnly: A boolean that determines if only the first word should be formatted (default: true)
+            - If true, only the first word is formatted and returned
+            - If false, all words are formatted and returned
+        - Returns the formatted username
+*/
+
+
+
 function usernameFormatter(username, firstOnly=true) {
   if(firstOnly){
     username=username.split(" ")[0];

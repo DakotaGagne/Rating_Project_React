@@ -1,47 +1,41 @@
-import React, { useState, useEffect } from "react";
-import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
+/*
+Component that displays the details of a media item (movie or tv show) in a card format. The card contains the following information:
+- Poster image of the media item.
+- Title of the media item.
+- Release year of the media item.
+- Mean score of the media item.
+- Overview of the media item.
+Component is updated when the post state is updated
+
+Props:
+    - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
+    - post: The post object containing the media item details. (post is an object)
+*/
+import React from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Divider from "@mui/material/Divider";
-import Link from "@mui/material/Link";
 import Rating from "@mui/material/Rating";
-import PosterImage from "./PosterImage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-
 import { Container, Row, Col } from 'react-bootstrap';
-/**
- * TODO: Image too large on some screens
- * 
- * 
- * 
- * 
- *  
- *  
- */
 
 
-export default function MediaDetails({appSettings:{darkMode}, post}) {
 
-  const [media_details, setMediaDetails] = React.useState([]);
+export default function MediaDetails( { darkMode, post } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
+  // Create a theme object for the material ui components (Rating component specifically)
   const theme = createTheme({
       palette: {
-          mode: darkMode?"dark":"light"
+          mode: darkMode.get?"dark":"light"
       }
   });
 
   function formattedOverview(overview){
+    // Function to format the overview text to a specific character limit
     const charLimit = 290;
     if (overview){
-      if (overview.length > charLimit){
-        return overview.substring(0,charLimit) + "...";
-      } else {
-        return overview;
-      }
+      if (overview.length > charLimit)return overview.substring(0,charLimit) + "...";
+      return overview;
     } else {
       return "";
     }
@@ -50,11 +44,13 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
   return (
       <Container
        fluid 
-       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary ${darkMode?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
-       style={{height:"90vh", top:"5vh"}}>
+       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+       style={{height:"90vh", top:"5vh"}}
+      >
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
-            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
+            {/* Poster image of the media item */}
+            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
           </Col>
         </Row>
         <Row>
@@ -68,9 +64,11 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                   display: "inline-block",
                 }}
               >
+                {/* Title of the media item */}
                 <span style = {{fontSize: '3.5vh', fontWeight: "bolder"}}>
                   {api_data.title + " "}
                 </span>
+                {/* Release year of the media item */}
                 <span className="text-muted" style={{fontSize: '2.2vh', fontStyle: "italic"}}>
                   {" " + (api_data.release_date?api_data.release_date.substring(0,4):" ")}
                 </span>
@@ -83,12 +81,15 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                   display: "inline-block",
                 }}
               >
-                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className={`${darkMode?"text-muted":"text-dark"} text-top`}>
+                {/* Mean score of the media item */}
+                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
                   {"Mean Score "}
                 </span>
-                <span style = {{fontSize: '1.5vh'}} className={`${darkMode?"text-muted":"text-dark"} text-top`}>
+                {/* Total Vote Count of the media item */}
+                <span style = {{fontSize: '1.5vh'}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
                   {` (${api_data.vote_count||""}) `}
                 </span>
+                {/* Rating component */}
                 <ThemeProvider theme={theme}>
                   <Rating
                     name={"rating"}
@@ -108,8 +109,9 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                   display: "inline-block",
                 }}
               >
+                {/* Overview of the media item */}
                 <span style = {{fontSize: '2.2vh', fontWeight: "Normal"}} className="text-top">
-                  {formattedOverview(api_data.overview)}
+                  { formattedOverview(api_data.overview) }
                 </span>
               </Box>
             </Box>

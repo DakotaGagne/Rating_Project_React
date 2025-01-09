@@ -1,3 +1,12 @@
+/*
+
+Main server file. Contains all the routes and configurations for the server.
+Everything is imported from other files to keep this file clean and easy to read.
+
+*/
+
+// IMPORTS
+// NPM Imports
 import express from 'express';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -11,17 +20,15 @@ import cors from 'cors';
 import passport from 'passport';
 
 import passportStrategies from './middlewares/passportStrategies.js';
-import authRouter from './routes/auth.js';
 import { fail } from 'assert';
 
 import bcrypt from 'bcrypt';
 import { create } from 'domain';
 
-// API GETS and POSTS
-import { create_post, update_post, delete_post } from './routes/api/post_db_manipulation.js';
-import posts from './routes/api/posts.js';
+// API Custom GETS and POSTS
+import { create_post, update_post, delete_post, fetch_post_data } from './routes/api/post_db_manipulation.js';
 import search from './routes/api/search.js';
-// USER GETS and POSTS
+import authRouter from './routes/auth.js';
 
 // ! Maybe move db stuff to its own file and link it here and passport-stragegies.js instead of passing it as function
 
@@ -34,8 +41,6 @@ const CLIENT_URL = "http://localhost:5173";
 // Express
 const app = express();
 const port = 3000;
-// Bcrypt
-const SALT_ROUNDS = 10;
 
 // Dotenv configuration
 dotenv.config();
@@ -53,7 +58,7 @@ const pg = new Client({
 pg.connect();
 
 // Middleware
-app.use(morgan('tiny'));
+app.use(morgan('tiny')); // ! Change to 'combined' for production (logs to file)
 app.use(bodyParser.json({ strict: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
@@ -78,20 +83,24 @@ app.use(cors(
 
 app.use('/auth', authRouter);
 
-// Get Routes
-app.get('/api/posts', (req, res) => posts(req, res, pg));
-app.get('/api/posts/user', (req, res) => posts(req, res, pg, true));
-app.get('/api/posts/id', (req, res) => posts(req, res, pg, true, true));
-app.get('/api/search', search);
-
-// Post Routes
-app.post('/api/create_post', (req, res) => create_post(req, res, pg));
-app.put('/api/update_post', (req, res) => update_post(req, res, pg));
-app.delete('/api/delete_post', (req, res) => delete_post(req, res, pg));
-
-// Passport setup
+// Passport setup (middleware)
 passportStrategies(pg, bcrypt);
 
+// GET ROUTES
+app.get('/api/posts', (req, res) => fetch_post_data(req, res, pg));
+app.get('/api/posts/user', (req, res) => fetch_post_data(req, res, pg, true));
+app.get('/api/posts/id', (req, res) => fetch_post_data(req, res, pg, true, true));
+app.get('/api/search', search);
+
+// POST ROUTES
+app.post('/api/create_post', (req, res) => create_post(req, res, pg));
+// PUT ROUTES
+app.put('/api/update_post', (req, res) => update_post(req, res, pg));
+// DELETE ROUTES
+app.delete('/api/delete_post', (req, res) => delete_post(req, res, pg));
+
+
+// Start server
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });

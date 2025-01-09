@@ -1,3 +1,5 @@
+// Got from https://reactsvgicons.com/ | React SVG Icons
+
 //https://reactsvgicons.com
 import React from "react";
 const IconGoogle = (props) => (

@@ -1,12 +1,21 @@
+/*
+Custom Hook that manages the localUserCookie (stores the JWT when using a local login)
+- Fetches the localUserCookie from cookies when the hook renders
+- Updates the localUserCookie in cookies when the localUserCookie state changes
+- Returns the localUserCookie state and a function to update the localUserCookie state
+- Other components can use this hook to manage the localUserCookie (and change the localUserCookie state)
+*/
 import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 
-function useLocalUserCookie() {
-    const [get, set] = useState('');
 
+
+export default function useLocalUserCookie() {
+    // State to store the localUserCookie
+    const [get, set] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies(["localUser"], {doNotUpdate: true});
 
-    // Fetch appSettings from cookies
+    // Fetch localUser JWT from cookies
     useEffect(() => {
         const storedLocalUserCookie = cookies.localUser;
         if (storedLocalUserCookie !== undefined) {
@@ -25,5 +34,3 @@ function useLocalUserCookie() {
 
     return { get, set };
 }
-
-export default useLocalUserCookie;

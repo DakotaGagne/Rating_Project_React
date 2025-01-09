@@ -1,3 +1,5 @@
+// Got from https://reactsvgicons.com/ | React SVG Icons
+
 // icon:react | Devicons https://vorillaz.github.io/devicons/#/main | Theodore Vorillas
 import React from "react";
 

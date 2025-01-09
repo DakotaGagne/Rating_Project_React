@@ -9,7 +9,7 @@ The form also contains a poster image of the media selected from the search resu
 The search results are fetched from the TMDB Public API when the media name input is changed.
 
 Props:
-    - appSettings: The app settings of the website (object). Used to determine the current dark mode setting.
+    - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - user: The current user of the website (false or string of type ["github", "google", "local"]). Used to determine if the user is logged in.
     - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
 */
@@ -28,7 +28,7 @@ import postManipulation from "../../utils/post-management";
 
 
 
-export default function CreatePost({ appSettings:{darkMode}, user, mobile }) {
+export default function CreatePost({ darkMode, user, mobile }) {
 
     const [editMode, setEditMode] = useState(false); // Determines if the user is in edit mode and adjusts the form accordingly
     const [postToEdit, setPostToEdit] = useState(null); // The post to edit if the user is in edit mode
@@ -58,7 +58,7 @@ export default function CreatePost({ appSettings:{darkMode}, user, mobile }) {
 
 
     // Specifically used to enable light and dark mode in the rating component
-    const theme = createTheme({palette:{mode: darkMode?"dark":"light"}});
+    const theme = createTheme({palette:{mode: darkMode.get?"dark":"light"}});
     
     useEffect(() => {
         // Check for edit mode
@@ -157,17 +157,32 @@ export default function CreatePost({ appSettings:{darkMode}, user, mobile }) {
     }, [newPost.mediaTitle, newPost.mediaType]);
 
     function checkForm(){
+        const title_range = [5, 50];
+        const content_range = [25, 1000];
         // Checks that all form fields are filled out correctly, if not adds the errors to the error var
-        if(searchResults.length>=selectedAPI&&newPost.postTitle.length>0&&newPost.postContent.length>0&&newPost.postRating>=0){
+        if(searchResults.length>=selectedAPI&&
+            selectedAPI>=0&&
+            newPost.postTitle.length>=title_range[0]&&
+            newPost.postTitle.length<=title_range[1]&&
+            newPost.postContent.length>=content_range[0]&&
+            newPost.postContent.length<=content_range[1]&&
+            newPost.postRating>=0){
             return true;
         }
-        let errors = "\n";
-        if(searchResults.length<selectedAPI)errors+="No media selected!\n";
-        if(newPost.postTitle.length<=0)errors+="No post title!\n";
-        if(newPost.postContent.length<=0)errors+="No post content!\n";
-        if(newPost.postRating<0)errors+="No rating!\n";
-        setError("Please fill out all fields correctly! Errors:" + errors);
+        let errors = "";
+        if(searchResults.length<selectedAPI||selectedAPI<0)errors="No media selected!";
+        else if(newPost.postTitle.length<=0)errors="No post title!";
+        else if(newPost.postContent.length<=0)errors="No post content!";
+        else if(newPost.postTitle.length<title_range[0]||newPost.postTitle.length>title_range[1])errors=`Post title must be between ${title_range[0]} and ${title_range[1]} characters!`;
+        else if(newPost.postContent.length<content_range[0]||newPost.postContent.length>content_range[1])errors=`Post content must be between ${content_range[0]} and ${content_range[1]} characters!`;
+        else if(newPost.postRating<0)errors="No rating!";
+        setError(errors);
         return false;
+    }
+
+    function checkSubmit(e){
+        // Check if user pressed enter, if so, submit the form data
+        if(e.key=="Enter")manipulatePost(editMode?"update":"create");
     }
 
     function manipulatePost(method){
@@ -184,32 +199,35 @@ export default function CreatePost({ appSettings:{darkMode}, user, mobile }) {
 
 
     return (
-    <div>
+        <div>
+        {success!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="info" onClose={() => setSuccess("")} dismissible>
+            <Alert.Heading>Success!</Alert.Heading>
+            {success}   
+        </Alert>}
+        {error!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="danger" onClose={() => setError("")} dismissible>
+            <Alert.Heading>An Error Occured!</Alert.Heading>
+            {error}
+        </Alert>}
         {postToEdit!=null&&<Container>
             <Row>
                 <Col lg={2} md={3} /><Col lg={8} md={6}>
-                    <PostHorizontal appSettings={{darkMode}} post={postToEdit} />
+                    {/* Post Example if in Edit Mode */}
+                    <PostHorizontal darkMode={darkMode} post={postToEdit} />
                 </Col><Col lg={2} md={3} />
             </Row>
         </Container>}
         <Container
             fluid
-            className={`d-flex flex-column my-5 justify-content-center border border-3 rounded border-secondary ${darkMode?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+            className={`d-flex flex-column my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
         >
             <Row>
                 <Col md={8}>
-                    {/* Main Body of input */}
-
-                    
+                    {/* Main Body of input */}                    
                     <Row className="mt-3">
-                        {/* //! Page title goes here (and error success alerts) */}
-                        {error!=""&&<Alert className="mt-2 mb-3 py-2" variant="danger">{error}</Alert>}
-                        {success!=""&&<Alert className="mb-2 py-2" variant="info">{success}</Alert>}
+                        {/* Page Title */}
                         <h1>{`${editMode?"Edit":"Create"} Post`}</h1>
-
                     </Row>
-                    
-                    {/* //! Page desc goes here */}
+                    {/* Page Description */}
                     {!editMode&&<Row><p>{`Enter the title for the media, select the correct Movie/TV from the list, then add your title, rating, and post content!`}</p></Row>}
                     {editMode&&<Row><p>{`Your current post is displayed above, make any changes below and press 'Update Post' to submit changes!`}<br/>{`Alternatively, you can delete the post with the 'Delete Post' button below!`}</p></Row>}
                     
@@ -260,6 +278,7 @@ export default function CreatePost({ appSettings:{darkMode}, user, mobile }) {
                                         placeholder="Enter Post Title..."
                                         value={newPost.postTitle}
                                         onChange={updateNewPost}
+                                        onKeyDown={checkSubmit}
                                     />
                                 </Form.Group>
                             </Col>
@@ -294,19 +313,18 @@ export default function CreatePost({ appSettings:{darkMode}, user, mobile }) {
                                         as="textarea"
                                         size="lg"
                                         rows="5"
+                                        onKeyDown={checkSubmit}
                                     />
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Row className="mt-3">
-                            <Col>
+                            <Col xs={12}>
                                 {/* Error and Success Alerts, and Create, Update, Delete Buttons */}
-                                {error!=""&&<Alert className="mt-2 mb-3 py-2" variant="danger">{error}</Alert>}
-                                {success!=""&&<Alert className="mb-3 py-2" variant="info">{success}</Alert>}
-                                {!editMode&&<Button variant="primary" className="hovering-no-scale py-3" onClick={()=>manipulatePost("create")}>{`Create Post`}</Button>}
-                                {editMode&&<Button variant="primary" className="hovering-no-scale py-3" onClick={()=>manipulatePost("update")}>{`Update Post`}</Button>}
-                                {deleteWarning&&<Alert variant="danger" className="mt-3">{`Are you sure you want to delete this post? This action cannot be undone!`}</Alert>}
-                                {editMode&&<Button variant="danger" className="hovering-no-scale py-3 mt-2" onClick={()=>manipulatePost("delete")}>{`Delete Post`}</Button>}
+                                {!editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>manipulatePost("create")}>{`Create Post`}</Button>}
+                                {editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>manipulatePost("update")}>{`Update Post`}</Button>}
+                                {deleteWarning&&<Alert variant="danger" className="mt-3 w-100">{`Are you sure you want to delete this post? This action cannot be undone!`}</Alert>}
+                                {editMode&&<Button variant="danger" className="hovering-no-scale py-3 mt-2 w-100" onClick={()=>manipulatePost("delete")}>{`Delete Post`}</Button>}
                             </Col>
                         </Row>
                     </Form>

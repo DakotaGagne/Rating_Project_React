@@ -6,7 +6,7 @@ Logging in / Registering with Username and Password is valid, as is using Github
 The search results are fetched from the TMDB Public API when the media name input is changed.
 
 Props:
-    - appSettings: The app settings of the website (object). Used to determine the current dark mode setting.
+    - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - user: The current user of the website (false or string of type ["github", "google", "local"]). Used to determine if the user is logged in.
     - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
 */
@@ -22,7 +22,7 @@ import IconBxMessageSquareEdit from "../icons/IconBxMessageSquareEdit";
 
 
 
-export default function LoginRegister({appSettings:{darkMode}, user, mobile}) {
+export default function LoginRegister( { darkMode, user, mobile } ) {
     // If true, display login form. If false, display register form
     const [loginMode, setLoginMode] = useState(true);
     // Error and Success messages, and their respective timeouts
@@ -62,6 +62,9 @@ export default function LoginRegister({appSettings:{darkMode}, user, mobile}) {
     const googleSignIn = () => window.open("http://localhost:3000/auth/google", "_self"); // Google OAuth Redirect
     const githubSignIn = () => window.open("http://localhost:3000/auth/github", "_self"); // Github OAuth Redirect
 
+    // Called on keydown event inside form or text areas (submit form data if user presses enter)
+    const checkSubmit = (e) => e.key=="Enter"&&submitFormData();
+
     function submitFormData(){
         // Check if form data is valid. If not, display error message. If so, submit data
         // If loginMode is true, submit login data. If false, submit register data
@@ -71,7 +74,6 @@ export default function LoginRegister({appSettings:{darkMode}, user, mobile}) {
         if(err!=""){
             setError(err);
         } else {
-            // ! Submit Data Here
             let url = loginMode?"login":"register";
             fetch(`http://localhost:3000/auth/local/${url}`, {
                 method: "POST",
@@ -104,13 +106,20 @@ export default function LoginRegister({appSettings:{darkMode}, user, mobile}) {
             fluid
             className={`d-flex flex-column my-5 justify-content-center`} 
         >
+            {/* Alerts */}
+            {success!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="info" onClose={() => setSuccess("")} dismissible>
+                <Alert.Heading>Success!</Alert.Heading>
+                {success}    
+            </Alert>}
+            {error!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="danger" onClose={() => setError("")} dismissible>
+                <Alert.Heading>An Error Occured!</Alert.Heading>
+                {error}
+            </Alert>}
             <Row>
-                {/**Header and blurb */}
                 <Col xs={0} lg={4}></Col>
-                <Col xs={12} lg={4} className={`border border-3 rounded border-secondary ${darkMode?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`}>
+                <Col xs={12} lg={4} className={`border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`}>
+                    {/* Login / Register Form */}
                     <div className="p-3"></div>
-                    {error!=""&&<Alert variant="danger" className="text-center mb-3">{error}</Alert>}
-                    {success!=""&&<Alert variant="info" className="text-center mb-3">{success}</Alert>}
                     <h1 className="text-center"><IconBxMessageSquareEdit className="h-100 align-bottom me-1" />{loginMode?"Login":"Register"}</h1>
                     {loginMode&&<p className="text-center">Welcome back! Please login to continue</p>}
                     {!loginMode&&<p className="text-center">Welcome! Register Below.</p>}
@@ -119,16 +128,16 @@ export default function LoginRegister({appSettings:{darkMode}, user, mobile}) {
                     <Form>
                         <Form.Group className="my-3">
                             <Form.Label><b>Username</b></Form.Label>
-                            <Form.Control name="username" type="username" placeholder="Enter Username" value={formData.username} onChange={updateFormData}/>
+                            <Form.Control name="username" type="username" placeholder="Enter Username" value={formData.username} onChange={updateFormData} onKeyDown={checkSubmit} />
                         </Form.Group>
                         <Form.Group className="my-3">
                             <Form.Label><b>Password</b></Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Enter Password" value={formData.password} onChange={updateFormData}/>
+                            <Form.Control name="password" type="password" placeholder="Enter Password" value={formData.password} onChange={updateFormData} onKeyDown={checkSubmit} />
                         </Form.Group>
                         {!loginMode&&
                             <Form.Group className="my-3">
                                 <Form.Label><b>Confirm Password</b></Form.Label>
-                                <Form.Control name="confirmPassword" type="password" placeholder="Confirm Password" value={formData.confirmPassword} onChange={updateFormData}/>
+                                <Form.Control name="confirmPassword" type="password" placeholder="Confirm Password" value={formData.confirmPassword} onChange={updateFormData} onKeyDown={checkSubmit} />
                             </Form.Group>
                         }
                         <Form.Group>

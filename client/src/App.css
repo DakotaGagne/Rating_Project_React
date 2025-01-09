@@ -1,5 +1,4 @@
 /* CSS that affects the App only */
-/* The hexadecimal color value for Bootstrap's bg-dark class is #343a40 */
 .app {
   text-align: center;
   width: 100%;
@@ -28,18 +27,20 @@
   aspect-ratio: 2/3;
 }
 
+/* Box Shadow Classes */
+
 .poster-shadow-l {
-  box-shadow: 0 2px 6px 0 #8f95a0, 0 -2px 6px 0 #8f95a0;
+  box-shadow: 0 2px 6px 0 #8f95a0, 0 -2px 6px 0 #8f95a0 inset;
 }
 .poster-shadow-d {
-  box-shadow: 0 4px 12px 0 #000000, 0 -4px 12px 0 #000000;
+  box-shadow: 0 4px 12px 0 #000000, 0 -4px 12px 0 #000000 inset;
 }
 
 .card-shadow-d {
-  box-shadow: 0 15px 30px 0 #0000004f, 0 -15px 30px 0 #0000004f;
+  box-shadow: 0 10px 20px 0 #0000004f, 0 -10px 20px 0 #0000004f;
 }
 .card-shadow-l {
-  box-shadow: 0 6px 12px 0 #ffffff1e, 0 -6px 12px 0 #ffffff1e;
+  box-shadow: 0 4px 8px 0 #ffffff1e, 0 -3px 8px 0 #ffffff1e;
 }
 
 /* Misc Classes */
@@ -59,6 +60,23 @@
 
 .hovering-no-scale:hover {
   filter: brightness(0.85);
+}
+
+.alert-fixed {
+  top: 0%;
+  left: 50%;
+  width: 60%;
+  transform: translateX(-50%);
+  font-size: large;
+  text-align: center;
+  z-index: 999;
+}
+
+@media screen and (max-width: 576px) {
+  /* CSS for screens that are 576px or less */
+  .alert-fixed {
+    width: 100%;
+  }
 }
 
 /*

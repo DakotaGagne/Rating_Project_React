@@ -1,3 +1,5 @@
+// Got from https://reactsvgicons.com/ | React SVG Icons
+
 // icon:arrow-right-short | Bootstrap https://icons.getbootstrap.com/ | Bootstrap
 import React from "react";
 

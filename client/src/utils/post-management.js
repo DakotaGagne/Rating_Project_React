@@ -8,11 +8,17 @@ Takes the necessary inputs and sends a fetch request to the server to perform th
 
 Mostly in its own file to reduce the size of CreatePost.jsx
 
+Returns an object with the following functions:
+- delete: Used to delete a post
+- update: Used to update a post
+- create: Used to create a post
+
 */
 
 
 const postManipulation = {
     delete: (authenticate, postToEdit, setSuccess, setError, successDuration)=>{
+        // Authenticate user and delete post from database
         let postId = postToEdit.id;
         authenticate().then(userData => {
             fetch("http://localhost:3000/api/delete_post", {
@@ -42,6 +48,7 @@ const postManipulation = {
     update: (authenticate, newPost, prevPostId, selectedMediaAPI, setSuccess, setError, successDuration)=>{
         let mediaTypeUppercase = selectedMediaAPI.media_type.toLowerCase();
         mediaTypeUppercase = mediaTypeUppercase.charAt(0).toUpperCase() + mediaTypeUppercase.slice(1);
+        // Authenticate user and update post in database
         authenticate().then(userData => {
             let newPostData = {
                 media_title: selectedMediaAPI.title,
@@ -81,6 +88,7 @@ const postManipulation = {
     create: (authenticate, newPost, selectedMediaAPI, setSuccess, setError, successDuration)=>{
         let mediaTypeUppercase = selectedMediaAPI.media_type.toLowerCase();
         mediaTypeUppercase = mediaTypeUppercase.charAt(0).toUpperCase() + mediaTypeUppercase.slice(1);
+        // Authenticate user and create post in database
         authenticate().then(userData => {
             console.log("User Data", userData);
             let newPostData = {

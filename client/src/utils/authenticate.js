@@ -1,6 +1,15 @@
+/*
+Utility function to authenticate user with the server
+Function returns a promise that resolves to the user data if the user is authenticated, otherwise it resolves to null
+If setUser is passed as an argument, the function will set the user state to the user data if the user is authenticated
+Makes it so that the user is authenticated on page load, the evidence is stored in the user variable
+But when the user wants to perform a secure action (create post, etc), the user is authenticated again, and the user data is used to perform the action
+*/
+
 import Cookies from 'js-cookie';
 export default function authenticate(setUser=null){
     const localUserJWT = Cookies.get('localUserJWT');
+    // Fetch user data from server and return a promise
     return fetch('http://localhost:3000/auth/login/success', {
         method: 'GET',
         credentials: 'include',
@@ -16,7 +25,8 @@ export default function authenticate(setUser=null){
         throw new Error("User not authenticated with Oauth");
     })
     .then(data => {
-        // console.log("User Authenticated with: ", data.type)
+        // Data contains the user data stored in the database
+        // If setUser is passed as an argument, set the user state to the user data
         if(setUser!=null)setUser(data.type);
         return data;
     })

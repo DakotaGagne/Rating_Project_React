@@ -1,3 +1,5 @@
+// Got from https://reactsvgicons.com/ | React SVG Icons
+
 // icon:bx-message-square-edit | Boxicons https://boxicons.com/ | Atisa
 import React from "react";
 

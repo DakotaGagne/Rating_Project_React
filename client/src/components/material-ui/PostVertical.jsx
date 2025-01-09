@@ -1,31 +1,30 @@
+/*
+Component that displays the details of a media item in a vertical format.
+Used for mobile mode
+This is the alternative to postHorizontal but contains a little bit of api data (media type and title) because mobile mode does not have mediaDetails component.
+! Work in progress!!!!!!
+! The component is not yet complete and is only a placeholder for now.
+
+
+Props:
+    - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
+    - post: The post object containing the media item details. (post is an object)
+*/
 import React, { useState, useEffect } from "react";
-import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Divider from "@mui/material/Divider";
-import Link from "@mui/material/Link";
 import Rating from "@mui/material/Rating";
-import PosterImage from "./PosterImage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-
 import { Container, Row, Col } from 'react-bootstrap';
-/**
- * TODO: Image too large on some screens
- * 
- */
 
 
-export default function MediaDetails({appSettings:{darkMode}, post}) {
 
-  const [media_details, setMediaDetails] = React.useState([]);
+export default function MediaDetails( { darkMode, post } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
   const theme = createTheme({
       palette: {
-          mode: darkMode?"dark":"light"
+          mode: darkMode.get?"dark":"light"
       }
   });
 
@@ -45,11 +44,11 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
   return (
       <Container
        fluid 
-       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary ${darkMode?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
        style={{height:"90vh", top:"5vh"}}>
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
-            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
+            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
           </Col>
         </Row>
         <Row>
@@ -78,10 +77,10 @@ export default function MediaDetails({appSettings:{darkMode}, post}) {
                   display: "inline-block",
                 }}
               >
-                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className={`${darkMode?"text-muted":"text-dark"} text-top`}>
+                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
                   {"Mean Score "}
                 </span>
-                <span style = {{fontSize: '1.5vh'}} className={`${darkMode?"text-muted":"text-dark"} text-top`}>
+                <span style = {{fontSize: '1.5vh'}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
                   {` (${api_data.vote_count||""}) `}
                 </span>
                 <ThemeProvider theme={theme}>

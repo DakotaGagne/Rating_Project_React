@@ -1,40 +1,53 @@
+/*
+Component that displays a post in a horizontal format.
+This component is used in the Posts component to display a list of posts. 
+The component displays the following: post title, rating, media type, media title, author, content
+The component also displays the poster image of the media item. 
+The component is clickable and will set the highlighted post to the post id when clicked. 
+The component will also apply a filter to the poster image if the post is the highlighted post and the dark mode setting is toggled.
+
+Props:
+    - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
+    - post: The post object containing the media item details. (post is an object)
+*/
 import React from "react";
-import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
-import Link from "@mui/material/Link";
 import Rating from "@mui/material/Rating";
 import PosterImage from "./PosterImage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-export default function PostHorizontal({appSettings:{darkMode}, post, highlightedPost, setHighlightedPost}) {
+
+
+export default function PostHorizontal( { darkMode, post, highlightedPost, setHighlightedPost } ) {
   
   let api_data = post.api_data?JSON.parse(post.api_data):{};
-
+  
+  // Dark mode theme for the rating component
   const theme = createTheme({
       palette: {
-          mode: darkMode?"dark":"light"
+          mode: darkMode.get?"dark":"light"
       }
   });
 
+  // Filter to apply to the poster image if the post is the highlighted post (CSS class)
   let filter = ""
   if(highlightedPost){
-    if(post.id==highlightedPost&&darkMode){
+    if(post.id==highlightedPost&&darkMode.get){
       filter = "lighten";
-    } else if(post.id==highlightedPost&&!darkMode){
+    } else if(post.id==highlightedPost&&!darkMode.get){
       filter = "darken";
     }
   }
 
   return (
     <Card
-      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode?"text-light bg-dark poster-shadow-l":"bg-light text-dark poster-shadow-d"} ${filter}`}
+      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark poster-shadow-l":"bg-light text-dark poster-shadow-d"} ${filter}`}
       onClick={() => {setHighlightedPost(post.id)}}
     >
-      <CardContent sx={{ pr: 2 }} className={`p-2 ${darkMode?"poster-shadow-l":"poster-shadow-d"}`}>
+      <CardContent sx={{ pr: 2 }} className={`p-2 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`}>
         <Box mb={1}>
           <Box
             component="h3"
@@ -46,8 +59,10 @@ export default function PostHorizontal({appSettings:{darkMode}, post, highlighte
               display: "inline-block",
             }}
           >
+            {/* Post Title */}
             {post.post_title||""}
           </Box>
+          {/* Post Rating */}
           <ThemeProvider theme={theme}>
             <Rating
               name={"rating"}
@@ -68,6 +83,7 @@ export default function PostHorizontal({appSettings:{darkMode}, post, highlighte
               display: "inline-block",
             }}
           >
+            {/* Media Type and Title */}
             {`${post.media_type}: ${post.media_title}`}
           </Box>
           <Box
@@ -79,17 +95,18 @@ export default function PostHorizontal({appSettings:{darkMode}, post, highlighte
               display: "inline-block",
             }}
           >
+            {/* Post Author */}
             {`Author: ${post.post_author}`}
           </Box>
         </Box>
         <Box
           component="p"
-          className={`${darkMode?"text-secondary":"text-dark"}`}
+          className={`${darkMode.get?"text-secondary":"text-dark"}`}
           sx={{ fontSize: 18, mb: "1.275rem" }}
         >
+          {/* Post Content */}
           {post.post_content}
         </Box>
-
         <Divider className="my-1"/>
       </CardContent>
       <PosterImage url={api_data.poster_path} darkMode={darkMode} />

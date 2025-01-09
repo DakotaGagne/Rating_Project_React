@@ -1,3 +1,5 @@
+// Got from https://reactsvgicons.com/ | React SVG Icons
+
 // icon:profile | CSS Icons https://css.gg/ | Astrit
 import React from "react";
 

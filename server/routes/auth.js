@@ -1,10 +1,27 @@
+/*
+This file contains the routes for the authentication of the user. It contains the following routes:
+  - /auth/login/success: This route is used to check if the user has successfully authenticated. It returns a JSON object with the user details and the authentication type.
+  - /auth/logout: This route is used to logout the user.
+  - /auth/login/failure: This route is used to check if the user has failed to authenticate. It returns a JSON object with the message "Login failed".
+  - /auth/google: This route is used to authenticate the user using Google OAuth.
+  - /auth/google/callback: This route is used to handle the callback from Google OAuth.
+  - /auth/github: This route is used to authenticate the user using Github OAuth.
+  - /auth/github/callback: This route is used to handle the callback from Github OAuth.
+  - /auth/local/login: This route is used to authenticate the user using local authentication.
+  - /auth/local/register: This route is used to register the user using local authentication.
+*/
+
+
+// IMPORTS
 import express from "express";
 import passport from "passport";
-
 import register from './user/register.js';
 import jwt from 'jsonwebtoken';
 
+// ROUTER
 const router = express.Router();
+// CLIENT URL FOR REDIRECT
+//! Might need to change this to the production URL
 const CLIENT_URL = "http://localhost:5173";
 
 // Get Routes Router
@@ -69,6 +86,7 @@ router.get('/github/callback', passport.authenticate('github', {
   failureRedirect: '/auth/login/failure' 
 }));
 
+// Local Auth
 router.post('/local/login', passport.authenticate('local') , async (req, res) => {
   try {
     if (!req.user) {
@@ -87,8 +105,8 @@ router.post('/local/login', passport.authenticate('local') , async (req, res) =>
   }
 });
 
+// Register User
 router.post('/local/register', (req, res) => register(req, res));
 
-
-
+// EXPORTS
 export default router;
