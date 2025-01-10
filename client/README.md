@@ -69,10 +69,6 @@ This could easily get to be too much work and perfectionism etc, so here is what
 
 # Final Cleanup Notes
 
-- Make login and create post error messages more appropriate to the situation (wrong username or password, etc) - Should be done
-- Make sure that post creation api searcher has no errors even when some data is missing from movies - Might be good (need to confirm)
-- Reconsider box shadows (especially in create post)
-- Credits page Missing
 - Media Details font not scaling with window size
 - Make mobile variable determined by screen size and by if it is actually a mobile device
 - Need to make it more mobile friendly

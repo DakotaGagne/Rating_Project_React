@@ -24,6 +24,7 @@ import MainPage from "./pages/MainPage";
 import CreatePage from "./pages/CreatePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import CreditsPage from "./pages/CreditsPage";
 
 
 
@@ -78,6 +79,12 @@ function App(){
                   />}></Route>
                   <Route path="/profile" element={
                     <ProfilePage 
+                      darkMode={darkMode} 
+                      user={user}
+                      mobile={mobile}
+                  />}></Route>
+                  <Route path="/credits" element={
+                    <CreditsPage 
                       darkMode={darkMode} 
                       user={user}
                       mobile={mobile}
