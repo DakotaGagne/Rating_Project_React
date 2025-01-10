@@ -216,13 +216,12 @@ export default function CreatePost({ darkMode, user, mobile }) {
 
     return (
         <div>
-        {success!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="info" onClose={() => setSuccess("")} dismissible>
-            <Alert.Heading>Success!</Alert.Heading>
-            {success}   
+        {success!=""&&<Alert className="position-fixed alert-fixed my-3" variant="info" onClose={() => setSuccess("")} dismissible>
+            <Alert.Heading>{success}</Alert.Heading>
+               
         </Alert>}
-        {error!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="danger" onClose={() => setError("")} dismissible>
-            <Alert.Heading>An Error Occured!</Alert.Heading>
-            {error}
+        {error!=""&&<Alert className="position-fixed alert-fixed my-3" variant="danger" onClose={() => setError("")} dismissible>
+            <Alert.Heading>{error}</Alert.Heading>
         </Alert>}
         {postToEdit!=null&&<Container>
             <Row>

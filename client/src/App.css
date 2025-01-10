@@ -1,4 +1,6 @@
 /* CSS that affects the App only */
+/* The hexadecimal color value for Bootstrap's bg-dark class is #343a40 */
+
 .app {
   text-align: center;
   width: 100%;
@@ -65,7 +67,8 @@
 .alert-fixed {
   top: 0%;
   left: 50%;
-  width: 60%;
+  min-width: min-content;
+  max-width: max-content;
   transform: translateX(-50%);
   font-size: large;
   text-align: center;

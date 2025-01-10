@@ -69,14 +69,11 @@ This could easily get to be too much work and perfectionism etc, so here is what
 
 # Final Cleanup Notes
 
-- Pressing enter inside a form should allow the form to be submitted
-- Make profile page force redirect to login
-- Poster not found filler image
 - Make login and create post error messages more appropriate to the situation (wrong username or password, etc) - Should be done
 - Make sure that post creation api searcher has no errors even when some data is missing from movies - Might be good (need to confirm)
 - Reconsider box shadows (especially in create post)
 - Credits page Missing
-- When post content is small, image is not all the way to the right
+- Media Details font not scaling with window size
 - Make mobile variable determined by screen size and by if it is actually a mobile device
 - Need to make it more mobile friendly
 

@@ -107,13 +107,12 @@ export default function LoginRegister( { darkMode, user, mobile } ) {
             className={`d-flex flex-column my-5 justify-content-center`} 
         >
             {/* Alerts */}
-            {success!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="info" onClose={() => setSuccess("")} dismissible>
-                <Alert.Heading>Success!</Alert.Heading>
-                {success}    
+            {success!=""&&<Alert className="position-fixed alert-fixed my-3" variant="info" onClose={() => setSuccess("")} dismissible>
+                <Alert.Heading>{success}</Alert.Heading>
+                    
             </Alert>}
-            {error!=""&&<Alert className="position-fixed alert-fixed mt-3" variant="danger" onClose={() => setError("")} dismissible>
-                <Alert.Heading>An Error Occured!</Alert.Heading>
-                {error}
+            {error!=""&&<Alert className="position-fixed alert-fixed my-3" variant="danger" onClose={() => setError("")} dismissible>
+                <Alert.Heading>{error}</Alert.Heading>
             </Alert>}
             <Row>
                 <Col xs={0} lg={4}></Col>

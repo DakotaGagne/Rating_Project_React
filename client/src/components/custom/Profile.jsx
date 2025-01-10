@@ -26,6 +26,13 @@ export default function Profile( { darkMode, user, mobile } ) {
     const dblClickTimeout = 500;
 
     // useEffect Hooks
+
+    useEffect(() => {
+            // Redirect to login page with error if not logged in
+            if(user==false)window.location.href="/login#error";
+    }, [user])
+    
+
     useEffect(() => {
         // Double Click Timeout Function
         if(postClicked){
