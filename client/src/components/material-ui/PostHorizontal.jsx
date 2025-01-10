@@ -44,10 +44,10 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
 
   return (
     <Card
-      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark poster-shadow-l":"bg-light text-dark poster-shadow-d"} ${filter}`}
+      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark":"bg-light text-dark"} ${filter}`}
       onClick={() => {setHighlightedPost(post.id)}}
     >
-      <CardContent sx={{ pr: 2 }} className={`p-2 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`}>
+      <CardContent sx={{ pr: 2 }} className='p-2'>
         <Box mb={1}>
           <Box
             component="h3"
@@ -102,7 +102,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
         <Box
           component="p"
           className={`${darkMode.get?"text-secondary":"text-dark"}`}
-          sx={{ fontSize: 18, mb: "1.275rem" }}
+          sx={{ fontSize: 18, mb: "1.275rem", width: "100%" }}
         >
           {/* Post Content */}
           {post.post_content}

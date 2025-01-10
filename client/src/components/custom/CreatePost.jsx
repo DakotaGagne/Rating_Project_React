@@ -22,6 +22,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {Container, Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import PostHorizontal from "../material-ui/PostHorizontal";
+import LinearProgressWithLabel from "../material-ui/LinearProgressWithLabel";
+import { LinearProgress } from "@mui/material";
 import Form from 'react-bootstrap/Form';
 import authenticate from "../../utils/authenticate";
 import postManipulation from "../../utils/post-management";
@@ -56,10 +58,26 @@ export default function CreatePost({ darkMode, user, mobile }) {
     const [deleteWarning, setDeleteWarning] = useState(false); // The delete warning alert message to display (element only appears if this is true)
     const deleteWarningDuration = 4000; // The duration of the delete warning alert
 
+    const [progressBarColor, setProgressBarColor] = useState("info"); // The color of the progress bar in the form
+
+    // Form input ranges
+    const title_range = [5, 50];
+    const content_range = [75, 800];
+
 
     // Specifically used to enable light and dark mode in the rating component
     const theme = createTheme({palette:{mode: darkMode.get?"dark":"light"}});
     
+
+    useEffect(() => {
+        // Set the progress bar color based on the length of the post content
+        if(newPost.postContent.length>=content_range[1]*0.99)setProgressBarColor("error");
+        else if(newPost.postContent.length<content_range[0])setProgressBarColor("error");
+        else if(newPost.postContent.length>=content_range[1]*0.7)setProgressBarColor("warning");
+        else setProgressBarColor("info");
+    }, [newPost.postContent])
+
+
     useEffect(() => {
         // Check for edit mode
         // Called only on page load
@@ -157,8 +175,6 @@ export default function CreatePost({ darkMode, user, mobile }) {
     }, [newPost.mediaTitle, newPost.mediaType]);
 
     function checkForm(){
-        const title_range = [5, 50];
-        const content_range = [25, 1000];
         // Checks that all form fields are filled out correctly, if not adds the errors to the error var
         if(searchResults.length>=selectedAPI&&
             selectedAPI>=0&&
@@ -304,18 +320,25 @@ export default function CreatePost({ darkMode, user, mobile }) {
                                 <Form.Group>
                                     <Form.Label><b>Post Content</b></Form.Label>
                                     <Form.Control
-                                        className={`w-100 h-100`}
+                                        className={`w-100 h-100 mb-2`}
                                         style={{resize: "none"}}
                                         value={newPost.postContent}
                                         placeholder="What did you think of it?"
                                         onChange={updateNewPost}
                                         name="postContent"
                                         as="textarea"
+                                        maxLength={content_range[1]}
                                         size="lg"
                                         rows="5"
                                         onKeyDown={checkSubmit}
                                     />
                                 </Form.Group>
+                                <LinearProgress 
+                                    variant="determinate"
+                                    value={newPost.postContent.length/content_range[1]*100} 
+                                    color={progressBarColor} 
+                                    className={"mx-4"}
+                                />
                             </Col>
                         </Row>
                         <Row className="mt-3">
