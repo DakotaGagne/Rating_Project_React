@@ -30,9 +30,18 @@ export default function MediaDetails( { darkMode, post } ) {
       }
   });
 
+  function formattedURL(url){
+    // Function to format the URL of the poster image
+    if(url==null||url==undefined||url==""||url.includes("null")){
+      if(darkMode.get)return "../../../public/poster_not_found_dark.jpg";
+      return "../../../public/poster_not_found_light.jpg";
+    }
+    return url;
+  }
+
   function formattedOverview(overview){
     // Function to format the overview text to a specific character limit
-    const charLimit = 290;
+    const charLimit = 250;
     if (overview){
       if (overview.length > charLimit)return overview.substring(0,charLimit) + "...";
       return overview;
@@ -50,7 +59,7 @@ export default function MediaDetails( { darkMode, post } ) {
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
             {/* Poster image of the media item */}
-            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
+            <img src={ formattedURL(api_data.poster_path) } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
           </Col>
         </Row>
         <Row>
