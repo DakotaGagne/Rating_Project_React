@@ -18,12 +18,12 @@ import Footer from "../components/bootstrap/Footer";
 
 
 
-export default function ProfilePage( { darkMode, user, mobile } ) {
+export default function ProfilePage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
-            <Header page="Profile" darkMode={darkMode} user={user} mobile={mobile}/>
-            <Profile darkMode={darkMode} user={user} mobile={mobile}/>
-            <Footer mobile={mobile}/>
+            <Header page="Profile" darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Profile darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Footer mobile={mobile} windowWidth={windowWidth} />
         </div>
     ); 
 }

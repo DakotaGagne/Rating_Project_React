@@ -74,11 +74,11 @@ export default function MediaDetails( { darkMode, post } ) {
                 }}
               >
                 {/* Title of the media item */}
-                <span style = {{fontSize: '3.5vh', fontWeight: "bolder"}}>
+                <span className="fs-2 fw-bold" >
                   {api_data.title + " "}
                 </span>
                 {/* Release year of the media item */}
-                <span className="text-muted" style={{fontSize: '2.2vh', fontStyle: "italic"}}>
+                <span className="text-muted fst-italic fs-5">
                   {" " + (api_data.release_date?api_data.release_date.substring(0,4):" ")}
                 </span>
               </Box>
@@ -91,11 +91,11 @@ export default function MediaDetails( { darkMode, post } ) {
                 }}
               >
                 {/* Mean score of the media item */}
-                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
+                <span className={`fs-4 ${darkMode.get?"text-muted":"text-dark"} text-top`}>
                   {"Mean Score "}
                 </span>
                 {/* Total Vote Count of the media item */}
-                <span style = {{fontSize: '1.5vh'}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
+                <span className={`fs-5 ${darkMode.get?"text-muted":"text-dark"} text-top`}>
                   {` (${api_data.vote_count||""}) `}
                 </span>
                 {/* Rating component */}
@@ -119,7 +119,7 @@ export default function MediaDetails( { darkMode, post } ) {
                 }}
               >
                 {/* Overview of the media item */}
-                <span style = {{fontSize: '2.2vh', fontWeight: "Normal"}} className="text-top">
+                <span className="text-top fs-5">
                   { formattedOverview(api_data.overview) }
                 </span>
               </Box>

@@ -22,7 +22,7 @@ import IconBxMessageSquareEdit from "../icons/IconBxMessageSquareEdit";
 
 
 
-export default function LoginRegister( { darkMode, user, mobile } ) {
+export default function LoginRegister( { darkMode, user, mobile, windowWidth } ) {
     // If true, display login form. If false, display register form
     const [loginMode, setLoginMode] = useState(true);
     // Error and Success messages, and their respective timeouts
@@ -109,7 +109,6 @@ export default function LoginRegister( { darkMode, user, mobile } ) {
             {/* Alerts */}
             {success!=""&&<Alert className="position-fixed alert-fixed my-3" variant="info" onClose={() => setSuccess("")} dismissible>
                 <Alert.Heading>{success}</Alert.Heading>
-                    
             </Alert>}
             {error!=""&&<Alert className="position-fixed alert-fixed my-3" variant="danger" onClose={() => setError("")} dismissible>
                 <Alert.Heading>{error}</Alert.Heading>

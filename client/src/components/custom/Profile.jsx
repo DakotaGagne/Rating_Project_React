@@ -12,13 +12,14 @@ Props:
 */
 import React, { useState, useEffect } from 'react';
 import PostHorizontal from '../material-ui/PostHorizontal';
+import PostVertical from '../material-ui/PostVertical';
 import { Card } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-bootstrap';
 import authenticate from '../../utils/authenticate';
 
 
 
-export default function Profile( { darkMode, user, mobile } ) {
+export default function Profile( { darkMode, user, mobile, windowWidth } ) {
     // State Variables and Constants
     const [posts, setPosts] = useState([]);
     const [highlightedPost, setHighlightedPost] = useState(1);
@@ -87,15 +88,30 @@ export default function Profile( { darkMode, user, mobile } ) {
                     <p className="border-bottom pb-2">{"Below is all of your posts that you have made. If you double click on any posts, you can edit or delete them!"}</p>
                 </Col>
             </Row>
-            {posts.length>0&&<Row>
-                <Col lg={2} md={3}></Col>
-                <Col lg={8} md={6}>
-                    {posts.map((post, index) => {
-                        return <PostHorizontal darkMode={darkMode} highlightedPost={highlightedPost} setHighlightedPost={updateHighlightedPost} post={post} key={index}/>
-                    })}
-                </Col>
-                <Col lg={2} md={3}></Col>
-            </Row>}
+            {posts.length>0?
+                mobile?
+                <Row>
+                    <Col lg={2} md={3}></Col>
+                    <Col lg={8} md={6}>
+                        {posts.map((post, index) => {
+                            return <PostVertical darkMode={darkMode} highlightedPost={highlightedPost} setHighlightedPost={updateHighlightedPost} post={post} key={index}/>
+                        })}
+                    </Col>
+                    <Col lg={2} md={3}></Col>
+                </Row>
+                :   
+                <Row>
+                    <Col lg={2} md={3}></Col>
+                    <Col lg={8} md={6}>
+                        {posts.map((post, index) => {
+                            return <PostHorizontal darkMode={darkMode} highlightedPost={highlightedPost} setHighlightedPost={updateHighlightedPost} post={post} key={index}/>
+                        })}
+                    </Col>
+                    <Col lg={2} md={3}></Col>
+                </Row>
+                :null
+                
+            }
             {posts.length==0&&<Row>
                 <Col className="p-5">
                     <Card className="p-5 text-center">

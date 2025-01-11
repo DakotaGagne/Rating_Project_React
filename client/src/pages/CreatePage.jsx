@@ -20,13 +20,13 @@ import WelcomeMsg from "../components/custom/WelcomeMsg";
 
 
 
-export default function CreatePage({ darkMode, user, mobile }) {
+export default function CreatePage({ darkMode, user, mobile, windowWidth }) {
     return (
         <div>
-            <Header page="Create" darkMode={darkMode} user={user} mobile={mobile} />
-            <WelcomeMsg user={user} mobile={mobile} />
-            <CreatePost darkMode={darkMode} user={user} mobile={mobile} />
-            <Footer mobile={mobile} />
+            <Header page="Create" darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <WelcomeMsg user={user} mobile={mobile} windowWidth={windowWidth} />
+            <CreatePost darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Footer mobile={mobile} windowWidth={windowWidth} />
         </div>
     ); 
 }

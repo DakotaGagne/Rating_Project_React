@@ -1,16 +1,17 @@
 /*
-Component that displays the details of a media item in a vertical format.
-Used for mobile mode
-This is the alternative to postHorizontal but contains a little bit of api data (media type and title) because mobile mode does not have mediaDetails component.
-! Work in progress!!!!!!
-! The component is not yet complete and is only a placeholder for now.
-
+Component that displays the details of a media item (movie or tv show) in a card format. The card contains the following information:
+- Poster image of the media item.
+- Title of the media item.
+- Release year of the media item.
+- Mean score of the media item.
+- Overview of the media item.
+Component is updated when the post state is updated
 
 Props:
     - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - post: The post object containing the media item details. (post is an object)
 */
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -18,92 +19,119 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 
-export default function MediaDetails( { darkMode, post } ) {
+export default function PostVertical( { darkMode, post, highlightedPost, setHighlightedPost } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
+  // Create a theme object for the material ui components (Rating component specifically)
   const theme = createTheme({
       palette: {
           mode: darkMode.get?"dark":"light"
       }
   });
 
-  function formattedOverview(overview){
-    const charLimit = 290;
-    if (overview){
-      if (overview.length > charLimit){
-        return overview.substring(0,charLimit) + "...";
-      } else {
-        return overview;
-      }
-    } else {
-      return "";
+  function formattedURL(url){
+    // Function to format the URL of the poster image
+    if(url==null||url==undefined||url==""||url.includes("null")){
+      if(darkMode.get)return "../../../public/poster_not_found_dark.jpg";
+      return "../../../public/poster_not_found_light.jpg";
+    }
+    return url;
+  }
+
+  let filter = ""
+  if(highlightedPost){
+    if(post.id==highlightedPost&&darkMode.get){
+      filter = "lighten";
+    } else if(post.id==highlightedPost&&!darkMode.get){
+      filter = "darken";
     }
   }
+
 
   return (
       <Container
        fluid 
-       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
-       style={{height:"90vh", top:"5vh"}}>
+       className={`my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+       styles={{width:"min-content", height:"min-content"}}
+       onClick={()=>setHighlightedPost(post.id)}
+      >
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
-            <img src={ api_data.poster_path||"" } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
+            {/* Poster image of the media item */}
+            <img src={ formattedURL(api_data.poster_path) } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
           </Col>
         </Row>
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
             <Box>
               <Box
-                className="mt-4 w-100 text-end px-2"
+                className="mt-4 w-100 px-2 text-center"
                 sx={{
                   letterSpacing: "1px",
                   marginRight: 1.5,
                   display: "inline-block",
                 }}
               >
-                <span style = {{fontSize: '3.5vh', fontWeight: "bolder"}}>
-                  {api_data.title + " "}
-                </span>
-                <span className="text-muted" style={{fontSize: '2.2vh', fontStyle: "italic"}}>
-                  {" " + (api_data.release_date?api_data.release_date.substring(0,4):" ")}
+                {/* Title of the post */}
+                <span className="fs-2 fw-bold" >
+                  {post.post_title||""}
                 </span>
               </Box>
               <Box
-                className="mt-2 w-100 text-end px-2 border-bottom border-4"
+                className="mt-2 w-100 px-2 text-center"
                 sx={{
                   letterSpacing: "1px",
                   marginRight: 1.5,
                   display: "inline-block",
                 }}
               >
-                <span style = {{fontSize: '2.5vh', fontWeight: "Normal"}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
-                  {"Mean Score "}
+                
+                {/* Author */}
+                <span className={`fs-4 ${darkMode.get?"text-muted":"text-dark"} text-top`}>
+                  {`Author: ${post.post_author||""}`}
                 </span>
-                <span style = {{fontSize: '1.5vh'}} className={`${darkMode.get?"text-muted":"text-dark"} text-top`}>
-                  {` (${api_data.vote_count||""}) `}
+              </Box>
+              <Box
+                className="mt-2 w-100 px-2 text-center"
+                sx={{
+                  letterSpacing: "1px",
+                  marginRight: 1.5,
+                  display: "inline-block",
+                }}
+              >
+
+                {/* Media Type and Title */}
+                <span className={`fs-4 fst-italic ${darkMode.get?"text-muted":"text-dark"} text-top`}>
+                  {`${api_data.title||""} `}
                 </span>
+                <span className={`fs-5 fst-italic ${darkMode.get?"text-muted":"text-dark"} text-top`}>
+                  {` ${api_data.release_date?"("+api_data.release_date.substring(0,4)+") ":""}`}
+                </span>
+                {/* Rating component */}
+                {/* Rating */}
                 <ThemeProvider theme={theme}>
                   <Rating
                     name={"rating"}
-                    value={api_data.rating/2||1}
+                    value={post.media_rating||0}
                     size={"medium"}
-                    precision = {0.1}
+                    precision={0.1}
+                    sx={ { verticalAlign:"text-bottom" } }
                     readOnly
-                    sx={{ verticalAlign: "text-top" }}
                   />
                 </ThemeProvider>
+
               </Box>
               <Box
-                className="mt-4 w-100 text-end px-2"
+                className="mt-4 w-100 px-2 pb-5 text-center"
                 sx={{
                   letterSpacing: "0.5px",
                   marginRight: 1.5,
-                  display: "inline-block",
                 }}
               >
-                <span style = {{fontSize: '2.2vh', fontWeight: "Normal"}} className="text-top">
-                  {formattedOverview(api_data.overview)}
+                {/* Overview of the media item */}
+                <span className="text-top fs-5">
+                  { post.post_content }
                 </span>
               </Box>
             </Box>

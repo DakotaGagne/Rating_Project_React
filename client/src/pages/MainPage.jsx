@@ -20,13 +20,13 @@ import WelcomeMsg from "../components/custom/WelcomeMsg";
 
 
 
-export default function MainPage( { darkMode, user, mobile } ) {
+export default function MainPage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
-            <Header page="Home" darkMode={darkMode} user={user} mobile={mobile} />
-            <WelcomeMsg user={user} mobile={mobile} />
-            <Posts darkMode={darkMode} mobile={mobile} />
-            <Footer mobile={mobile} />
+            <Header page="Home" darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <WelcomeMsg user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Posts darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
+            <Footer mobile={mobile} windowWidth={windowWidth} />
         </div>
     );
 }

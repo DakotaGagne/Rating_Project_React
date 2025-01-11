@@ -22,7 +22,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {Container, Col, Row} from "react-bootstrap";
 import Alert from 'react-bootstrap/Alert';
 import PostHorizontal from "../material-ui/PostHorizontal";
-import LinearProgressWithLabel from "../material-ui/LinearProgressWithLabel";
 import { LinearProgress } from "@mui/material";
 import Form from 'react-bootstrap/Form';
 import authenticate from "../../utils/authenticate";
@@ -30,7 +29,7 @@ import postManipulation from "../../utils/post-management";
 
 
 
-export default function CreatePost({ darkMode, user, mobile }) {
+export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
     const [editMode, setEditMode] = useState(false); // Determines if the user is in edit mode and adjusts the form accordingly
     const [postToEdit, setPostToEdit] = useState(null); // The post to edit if the user is in edit mode
@@ -227,7 +226,7 @@ export default function CreatePost({ darkMode, user, mobile }) {
             <Row>
                 <Col lg={2} md={3} /><Col lg={8} md={6}>
                     {/* Post Example if in Edit Mode */}
-                    <PostHorizontal darkMode={darkMode} post={postToEdit} />
+                    <PostHorizontal darkMode={darkMode} post={postToEdit} mobile={mobile} windowWidth={windowWidth} />
                 </Col><Col lg={2} md={3} />
             </Row>
         </Container>}

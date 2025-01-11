@@ -19,7 +19,7 @@ import Cookies from 'js-cookie';
 
 const iconSize = "20";
 
-function Header( { page, darkMode, user, mobile } ) {
+function Header( { page, darkMode, user, mobile, windowWidth } ) {
 
     // Clear Login Cookie and redirect to logout page
     const logout = () => {if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');window.open("http://localhost:3000/auth/logout", "_self");}

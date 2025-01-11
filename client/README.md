@@ -69,7 +69,10 @@ This could easily get to be too much work and perfectionism etc, so here is what
 
 # Final Cleanup Notes
 
-- Media Details font not scaling with window size
+https://stackoverflow.com/questions/24117856/media-query-to-target-narrow-desktop-and-not-mobile
+
+- Media Details font not scaling with window size - partial fix? might still have issues on narrow screens
+  - Maybe remove media details earlier than mobile mode, cuz overflow still be a problem
 - Make mobile variable determined by screen size and by if it is actually a mobile device
 - Need to make it more mobile friendly
 

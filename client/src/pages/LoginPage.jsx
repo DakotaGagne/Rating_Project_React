@@ -18,12 +18,12 @@ import Footer from "../components/bootstrap/Footer";
 
 
 
-export default function LoginPage( { darkMode, user, mobile } ) {
+export default function LoginPage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
-        <Header page="Login" post={{uid:1}} darkMode={darkMode} user={user} mobile={mobile}/>
-        <LoginRegister darkMode={darkMode} user={user} mobile={mobile}/>
-        <Footer mobile={mobile}/>
+        <Header page="Login" post={{uid:1}} darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+        <LoginRegister darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+        <Footer mobile={mobile} windowWidth={windowWidth} />
         </div>
     ); 
 }

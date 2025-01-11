@@ -32,8 +32,11 @@ function App(){
   // Constants and States
   const darkMode = useDarkMode();
   const [user, setUser] = useState(null);
-  const [mobile, setMobile] = useState(false);
-  const mobileLimit = 768;
+  const [mobile, setMobile] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // const mobileLimit = 768;
+  const mobileLimit = 992;
+
   
   // useEffects
   useEffect(() => {
@@ -45,6 +48,7 @@ function App(){
     // set mobile state on resize 
 		const handleResize = () => {
 			setMobile(window.innerWidth<mobileLimit);
+      setWindowWidth(window.innerWidth);
 		};
 		window.addEventListener('resize', handleResize);
 		return () => {
@@ -64,30 +68,35 @@ function App(){
                       darkMode={darkMode}
                       user={user}
                       mobile={mobile}
+                      windowWidth={windowWidth}
                   />}></Route>
                   <Route path="/create" element={
                     <CreatePage 
                       darkMode={darkMode}
                       user={user}
                       mobile={mobile}
+                      windowWidth={windowWidth}
                   />}></Route>
                   <Route path="/login" element={
                     <LoginPage 
                       darkMode={darkMode} 
                       user={user}
                       mobile={mobile}
+                      windowWidth={windowWidth}
                   />}></Route>
                   <Route path="/profile" element={
                     <ProfilePage 
                       darkMode={darkMode} 
                       user={user}
                       mobile={mobile}
+                      windowWidth={windowWidth}
                   />}></Route>
                   <Route path="/credits" element={
                     <CreditsPage 
                       darkMode={darkMode} 
                       user={user}
                       mobile={mobile}
+                      windowWidth={windowWidth}
                   />}></Route>
                   <Route path="*" element={<h1>404 Page Not Found</h1>}></Route>
               </Routes>

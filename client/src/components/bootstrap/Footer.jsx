@@ -19,7 +19,7 @@ import IconArrowRightShort from '../icons/IconArrowRightShort';
 
 const iconSize = "30";
 
-export default function Footer( { mobile } ) {
+export default function Footer( { mobile, windowWidth } ) {
     return (
         <div className="container font-domine">
             <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 mb-3 border-top">

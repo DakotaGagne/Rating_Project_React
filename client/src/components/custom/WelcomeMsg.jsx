@@ -10,7 +10,7 @@ import { Container } from "react-bootstrap";
 import authenticate from '../../utils/authenticate';
 import { usernameFormatter } from '../../utils/formatting';
 
-export default function WelcomeMsg({ user, mobile }) {
+export default function WelcomeMsg( { user, mobile, windowWidth } ) {
     const [username, setUsername] = useState("");
     if(user)authenticate().then((data) => {setUsername(usernameFormatter(data.user.username, false))});
 

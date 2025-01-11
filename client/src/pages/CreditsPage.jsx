@@ -18,12 +18,12 @@ import Footer from "../components/bootstrap/Footer";
 
 
 
-export default function CreditsPage( { darkMode, user, mobile } ) {
+export default function CreditsPage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
-            <Header page="Credits" darkMode={darkMode} user={user} mobile={mobile} />
-            <Credits user={user} mobile={mobile} />
-            <Footer mobile={mobile} />
+            <Header page="Credits" darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Credits user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Footer mobile={mobile} windowWidth={windowWidth} />
         </div>
     );
 }
