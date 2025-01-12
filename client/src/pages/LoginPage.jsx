@@ -12,18 +12,21 @@ Props:
     - mobile: boolean value that determines if the screen size is mobile or not
 */
 import React from 'react';
-import LoginRegister from "../components/custom/LoginRegister";
-import Header from "../components/bootstrap/Header";
-import Footer from "../components/bootstrap/Footer";
+import LoginRegister from "../components/bodies/LoginRegister";
+import Container from 'react-bootstrap/Container';
+import Header from "../components/wrappers/Header";
+import Footer from "../components/wrappers/Footer";
 
 
 
 export default function LoginPage( { darkMode, user, mobile, windowWidth } ) {
     return (
-        <div>
-        <Header page="Login" post={{uid:1}} darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
-        <LoginRegister darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
-        <Footer mobile={mobile} windowWidth={windowWidth} />
+        <div style={{minHeight: "100vh"}}>
+            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Container>
+                <LoginRegister darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            </Container>
+            <Footer darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
         </div>
     ); 
 }

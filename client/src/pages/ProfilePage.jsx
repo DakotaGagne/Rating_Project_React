@@ -12,18 +12,21 @@ Props:
     - mobile: boolean specifying if the current device is a mobile device
 */
 import React from 'react';
-import Header from "../components/bootstrap/Header";
-import Profile from "../components/custom/Profile";
-import Footer from "../components/bootstrap/Footer";
+import Container from 'react-bootstrap/Container';
+import Header from "../components/wrappers/Header";
+import Profile from "../components/bodies/Profile";
+import Footer from "../components/wrappers/Footer";
 
 
 
 export default function ProfilePage( { darkMode, user, mobile, windowWidth } ) {
     return (
-        <div>
-            <Header page="Profile" darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
-            <Profile darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
-            <Footer mobile={mobile} windowWidth={windowWidth} />
+        <div style={{minHeight: "100vh"}}>
+            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Container>
+                <Profile darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            </Container>
+            <Footer darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
         </div>
     ); 
 }

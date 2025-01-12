@@ -13,20 +13,21 @@ Props:
     - mobile: boolean value specifying if the current screen size is mobile or not
 */
 import React from 'react';
-import Posts from "../components/custom/Posts";
-import Header from "../components/bootstrap/Header";
-import Footer from "../components/bootstrap/Footer";
-import WelcomeMsg from "../components/custom/WelcomeMsg";
+import Container from 'react-bootstrap/Container';
+import Posts from '../components/bodies/Posts'
+import Header from '../components/wrappers/Header';
+import Footer from '../components/wrappers/Footer';
 
 
 
 export default function MainPage( { darkMode, user, mobile, windowWidth } ) {
     return (
-        <div>
-            <Header page="Home" darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
-            <WelcomeMsg user={user} mobile={mobile} windowWidth={windowWidth} />
-            <Posts darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
-            <Footer mobile={mobile} windowWidth={windowWidth} />
+        <div style={{minHeight: "100vh"}}>
+            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Container>
+                <Posts darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
+            </Container>
+            <Footer darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
         </div>
     );
 }

@@ -11,10 +11,10 @@ Props:
     - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
 */
 import React, { useState, useEffect } from 'react';
-import PostHorizontal from '../material-ui/PostHorizontal';
-import PostVertical from '../material-ui/PostVertical';
-import { Card } from 'react-bootstrap';
-import { Container, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import PostHorizontal from '../posts/PostHorizontal';
+import PostVertical from '../posts/PostVertical';
 import authenticate from '../../utils/authenticate';
 
 
@@ -25,12 +25,13 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
     const [highlightedPost, setHighlightedPost] = useState(1);
     const [postClicked, setPostClicked] = useState(false);
     const dblClickTimeout = 500;
+    const horizPostMin = 1400; // Used for determining if Horizontal Posts should be displayed
 
     // useEffect Hooks
 
     useEffect(() => {
             // Redirect to login page with error if not logged in
-            if(user==false)window.location.href="/login#error";
+            if(user==false)navigate("/login#error");
     }, [user])
     
 
@@ -72,34 +73,25 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
         if(postClicked&&val==highlightedPost){
             // Double Click
             console.log("Double Clicked");
-            window.location.href=`/create#edit=${val}`;
+            navigate(`/create#edit=${val}`);
         } else {
             setPostClicked(true);
         }
     }
 
     return (
-        <Container fluid>
+        <Container fluid className="font-domine">
             <Row className="pt-4">
                 <Col xs={12} className="text-center">
-                    <h1>{"Profile Page"}</h1>
+                    <h1 className="fw-bolder">{"Profile Page"}</h1>
                 </Col>
                 <Col xs={12} className="text-center">
-                    <p className="border-bottom pb-2">{"Below is all of your posts that you have made. If you double click on any posts, you can edit or delete them!"}</p>
+                    <p className="border-bottom pb-2 fs-4">Below is all of your posts that you have made. If you <b><i>'double click'</i></b> on any posts, you can edit or delete them!</p>
                 </Col>
             </Row>
             {posts.length>0?
-                mobile?
-                <Row>
-                    <Col lg={2} md={3}></Col>
-                    <Col lg={8} md={6}>
-                        {posts.map((post, index) => {
-                            return <PostVertical darkMode={darkMode} highlightedPost={highlightedPost} setHighlightedPost={updateHighlightedPost} post={post} key={index}/>
-                        })}
-                    </Col>
-                    <Col lg={2} md={3}></Col>
-                </Row>
-                :   
+                !mobile&&windowWidth>=horizPostMin?
+                // Desktop Mode, Horizontal Posts
                 <Row>
                     <Col lg={2} md={3}></Col>
                     <Col lg={8} md={6}>
@@ -108,6 +100,17 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
                         })}
                     </Col>
                     <Col lg={2} md={3}></Col>
+                </Row>
+                :   
+                // Mobile Mode, Vertical Posts
+                <Row>
+                    <Col lg={2} md={0}></Col>
+                    <Col lg={8} md={12}>
+                        {posts.map((post, index) => {
+                            return <PostVertical darkMode={darkMode} highlightedPost={highlightedPost} setHighlightedPost={updateHighlightedPost} post={post} key={index}/>
+                        })}
+                    </Col>
+                    <Col lg={2} md={0}></Col>
                 </Row>
                 :null
                 

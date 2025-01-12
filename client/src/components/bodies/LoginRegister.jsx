@@ -11,14 +11,13 @@ Props:
     - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
 */
 import React, {useState, useEffect} from "react";
-import {Container, Col, Row} from "react-bootstrap";
-import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
-import Form from 'react-bootstrap/Form';
+import { useNavigate, useLocation } from "react-router-dom";
+import {Container, Col, Row, Button, Alert, Form} from "react-bootstrap";
 import Cookies from 'js-cookie';
 import IconGithub from "../icons/IconGithub";
 import IconGoogle from "../icons/IconGoogle";
 import IconBxMessageSquareEdit from "../icons/IconBxMessageSquareEdit";
+import { clean } from 'profanity-cleaner';
 
 
 
@@ -35,17 +34,22 @@ export default function LoginRegister( { darkMode, user, mobile, windowWidth } )
     const pass_range = [8, 50];
     // Form data (same for register and login, but login ignores confirmPassword)
     const [formData, setFormData] = useState({username: "", password: "", confirmPassword: ""});
+    // Function to redirect to a different page
+    const navigate = useNavigate();
+    // Get the current URL location
+    const location = useLocation();
 
     // Clear errors and successes after a certain amount of time
     useEffect(() => {if(error!="")setTimeout(() => setError(""), errorTimeout)}, [error])
-    useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), successTimeout)}, [success])
-    // Check if user was force redirected to login. If so, display error message
-    useEffect(() => {window.location.hash=="#error"&&setError("You must be logged in first!")}, [])
+        useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), successTimeout)}, [success])
+            // Check if user was force redirected to login. If so, display error message
+    useEffect(() => {location.hash=="#error"&&setError("You must be logged in first!")}, [])
     // Check if user is already logged in. If so, redirect to home screen
-    useEffect(() => {if(user)setError(`Already Signed in. Redirecting to Home Screen...`),setTimeout(() => window.location.href='/', errorTimeout/2);}, [user])
-    
+    useEffect(() => {if(user)setError(`Already Signed in. Redirecting to Home Screen...`),setTimeout(() => navigate('/'), errorTimeout/2);}, [user])
+        
     // Helper Functions
     const updateFormData = (e) => setFormData({...formData, [e.target.name]: e.target.value});
+        
 
     function checkFormData(){
         // Check if form data is valid. If not, return error message
@@ -53,6 +57,7 @@ export default function LoginRegister( { darkMode, user, mobile, windowWidth } )
         if(formData.username==""||formData.password=="")err="Must fill out all fields";
         else if(formData.username.length<user_range[0])err=`Username must be at least ${user_range[0]} characters`;
         else if(formData.username.length>user_range[1])err=`Username cannot exceed ${user_range[1]} characters`;
+        else if(!loginMode&&clean(formData.username)!=formData.username)err="Username contains inappropriate language!";
         else if(formData.password.length<pass_range[0])err=`Password must be at least ${pass_range[0]} characters`;
         else if(formData.password.length>pass_range[1])err=`Password cannot exceed ${pass_range[1]} characters`;
         else if(!loginMode&&formData.password!=formData.confirmPassword)err="Passwords do not match";
@@ -86,7 +91,7 @@ export default function LoginRegister( { darkMode, user, mobile, windowWidth } )
                 if(loginMode){
                     Cookies.set('localUserJWT', data);
                     setSuccess(`Welcome ${formData.username}! Redirecting...`);
-                    setTimeout(() => window.location.href='/', successTimeout);
+                    setTimeout(() => navigate('/'), successTimeout);
                 } else {
                     setSuccess("Account created! Try Logging in...");
                     setTimeout(() => setLoginMode(true), successTimeout/3);
@@ -104,7 +109,8 @@ export default function LoginRegister( { darkMode, user, mobile, windowWidth } )
     return (
         <Container
             fluid
-            className={`d-flex flex-column my-5 justify-content-center`} 
+            className={`d-flex flex-column my-5 font-domine`}
+            style={{minHeight:"75vh"}}
         >
             {/* Alerts */}
             {success!=""&&<Alert className="position-fixed alert-fixed my-3" variant="info" onClose={() => setSuccess("")} dismissible>
@@ -113,12 +119,12 @@ export default function LoginRegister( { darkMode, user, mobile, windowWidth } )
             {error!=""&&<Alert className="position-fixed alert-fixed my-3" variant="danger" onClose={() => setError("")} dismissible>
                 <Alert.Heading>{error}</Alert.Heading>
             </Alert>}
-            <Row>
+            <Row className="my-5 d-flex">
                 <Col xs={0} lg={4}></Col>
                 <Col xs={12} lg={4} className={`border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`}>
                     {/* Login / Register Form */}
                     <div className="p-3"></div>
-                    <h1 className="text-center"><IconBxMessageSquareEdit className="h-100 align-bottom me-1" />{loginMode?"Login":"Register"}</h1>
+                    <h1 className="text-center"><IconBxMessageSquareEdit className="h-100 me-1 mb-2" />{loginMode?"Login":"Register"}</h1>
                     {loginMode&&<p className="text-center">Welcome back! Please login to continue</p>}
                     {!loginMode&&<p className="text-center">Welcome! Register Below.</p>}
                     {!loginMode&&<Alert variant="warning" className="text-center">Please note that this is a personal project and while account security is prioritized, please do not use any real usernames or passwords.</Alert>}

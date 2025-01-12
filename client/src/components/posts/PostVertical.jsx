@@ -19,7 +19,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 
-export default function PostVertical( { darkMode, post, highlightedPost, setHighlightedPost } ) {
+export default function PostVertical( { darkMode, post, highlightedPost, setHighlightedPost, mediaDetails } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
@@ -40,7 +40,7 @@ export default function PostVertical( { darkMode, post, highlightedPost, setHigh
   }
 
   let filter = ""
-  if(highlightedPost){
+  if(highlightedPost&&mediaDetails){
     if(post.id==highlightedPost&&darkMode.get){
       filter = "lighten";
     } else if(post.id==highlightedPost&&!darkMode.get){
@@ -52,7 +52,7 @@ export default function PostVertical( { darkMode, post, highlightedPost, setHigh
   return (
       <Container
        fluid 
-       className={`my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+       className={`my-5 justify-content-center border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"} ${filter}`} 
        styles={{width:"min-content", height:"min-content"}}
        onClick={()=>setHighlightedPost(post.id)}
       >

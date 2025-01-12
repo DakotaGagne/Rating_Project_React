@@ -15,17 +15,17 @@ Props:
 */
 
 import React, {useState, useEffect} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import PosterImage from "../material-ui/PosterImage";
-import Button from 'react-bootstrap/Button';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import {Container, Col, Row} from "react-bootstrap";
-import Alert from 'react-bootstrap/Alert';
-import PostHorizontal from "../material-ui/PostHorizontal";
 import { LinearProgress } from "@mui/material";
-import Form from 'react-bootstrap/Form';
+import {Container, Col, Row, Form, Button, Alert} from "react-bootstrap";
+import PosterImage from "../posts/PosterImage";
+import PostHorizontal from "../posts/PostHorizontal";
+import PostVertical from "../posts/PostVertical";
 import authenticate from "../../utils/authenticate";
 import postManipulation from "../../utils/post-management";
+import { clean } from 'profanity-cleaner';
 
 
 
@@ -59,14 +59,35 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
     const [progressBarColor, setProgressBarColor] = useState("info"); // The color of the progress bar in the form
 
+    const [mobileMode, setMobileMode] = useState(mobile); // If user on mobile or width is less than minimum width
+
     // Form input ranges
     const title_range = [5, 50];
     const content_range = [75, 800];
 
+    // Window Width Minimum for displaying the poster image
+    const windowWidthMin = 992;
 
     // Specifically used to enable light and dark mode in the rating component
     const theme = createTheme({palette:{mode: darkMode.get?"dark":"light"}});
+
+    // Function to set the current URL location
+    const navigate = useNavigate();
+    // Current URL location
+    const location = useLocation();
     
+    // Profanity exceptions
+    const wordExceptions = ["poop", "hell", "xxx", "crap"]; 
+    
+
+    useEffect(() => {
+        // Set to mobileMode if the user is on mobile or the window width is less than the minimum width
+        if(windowWidthMin){
+            setMobileMode(mobile||windowWidth<windowWidthMin);
+        } else {
+            setMobileMode(mobile);
+        }
+    }, [mobile, windowWidth])
 
     useEffect(() => {
         // Set the progress bar color based on the length of the post content
@@ -81,10 +102,9 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
         // Check for edit mode
         // Called only on page load
         // If edit mode, fetch the post to be edited and populate the form with its data
-        const hash = window.location.hash;
+        const hash = location.hash;
         if(hash.includes("edit")){
             setEditMode(true);
-            console.log("Edit Mode");
             let editId = parseInt(hash.split("=")[1]);
             if (editId) {
                 // Confirm authentication, use the user id to get the post data
@@ -101,7 +121,6 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                     .then(res => {if(res.ok)return res.json(); else throw new Error("Network response was not ok")})
                     .then(data => {
                         let post = data.post;
-                        console.log("Post to Edit", post);
                         setPostToEdit(post);
                         setNewPost({
                             mediaType: post.media_type,
@@ -126,7 +145,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
     useEffect(() => {
         // Redirect to login page with error if not logged in
-        if(user==false)window.location.href="/login#error";
+        if(user==false)navigate("/login#error");
     }, [user])
 
     function updateSelectedAPI(e){
@@ -175,7 +194,11 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
     function checkForm(){
         // Checks that all form fields are filled out correctly, if not adds the errors to the error var
-        if(searchResults.length>=selectedAPI&&
+        // Profanity checker
+        let profanity = false;
+        if(clean(newPost.postTitle, {exceptions: wordExceptions})!=newPost.postTitle)profanity=true;
+        if(clean(newPost.postContent, {exceptions: wordExceptions})!=newPost.postContent)profanity=true;
+        if(!profanity&&searchResults.length>=selectedAPI&&
             selectedAPI>=0&&
             newPost.postTitle.length>=title_range[0]&&
             newPost.postTitle.length<=title_range[1]&&
@@ -185,7 +208,8 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
             return true;
         }
         let errors = "";
-        if(searchResults.length<selectedAPI||selectedAPI<0)errors="No media selected!";
+        if(profanity)errors="Profanity detected! Please remove and try again!";
+        else if(searchResults.length<selectedAPI||selectedAPI<0)errors="No media selected!";
         else if(newPost.postTitle.length<=0)errors="No post title!";
         else if(newPost.postContent.length<=0)errors="No post content!";
         else if(newPost.postTitle.length<title_range[0]||newPost.postTitle.length>title_range[1])errors=`Post title must be between ${title_range[0]} and ${title_range[1]} characters!`;
@@ -214,7 +238,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
 
     return (
-        <div>
+        <div className="font-domine" style={{minHeight:"80vh"}}>
         {success!=""&&<Alert className="position-fixed alert-fixed my-3" variant="info" onClose={() => setSuccess("")} dismissible>
             <Alert.Heading>{success}</Alert.Heading>
                
@@ -222,35 +246,55 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
         {error!=""&&<Alert className="position-fixed alert-fixed my-3" variant="danger" onClose={() => setError("")} dismissible>
             <Alert.Heading>{error}</Alert.Heading>
         </Alert>}
-        {postToEdit!=null&&<Container>
+        {postToEdit!=null&&<Container className={`d-flex flex-column my-5 justify-content-center ${!mobileMode&&"border border-3 rounded border-secondary"} ${!mobileMode?darkMode.get?"card-shadow-l":"card-shadow-d":""} ${darkMode.get?"text-light bg-dark":"bg-light text-dark"}`} >
             <Row>
                 <Col lg={2} md={3} /><Col lg={8} md={6}>
                     {/* Post Example if in Edit Mode */}
+                    { mobileMode?
+                    // Mobile Mode
+                    <PostVertical darkMode={darkMode} post={postToEdit} mobile={mobile} windowWidth={windowWidth} />
+                    :
+                    // Desktop Mode
                     <PostHorizontal darkMode={darkMode} post={postToEdit} mobile={mobile} windowWidth={windowWidth} />
-                </Col><Col lg={2} md={3} />
+                    }
+                    </Col><Col lg={2} md={3} />
             </Row>
         </Container>}
         <Container
             fluid
             className={`d-flex flex-column my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+            style={{
+                backgroundImage: mobileMode&&apiInputLabel.poster_path?`url(${apiInputLabel.poster_path})`:"",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat"
+            }}
         >
-            <Row>
-                <Col md={8}>
+            <Row
+                style={{backgroundColor: mobileMode&&apiInputLabel.poster_path?"rgba(0,0,0,0.75)":""}}
+            >
+                <Col lg={8}>
                     {/* Main Body of input */}                    
                     <Row className="mt-3">
                         {/* Page Title */}
                         <h1>{`${editMode?"Edit":"Create"} Post`}</h1>
                     </Row>
                     {/* Page Description */}
-                    {!editMode&&<Row><p>{`Enter the title for the media, select the correct Movie/TV from the list, then add your title, rating, and post content!`}</p></Row>}
-                    {editMode&&<Row><p>{`Your current post is displayed above, make any changes below and press 'Update Post' to submit changes!`}<br/>{`Alternatively, you can delete the post with the 'Delete Post' button below!`}</p></Row>}
+                    {!editMode&&<Row>
+                        <p className="fs-5">
+                            Enter the title for the Movie/Tv Show, select the correct one from the list, then add your title, rating, and post content!
+                        </p></Row>}
+                    {editMode&&<Row>
+                        <p className="fs-5">
+                            Your current post is displayed above, make any changes below and press 'Update Post' to submit changes!<br/>Alternatively, you can delete the post with the 'Delete Post' button below!
+                        </p></Row>}
                     
                     <Form>
                         <Row>
                             <Col md={6}>
                                 {/* Media Name */}
                                 <Form.Group>
-                                    <Form.Label><b>Media Name</b></Form.Label>
+                                    <Form.Label className="fs-4 fw-bold">Movie/TV Name</Form.Label>
                                     <Form.Control
                                         className={`h-100 w-100`}
                                         size="lg"
@@ -258,19 +302,21 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                                         value={newPost.mediaTitle} 
                                         onChange={updateNewPost}
                                         placeholder="Search for Media..."
+                                        style={{opacity:mobileMode&&apiInputLabel.poster_path?0.75:1}}
                                     />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 {/* Dropdown Selector */}
                                 <Form.Group>
-                                    <Form.Label><b>Select Media</b></Form.Label>
+                                    <Form.Label className="fs-4 fw-bold">Select Movie/TV</Form.Label>
                                     <Form.Select
                                         className={`h-100 w-100`}
                                         name="apiSelect"
                                         size="lg"
                                         value={apiInputLabel.index}
                                         onChange={updateSelectedAPI}
+                                        style={{opacity:mobileMode&&apiInputLabel.poster_path?0.75:1}}
                                     >
                                         {searchResults.map((val, index) => {
                                         return <option key={index} value={index} onChange={updateSelectedAPI}>{`${val.title} ${val.release_date.substring(0,4)}`}</option>
@@ -283,7 +329,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                             <Col md={4}>
                                 {/* Post Title */}
                                 <Form.Group>
-                                    <Form.Label><b>Post Title</b></Form.Label>
+                                    <Form.Label className="fs-4 fw-bold">Post Title</Form.Label>
                                     <Form.Control 
                                         className={`h-100 w-100`}
                                         size="lg"
@@ -293,13 +339,14 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                                         value={newPost.postTitle}
                                         onChange={updateNewPost}
                                         onKeyDown={checkSubmit}
+                                        style={{opacity:mobileMode&&apiInputLabel.poster_path?0.75:1}}
                                     />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 {/* Post Rating */}
                                 <Form.Group>
-                                    <Form.Label><b>Rating</b></Form.Label>
+                                    <Form.Label className="fs-4 fw-bold">Rating</Form.Label>
                                     <br/>
                                     <ThemeProvider theme={theme}>
                                         <Rating
@@ -319,7 +366,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                                     <Form.Label><b>Post Content</b></Form.Label>
                                     <Form.Control
                                         className={`w-100 h-100 mb-2`}
-                                        style={{resize: "none"}}
+                                        style={{resize: "none", opacity:mobileMode&&apiInputLabel.poster_path?0.75:1}}
                                         value={newPost.postContent}
                                         placeholder="What did you think of it?"
                                         onChange={updateNewPost}
@@ -350,12 +397,15 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                         </Row>
                     </Form>
                 </Col>
+                {!mobileMode&&
+                // Desktop Mode
                 <Col md={4}>
                     {/* Poster */}
                     <PosterImage url={apiInputLabel.poster_path} darkMode={darkMode} create={true}/>
                 </Col>
+                }
             </Row>
         </Container>
-    </div>
+        </div>
     );
 }

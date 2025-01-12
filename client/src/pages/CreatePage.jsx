@@ -13,20 +13,21 @@ Props:
     - mobile: boolean value that determines if the screen size is mobile or not
 */
 import React from 'react';
-import CreatePost from "../components/custom/CreatePost";
-import Header from "../components/bootstrap/Header";
-import Footer from "../components/bootstrap/Footer";
-import WelcomeMsg from "../components/custom/WelcomeMsg";
+import CreatePost from "../components/bodies/CreatePost";
+import Container from 'react-bootstrap/Container';
+import Header from "../components/wrappers/Header";
+import Footer from "../components/wrappers/Footer";
 
 
 
-export default function CreatePage({ darkMode, user, mobile, windowWidth }) {
+export default function CreatePage( { darkMode, user, mobile, windowWidth } ) {
     return (
-        <div>
-            <Header page="Create" darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
-            <WelcomeMsg user={user} mobile={mobile} windowWidth={windowWidth} />
-            <CreatePost darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
-            <Footer mobile={mobile} windowWidth={windowWidth} />
+        <div style={{minHeight: "100vh"}}>
+            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Container>
+                <CreatePost darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            </Container>
+            <Footer darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
         </div>
     ); 
 }

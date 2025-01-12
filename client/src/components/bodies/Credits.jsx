@@ -1,15 +1,14 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { Card } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
 
 
-export default function Credits( {user, mobile} ) {
+export default function Credits( { user, mobile } ) {
     return (
         <Container>
             <Row>
-                <Col xs={0} md={3}></Col>
-                <Col xs={12} md={6}>
+                <Col xs={0} md={2}></Col>
+                <Col xs={12} md={8}>
                     <Card className="p-3 my-5">
                         <Card.Body>
                             <Card.Title className="fs-1">Ratingly Project Credits</Card.Title>
@@ -46,7 +45,7 @@ export default function Credits( {user, mobile} ) {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col xs={0} md={3}></Col>
+                <Col xs={0} md={2}></Col>
             </Row>
         </Container>
     )

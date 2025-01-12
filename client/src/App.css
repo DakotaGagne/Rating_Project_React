@@ -1,14 +1,9 @@
 /* CSS that affects the App only */
 /* The hexadecimal color value for Bootstrap's bg-dark class is #343a40 */
 
-.app {
-  text-align: center;
-  width: 100%;
-}
-
-.App-Header {
-  margin: 10px;
-  padding: 10px;
+/* Font */
+.font-domine {
+  font-family: 'Domine', serif;
 }
 
 /* BG Classes */
@@ -27,6 +22,13 @@
   width: 25%;
   height: 25%;
   aspect-ratio: 2/3;
+}
+
+/* Mobile Mode Image  */
+.img-bg-mobile {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
 }
 
 /* Box Shadow Classes */
@@ -65,21 +67,13 @@
 }
 
 .alert-fixed {
-  top: 0%;
+  top: 10%;
   left: 50%;
   min-width: min-content;
   max-width: max-content;
   transform: translateX(-50%);
-  font-size: large;
   text-align: center;
   z-index: 999;
-}
-
-@media screen and (max-width: 576px) {
-  /* CSS for screens that are 576px or less */
-  .alert-fixed {
-    width: 100%;
-  }
 }
 
 /*

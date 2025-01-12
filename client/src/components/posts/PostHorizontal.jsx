@@ -16,12 +16,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
 import Rating from "@mui/material/Rating";
-import PosterImage from "./PosterImage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import PosterImage from "./PosterImage";
 
 
 
-export default function PostHorizontal( { darkMode, post, highlightedPost, setHighlightedPost } ) {
+export default function PostHorizontal( { darkMode, post, highlightedPost, setHighlightedPost, mediaDetails } ) {
   
   let api_data = post.api_data?JSON.parse(post.api_data):{};
   
@@ -34,7 +34,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
 
   // Filter to apply to the poster image if the post is the highlighted post (CSS class)
   let filter = ""
-  if(highlightedPost){
+  if(highlightedPost&&mediaDetails){
     if(post.id==highlightedPost&&darkMode.get){
       filter = "lighten";
     } else if(post.id==highlightedPost&&!darkMode.get){
@@ -44,7 +44,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
 
   return (
     <Card
-      className={`d-flex my-5 border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark":"bg-light text-dark"} ${filter}`}
+      className={`d-flex my-5 border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark":"bg-light text-dark"} ${filter}`}
       onClick={() => {setHighlightedPost(post.id)}}
     >
       <CardContent sx={{ pr: 2 }} className='p-2'>

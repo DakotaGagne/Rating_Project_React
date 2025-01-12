@@ -19,7 +19,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 
-export default function MediaDetails( { darkMode, post } ) {
+export default function MediaDetails( { darkMode, post, smallMode } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
@@ -41,7 +41,8 @@ export default function MediaDetails( { darkMode, post } ) {
 
   function formattedOverview(overview){
     // Function to format the overview text to a specific character limit
-    const charLimit = 250;
+    let charLimit = 250;
+    if(smallMode)charLimit = 150;
     if (overview){
       if (overview.length > charLimit)return overview.substring(0,charLimit) + "...";
       return overview;
@@ -53,8 +54,8 @@ export default function MediaDetails( { darkMode, post } ) {
   return (
       <Container
        fluid 
-       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
-       style={{height:"90vh", top:"5vh"}}
+       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+       style={{height:"90vh", top:"10vh"}}
       >
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
@@ -106,7 +107,7 @@ export default function MediaDetails( { darkMode, post } ) {
                     size={"medium"}
                     precision = {0.1}
                     readOnly
-                    sx={{ verticalAlign: "text-top" }}
+                    sx={{ verticalAlign: "text-bottom" }}
                   />
                 </ThemeProvider>
               </Box>
