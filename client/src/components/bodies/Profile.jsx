@@ -26,6 +26,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
     const [postClicked, setPostClicked] = useState(false);
     const dblClickTimeout = 500;
     const horizPostMin = 1400; // Used for determining if Horizontal Posts should be displayed
+    const navigate = useNavigate();
 
     // useEffect Hooks
 
