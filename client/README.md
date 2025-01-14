@@ -67,4 +67,4 @@ This could easily get to be too much work and perfectionism etc, so here is what
 - Rating
 - Content
 
-#### Need to change the icon for the tab thing
+#### Need to add a delete account button to the profile page
