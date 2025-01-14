@@ -10,11 +10,12 @@ Component is updated when the post state is updated
 Props:
     - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - post: The post object containing the media item details. (post is an object)
+    - highlightedPost: The id of the post that is currently highlighted. (highlightedPost is a string)
+    - setHighlightedPost: Function to set the highlighted post. (setHighlightedPost is a function)
+    - mediaDetails: The details of the media item. (mediaDetails is an object)
 */
 import React from "react";
-import Box from "@mui/material/Box";
-import Rating from "@mui/material/Rating";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Box, Rating, ThemeProvider, createTheme } from "@mui/material";
 import { Container, Row, Col } from 'react-bootstrap';
 
 
@@ -22,13 +23,13 @@ import { Container, Row, Col } from 'react-bootstrap';
 export default function PostVertical( { darkMode, post, highlightedPost, setHighlightedPost, mediaDetails } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
-
   // Create a theme object for the material ui components (Rating component specifically)
   const theme = createTheme({
       palette: {
           mode: darkMode.get?"dark":"light"
       }
   });
+
 
   function formattedURL(url){
     // Function to format the URL of the poster image
@@ -38,6 +39,7 @@ export default function PostVertical( { darkMode, post, highlightedPost, setHigh
     }
     return url;
   }
+
 
   let filter = ""
   if(highlightedPost&&mediaDetails){

@@ -18,6 +18,8 @@ export default function PosterImage( { url, darkMode, create } ) {
         if(darkMode.get)url="../../../public/poster_not_found_dark.jpg";
         else url="../../../public/poster_not_found_light.jpg";
     }
+
+    
     return (
         <CardMedia
             image={url}

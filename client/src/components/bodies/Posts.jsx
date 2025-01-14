@@ -6,6 +6,7 @@ Clicking on a post will display the details of the post on the left side of the 
 Props:
     - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
+    - windowWidth: The current width of the window. Used to determine the layout of the page.
 */
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -63,7 +64,7 @@ export default function Posts( { darkMode, mobile, windowWidth } ){
                 // Desktop Small Mode, Media Details on Left (5), Vert Posts on Right (7)
                 <Row>
                     <Col lg={5}>
-                        {posts.length>0&&<MediaDetails smallMode={true} darkMode={darkMode} post={posts.find(post => post.id==highlightedPost)} id={highlightedPost} mobile={mobile} windowWidth={windowWidth} />}
+                        {posts.length>0&&<MediaDetails darkMode={darkMode} post={posts.find(post => post.id==highlightedPost)} id={highlightedPost} mobile={mobile} windowWidth={windowWidth} />}
                     </Col>
                     <Col lg={7}>
                         {posts.map((post, index) => {

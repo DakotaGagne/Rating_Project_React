@@ -1,9 +1,16 @@
+/*
+Component that displays the main body of the credits page. 
+This is a simple organized list of the credits for the project, including contributions, technologies, design, API, and other dependencies.
+It also includes links to the personal portfolio, GitHub repository, and other general links for the technologies used in the project.
+
+Props: None
+*/
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 
 
 
-export default function Credits( { user, mobile } ) {
+export default function Credits() {
     return (
         <Container>
             <Row>
@@ -12,6 +19,9 @@ export default function Credits( { user, mobile } ) {
                     <Card className="p-3 my-5">
                         <Card.Body>
                             <Card.Title className="fs-1">Ratingly Project Credits</Card.Title>
+                            <hr/>
+                            <Card.Title className="fs-3">Problems/Questions/Concerns?</Card.Title>
+                            <Card.Text>If you are having any account or post issues, concerns, or other issues, you may reach me at <a href="mailto:dakotaevan10@gmail.com">dakotaevan10@gmail.com</a>. I recommend you make the Subject <i>"Ratingly Website Issue/Question!"</i></Card.Text>
                             <hr/>
                             <Card.Title className="fs-3">Contributions</Card.Title>
                             <Card.Text>This project was created solely by Dakota Gagne. While testing and suggestions were aided by friends and family, the development, design, and programming was made by me.</Card.Text>

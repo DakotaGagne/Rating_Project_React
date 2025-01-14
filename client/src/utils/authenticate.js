@@ -22,7 +22,8 @@ export default function authenticate(setUser=null){
     })
     .then(res => {
         if(res.status===200)return res.json();
-        throw new Error("User not authenticated with Oauth");
+        if(res.status===401)throw new Error("User not authenticated");
+        throw new Error("An unknown error occurred: " + res);
     })
     .then(data => {
         // Data contains the user data stored in the database

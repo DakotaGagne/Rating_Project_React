@@ -8,7 +8,6 @@ The search results are fetched from the TMDB Public API when the media name inpu
 Props:
     - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - user: The current user of the website (false or string of type ["github", "google", "local"]). Used to determine if the user is logged in.
-    - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
 */
 import React, {useState, useEffect} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -21,7 +20,7 @@ import { clean } from 'profanity-cleaner';
 
 
 
-export default function LoginRegister( { darkMode, user, mobile, windowWidth } ) {
+export default function LoginRegister( { darkMode, user } ) {
     // If true, display login form. If false, display register form
     const [loginMode, setLoginMode] = useState(true);
     // Error and Success messages, and their respective timeouts
@@ -41,8 +40,8 @@ export default function LoginRegister( { darkMode, user, mobile, windowWidth } )
 
     // Clear errors and successes after a certain amount of time
     useEffect(() => {if(error!="")setTimeout(() => setError(""), errorTimeout)}, [error])
-        useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), successTimeout)}, [success])
-            // Check if user was force redirected to login. If so, display error message
+    useEffect(() => {if(success!="")setTimeout(() => setSuccess(""), successTimeout)}, [success])
+    // Check if user was force redirected to login. If so, display error message
     useEffect(() => {location.hash=="#error"&&setError("You must be logged in first!")}, [])
     // Check if user is already logged in. If so, redirect to home screen
     useEffect(() => {if(user)setError(`Already Signed in. Redirecting to Home Screen...`),setTimeout(() => navigate('/'), errorTimeout/2);}, [user])
@@ -90,9 +89,11 @@ export default function LoginRegister( { darkMode, user, mobile, windowWidth } )
             .then(data => {
                 if(loginMode){
                     Cookies.set('localUserJWT', data);
+                    setError("");
                     setSuccess(`Welcome ${formData.username}! Redirecting...`);
-                    setTimeout(() => navigate('/'), successTimeout);
+                    setTimeout(() => window.location.href='/', successTimeout);
                 } else {
+                    setError("");
                     setSuccess("Account created! Try Logging in...");
                     setTimeout(() => setLoginMode(true), successTimeout/3);
                 }

@@ -9,14 +9,12 @@ The component will also apply a filter to the poster image if the post is the hi
 Props:
     - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - post: The post object containing the media item details. (post is an object)
+    - highlightedPost: The id of the highlighted post. (highlightedPost is a number)
+    - setHighlightedPost: Function to set the highlighted post. (setHighlightedPost is a function)
+    - mediaDetails: The media details object containing the media item details. (mediaDetails is an object)
 */
 import React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Divider from "@mui/material/Divider";
-import Rating from "@mui/material/Rating";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {Box, Card, CardContent, Divider, Rating, ThemeProvider, createTheme } from "@mui/material";
 import PosterImage from "./PosterImage";
 
 
@@ -24,14 +22,12 @@ import PosterImage from "./PosterImage";
 export default function PostHorizontal( { darkMode, post, highlightedPost, setHighlightedPost, mediaDetails } ) {
   
   let api_data = post.api_data?JSON.parse(post.api_data):{};
-  
   // Dark mode theme for the rating component
   const theme = createTheme({
       palette: {
           mode: darkMode.get?"dark":"light"
       }
   });
-
   // Filter to apply to the poster image if the post is the highlighted post (CSS class)
   let filter = ""
   if(highlightedPost&&mediaDetails){
@@ -42,6 +38,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
     }
   }
 
+  
   return (
     <Card
       className={`d-flex my-5 border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark":"bg-light text-dark"} ${filter}`}

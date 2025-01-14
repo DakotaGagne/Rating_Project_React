@@ -16,16 +16,14 @@ Props:
 
 import React, {useState, useEffect} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Rating from "@mui/material/Rating";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { LinearProgress } from "@mui/material";
+import { ThemeProvider, createTheme, Rating, LinearProgress } from "@mui/material";
 import {Container, Col, Row, Form, Button, Alert} from "react-bootstrap";
+import { clean } from 'profanity-cleaner';
 import PosterImage from "../posts/PosterImage";
 import PostHorizontal from "../posts/PostHorizontal";
 import PostVertical from "../posts/PostVertical";
 import authenticate from "../../utils/authenticate";
 import postManipulation from "../../utils/post-management";
-import { clean } from 'profanity-cleaner';
 
 
 
@@ -82,11 +80,8 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
     useEffect(() => {
         // Set to mobileMode if the user is on mobile or the window width is less than the minimum width
-        if(windowWidthMin){
-            setMobileMode(mobile||windowWidth<windowWidthMin);
-        } else {
-            setMobileMode(mobile);
-        }
+        if(windowWidthMin)setMobileMode(mobile||windowWidth<windowWidthMin);
+        else setMobileMode(mobile);
     }, [mobile, windowWidth])
 
     useEffect(() => {

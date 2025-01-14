@@ -10,6 +10,7 @@ Props:
     - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - user: either false or a string specifying the login type (local, google, github) of the current user
     - mobile: boolean value that determines if the screen size is mobile or not
+    - windowWidth: the current width of the window
 */
 import React from 'react';
 import LoginRegister from "../components/bodies/LoginRegister";
@@ -21,10 +22,10 @@ import Footer from "../components/wrappers/Footer";
 
 export default function LoginPage( { darkMode, user, mobile, windowWidth } ) {
     return (
-        <div style={{minHeight: "100vh"}}>
+        <div>
             <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
             <Container>
-                <LoginRegister darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+                <LoginRegister darkMode={darkMode} user={user} />
             </Container>
             <Footer darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
         </div>

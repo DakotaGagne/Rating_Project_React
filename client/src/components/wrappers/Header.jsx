@@ -2,7 +2,6 @@
 Component that displays the header of the website. The header contains the website name, a navigation bar, and a dropdown to change to dark and light theme.
 The navigation bar contains links to the home page, login/register page, profile page, create post page, credits, and a logout button.
 Props:
-    - page: The current page of the website (string). Used to highlight the current page in the navigation bar.
     - darkMode: Used to determine the current dark mode setting. (darkMode.get is a boolean, darkMode.set is a function)
     - user: The current user of the website (false or string of type ["github", "google", "local"]). Used to determine if the user is logged in.
     - mobile: The current window size of the website (boolean). Used to determine if the website is being viewed on a mobile device.
@@ -11,26 +10,30 @@ Props:
 
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Container, Nav, Navbar, NavDropdown, DropdownToggle, Dropdown } from 'react-bootstrap';
+import Cookies from 'js-cookie';
 import IconBxMessageSquareEdit from '../icons/IconBxMessageSquareEdit';
 import IconMoonStarsFill from '../icons/IconMoonStarsFill';
 import IconSunFill from '../icons/IconSunFill';
-import { Container, Nav, Navbar, NavDropdown, DropdownToggle, Dropdown } from 'react-bootstrap';
-import Cookies from 'js-cookie';
 import authenticate from '../../utils/authenticate';
 import { usernameFormatter } from '../../utils/formatting';
-import { Icon } from '@mui/material';
 
 
-export default function Header( { page, darkMode, user, mobile, windowWidth } ) {
+export default function Header( { darkMode, user, mobile, windowWidth } ) {
 
     // Clear Login Cookie and redirect to logout page
     const logout = () => {if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');window.open("http://localhost:3000/auth/logout", "_self");}
+
+    // Variables and States
     const [username, setUsername] = useState("");
     const fullSize=1200;
     const collapsedMode=992;
     const welcomeMsgMin=360;
+
+    // Fetch Username if signed in
     if(user)authenticate().then((data) => {setUsername(data.user.username)});
 
+    // Navigation
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -68,7 +71,6 @@ export default function Header( { page, darkMode, user, mobile, windowWidth } ) 
                         </Dropdown>
                         {user&&<Nav.Link onClick={()=>navigate("/credits")} eventKey="/credits" className="hovering">Credits</Nav.Link>}
                         {user&&<Nav.Link onClick={logout} className="hovering">Logout</Nav.Link>}
-
                     </Nav>
                 </Navbar.Collapse>
             </Container>

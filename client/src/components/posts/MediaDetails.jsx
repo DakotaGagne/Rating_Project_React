@@ -19,10 +19,9 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 
-export default function MediaDetails( { darkMode, post, smallMode } ) {
+export default function MediaDetails( { darkMode, post } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
-
   const smTitleLim = 20;
   const mdTitleLim = 26;
   const lgTitleLim = 33;
@@ -35,6 +34,7 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
       }
   });
 
+
   function formattedURL(url){
     // Function to format the URL of the poster image
     if(url==null||url==undefined||url==""||url.includes("null")){
@@ -43,6 +43,7 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
     }
     return url;
   }
+
 
   return (
       <Container

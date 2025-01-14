@@ -12,8 +12,8 @@ Props:
     - mobile: boolean value specifying if the current screen size is mobile or not
 */
 import React from 'react';
-import Credits from '../components/bodies/Credits';
 import Container from 'react-bootstrap/Container';
+import Credits from '../components/bodies/Credits';
 import Header from '../components/wrappers/Header';
 import Footer from '../components/wrappers/Footer';
 
@@ -21,10 +21,10 @@ import Footer from '../components/wrappers/Footer';
 
 export default function CreditsPage( { darkMode, user, mobile, windowWidth } ) {
     return (
-        <div style={{minHeight: "100vh"}}>
+        <div>
             <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
             <Container>
-                <Credits user={user} mobile={mobile} windowWidth={windowWidth} />
+                <Credits />
             </Container>
             <Footer user={user} mobile={mobile} windowWidth={windowWidth} />
         </div>

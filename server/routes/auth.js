@@ -16,6 +16,7 @@ This file contains the routes for the authentication of the user. It contains th
 import express from "express";
 import passport from "passport";
 import register from './user/register.js';
+import delete_user from './user/delete_user.js';
 import jwt from 'jsonwebtoken';
 
 // ROUTER
@@ -107,6 +108,10 @@ router.post('/local/login', passport.authenticate('local') , async (req, res) =>
 
 // Register User
 router.post('/local/register', (req, res) => register(req, res));
+
+// Delete User
+router.delete('/delete', (req, res) => delete_user(req, res));
+
 
 // EXPORTS
 export default router;

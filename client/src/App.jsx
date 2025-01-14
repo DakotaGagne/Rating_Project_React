@@ -7,7 +7,6 @@ Called by main.jsx
 // Main Imports
 import React, {useState, useEffect} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Container } from "react-bootstrap";
 
 // Custom Hooks
 import useDarkMode from "./hooks/useDarkMode";
@@ -26,13 +25,10 @@ import CreatePage from "./pages/CreatePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import CreditsPage from "./pages/CreditsPage";
-import Header from "./components/wrappers/Header";
-import Footer from "./components/wrappers/Footer";
-import { height } from "@mui/system";
 
 
 
-function App(){
+function App() {
   // Constants and States
   const darkMode = useDarkMode();
   const [user, setUser] = useState(null);
@@ -42,7 +38,7 @@ function App(){
   
   const parser = Bowser.getParser(navigator.userAgent);
 
-  
+  setTimeout(() => {authenticate(setUser);}, 1000);
   // useEffects
   useEffect(() => {
     // Check if user is logged in (set user state)

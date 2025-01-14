@@ -1,10 +1,10 @@
 /*
-
 Component that displays the footer of the website. 
 It contains links to the technologies used in the project, the credits page, and links to the developer's GitHub and personal website.
 
 Props:
     - mobile: boolean - whether mobile mode should be used
+    - windowWidth: number - the width of the window
 */
 
 
