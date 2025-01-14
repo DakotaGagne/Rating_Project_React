@@ -44,40 +44,19 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
     return url;
   }
 
-  function formattedOverview(overview){
-    // Function to format the overview text to a specific character limit
-    let charLimit = 250;
-    if(smallMode)charLimit = 150;
-    if (overview){
-      if (overview.length > charLimit)return overview.substring(0,charLimit) + "...";
-      return overview;
-    } else {
-      return "";
-    }
-  }
-
   return (
       <Container
        fluid 
-       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary font-domine overflow-hidden ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
-       style={
-        {
-          height:"90vh", 
-          top:"10vh",
-          backgroundImage: api_data.poster_path?`url(${api_data.poster_path})`:"",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          
-        }}
+       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+       style={{height:"88vh", top:"12vh", overflowY:"scroll"}}
       >
         <Row>
-          {/* <Col lg={12} md={12} className="d-flex justify-content-center"> */}
+          <Col lg={12} md={12} className="d-flex justify-content-center">
             {/* Poster image of the media item */}
-            {/* <img src={ formattedURL(api_data.poster_path) } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/> */}
-          {/* </Col> */}
+            <img src={ formattedURL(api_data.poster_path) } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'45vh', aspectRatio:"2/3"}}/>
+          </Col>
         </Row>
-        <Row style={{backgroundColor: api_data.poster_path?"rgba(0,0,0,0.75)":""}} className="h-100">
+        <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">
             <Box>
               <Box
@@ -98,7 +77,7 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
                 </span>
               </Box>
               <Box
-                className="mt-2 w-100 text-end px-2 border-bottom border-4"
+                className={"mt-2 w-100 text-end px-2 border-bottom border-4" + (darkMode.get?" border-secondary":" border-dark")}
                 sx={{
                   letterSpacing: "1px",
                   marginRight: 1.5,
@@ -135,7 +114,7 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
               >
                 {/* Overview of the media item */}
                 <span className="text-top fs-5">
-                  { formattedOverview(api_data.overview) }
+                  { api_data.overview }
                 </span>
               </Box>
             </Box>
