@@ -23,6 +23,11 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
 
   let api_data = post.api_data?JSON.parse(post.api_data):{};
 
+  const smTitleLim = 20;
+  const mdTitleLim = 26;
+  const lgTitleLim = 33;
+
+
   // Create a theme object for the material ui components (Rating component specifically)
   const theme = createTheme({
       palette: {
@@ -54,16 +59,25 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
   return (
       <Container
        fluid 
-       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
-       style={{height:"90vh", top:"10vh"}}
+       className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary font-domine overflow-hidden ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
+       style={
+        {
+          height:"90vh", 
+          top:"10vh",
+          backgroundImage: api_data.poster_path?`url(${api_data.poster_path})`:"",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          
+        }}
       >
         <Row>
-          <Col lg={12} md={12} className="d-flex justify-content-center">
+          {/* <Col lg={12} md={12} className="d-flex justify-content-center"> */}
             {/* Poster image of the media item */}
-            <img src={ formattedURL(api_data.poster_path) } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/>
-          </Col>
+            {/* <img src={ formattedURL(api_data.poster_path) } alt={(api_data.title||"") + " Poster"} className={`img-fluid mt-3 rounded-4 h-100 ${darkMode.get?"poster-shadow-l":"poster-shadow-d"}`} style={{maxHeight:'40vh', aspectRatio:"2/3"}}/> */}
+          {/* </Col> */}
         </Row>
-        <Row>
+        <Row style={{backgroundColor: api_data.poster_path?"rgba(0,0,0,0.75)":""}} className="h-100">
           <Col lg={12} md={12} className="d-flex justify-content-center">
             <Box>
               <Box
@@ -75,7 +89,7 @@ export default function MediaDetails( { darkMode, post, smallMode } ) {
                 }}
               >
                 {/* Title of the media item */}
-                <span className="fs-2 fw-bold" >
+                <span className={`${api_data.title.length>lgTitleLim? "fs-5":api_data.title.length>mdTitleLim?"fs-4":api_data.title.length>smTitleLim?"fs-3":"fs-2"} fw-bold`} >
                   {api_data.title + " "}
                 </span>
                 {/* Release year of the media item */}
