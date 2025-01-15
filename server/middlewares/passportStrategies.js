@@ -85,7 +85,7 @@ export default function passportSetup(pg, bcrypt) {
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/auth/google/callback"
+        callbackURL: `/auth/google/callback`
         },
         async function(accessToken, refreshToken, profile, cb) {
             // Query database for user information
@@ -103,7 +103,7 @@ export default function passportSetup(pg, bcrypt) {
     passport.use(new GithubStrategy({
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: "/auth/github/callback",
+        callbackURL: `/auth/github/callback`,
         },
         async function (accessToken, refreshToken, profile, cb) {
             // Query database for user information
