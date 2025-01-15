@@ -67,8 +67,8 @@ export default function LoginRegister( { darkMode, user } ) {
         return err;
     }
 
-    const googleSignIn = () => window.open("http://localhost:3000/auth/google", "_self"); // Google OAuth Redirect
-    const githubSignIn = () => window.open("http://localhost:3000/auth/github", "_self"); // Github OAuth Redirect
+    const googleSignIn = () => window.open(`${SERVER_URL}/auth/google`, "_self"); // Google OAuth Redirect
+    const githubSignIn = () => window.open(`${SERVER_URL}/auth/github`, "_self"); // Github OAuth Redirect
 
     // Called on keydown event inside form or text areas (submit form data if user presses enter)
     const checkSubmit = (e) => e.key=="Enter"&&submitFormData();
