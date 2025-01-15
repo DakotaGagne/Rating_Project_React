@@ -132,7 +132,7 @@ export default function LoginRegister( { darkMode, user } ) {
                     <h1 className="text-center"><IconBxMessageSquareEdit className="h-100 me-1 mb-2" />{loginMode?"Login":"Register"}</h1>
                     {loginMode&&<p className="text-center">Welcome back! Please login to continue</p>}
                     {!loginMode&&<p className="text-center">Welcome! Register Below.</p>}
-                    {!loginMode&&<Alert variant="warning" className="text-center">Please note that this is a personal project and while account security is prioritized, please do not use any real usernames or passwords.</Alert>}
+                    {!loginMode&&<Alert variant="warning" className="text-center">Please note that this is a personal project and while account security is prioritized, please do not use any usernames or passwords that you use on other sites.</Alert>}
                     <div className="text-center"><Button  variant="link" onClick={() => setLoginMode(!loginMode)}>{loginMode?"No account? Register Here":"Already have an account? Login Here"}</Button></div>
                     <Form>
                         <Form.Group className="my-3">

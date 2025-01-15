@@ -72,7 +72,7 @@ This could easily get to be too much work and perfectionism etc, so here is what
 # Production Errors / Bugs / To DO
 
 - Create post allowed repeatedly, make sure cant spam - Should be fixed
-- Github and Google ouath need links fixed -
+- Github and Google ouath need links fixed - Sign in working, authentication is failing
 - Redirecting setup in react causing not found errors when reloading page. Smth to do with it being deployed as a static site I assume
 - Posts db might need a time column to sort by instead of the id. Seems like now the id is being assigned old id values and messing up order
 - May have a delay for api fetches, render a loading msg until the fetch is complete (especially profile and home page)

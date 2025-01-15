@@ -6,7 +6,7 @@ Called by main.jsx
 
 // Main Imports
 import React, {useState, useEffect} from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 // Custom Hooks
 import useDarkMode from "./hooks/useDarkMode";
@@ -64,7 +64,7 @@ export default function App() {
   
   return (
     <div>
-      <BrowserRouter>
+      <HashRouter>
           <Routes>
               <Route index element={
                 <MainPage 
@@ -103,7 +103,7 @@ export default function App() {
               />}></Route>
               <Route path="*" element={<h1 className="w-100 text-center my-5">404 Page Not Found</h1>}></Route>
           </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 };
