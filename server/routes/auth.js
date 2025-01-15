@@ -18,12 +18,14 @@ import passport from "passport";
 import register from './user/register.js';
 import delete_user from './user/delete_user.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+// CONFIG
+dotenv.config();
 
 // ROUTER
 const router = express.Router();
 // CLIENT URL FOR REDIRECT
-//! Might need to change this to the production URL
-const CLIENT_URL = "http://localhost:5173";
 
 // Get Routes Router
 router.get("/login/success", (req, res) => {
@@ -60,7 +62,7 @@ router.get("/login/success", (req, res) => {
 
 router.get("/logout", (req, res) => {
     req.logout();
-    res.redirect(CLIENT_URL);
+    res.redirect(process.env.CLIENT_URL);
 });
 
 router.get("/login/failure", (req, res) => {
@@ -76,14 +78,14 @@ router.get("/login/failure", (req, res) => {
 // Google Auth
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 router.get('/google/callback', passport.authenticate('google', { 
-  successRedirect: CLIENT_URL,
+  successRedirect: process.env.CLIENT_URL,
   failureRedirect: '/auth/login/failure' 
 }));
 
 // Github Auth
 router.get('/github', passport.authenticate('github', { scope: ['profile'] }));
 router.get('/github/callback', passport.authenticate('github', { 
-  successRedirect: CLIENT_URL,
+  successRedirect: process.env.CLIENT_URL,
   failureRedirect: '/auth/login/failure' 
 }));
 

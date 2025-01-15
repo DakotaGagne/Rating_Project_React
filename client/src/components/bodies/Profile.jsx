@@ -24,6 +24,8 @@ import authenticate from '../../utils/authenticate';
 
 
 export default function Profile( { darkMode, user, mobile, windowWidth } ) {
+    //SERVER URL
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
     // State Variables and Constants
     const [posts, setPosts] = useState([]);
     const [highlightedPost, setHighlightedPost] = useState(1);
@@ -63,7 +65,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
         // Check if User is Logged In, if not redirect to login page
         // Fetch Posts for User From Server
         authenticate().then(userData => {
-            fetch("http://localhost:3000/api/posts/user", {
+            fetch(`${SERVER_URL}/api/posts/user`, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -103,7 +105,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
         // const logout = () => {if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');window.open("http://localhost:3000/auth/logout", "_self");}
         authenticate().then(userData => {
             console.log("User Data: ", userData.user);
-            fetch("http://localhost:3000/auth/delete", {
+            fetch(`${process.env.SERVER_URL}/auth/delete`, {
                 method: "DELETE",
                 headers: {
                     'Accept': 'application/json',

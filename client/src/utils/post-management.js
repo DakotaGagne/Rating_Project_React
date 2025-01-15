@@ -1,5 +1,7 @@
 import { usernameFormatter } from './formatting';
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 /*
 
 Helper functions for CreatePost.jsx
@@ -21,7 +23,7 @@ const postManipulation = {
         // Authenticate user and delete post from database
         let postId = postToEdit.id;
         authenticate().then(userData => {
-            fetch("http://localhost:3000/api/delete_post", {
+            fetch(`${SERVER_URL}/api/delete_post`, {
                 method: "DELETE",
                 mode: "cors",
                 headers: {
@@ -60,7 +62,7 @@ const postManipulation = {
                 post_content: newPost.postContent,
                 api_data: JSON.stringify(selectedMediaAPI)
             }
-            fetch("http://localhost:3000/api/update_post", {
+            fetch(`${SERVER_URL}/api/update_post`, {
                 method: "PUT",
                 mode: "cors",
                 headers: {
@@ -101,7 +103,7 @@ const postManipulation = {
                 post_content: newPost.postContent,
                 api_data: JSON.stringify(selectedMediaAPI)
             }
-            fetch("http://localhost:3000/api/create_post", {
+            fetch(`${SERVER_URL}/api/create_post`, {
                 method: "POST",
                 mode: "cors",
                 headers: {

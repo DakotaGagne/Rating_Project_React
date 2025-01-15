@@ -17,7 +17,8 @@ import PostVertical from '../posts/PostVertical';
 
 
 export default function Posts( { darkMode, mobile, windowWidth } ){   
-
+    //SERVER URL
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
     // State Variables
     const [posts, setPosts] = useState([]);
     const [highlightedPost, setHighlightedPost] = useState(1);
@@ -29,7 +30,7 @@ export default function Posts( { darkMode, mobile, windowWidth } ){
 
     useEffect(() => {
         // Fetch Posts from Server
-        fetch("http://localhost:3000/api/posts")
+        fetch(`${SERVER_URL}/api/posts`)
             .then(res => res.json())
             .then(data => {
                 if(data.posts.length>postMax)data.posts=data.posts.slice(0, postMax);

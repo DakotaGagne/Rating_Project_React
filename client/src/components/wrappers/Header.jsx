@@ -20,16 +20,15 @@ import { usernameFormatter } from '../../utils/formatting';
 
 
 export default function Header( { darkMode, user, mobile, windowWidth } ) {
-
+    //SERVER URL
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
     // Clear Login Cookie and redirect to logout page
-    const logout = () => {if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');window.open("http://localhost:3000/auth/logout", "_self");}
+    const logout = () => {if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');window.open(`${SERVER_URL}/auth/logout`, "_self");}
 
     // Variables and States
     const [username, setUsername] = useState("");
     const fullSize=1200;
     const collapsedMode=992;
-    const welcomeMsgMin=360;
-
     // Fetch Username if signed in
     if(user)authenticate().then((data) => {setUsername(data.user.username)});
 

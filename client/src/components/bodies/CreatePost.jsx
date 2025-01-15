@@ -28,7 +28,10 @@ import postManipulation from "../../utils/post-management";
 
 
 export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
-
+    //SERVER URL
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+    
+    // States
     const [editMode, setEditMode] = useState(false); // Determines if the user is in edit mode and adjusts the form accordingly
     const [postToEdit, setPostToEdit] = useState(null); // The post to edit if the user is in edit mode
     
@@ -104,7 +107,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
             if (editId) {
                 // Confirm authentication, use the user id to get the post data
                 authenticate().then(userData => {
-                    fetch(`http://localhost:3000/api/posts/id`, {
+                    fetch(`${SERVER_URL}/api/posts/id`, {
                         method: "GET",
                         headers: {
                             'Accept': 'application/json',
@@ -179,7 +182,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
         // Fetch API for search results
         // Set search results
         if(newPost.mediaTitle.length>0){
-            fetch(`http://localhost:3000/api/search?media_name=${newPost.mediaTitle}`)
+            fetch(`${SERVER_URL}/api/search?media_name=${newPost.mediaTitle}`)
                 .then(res => res.json())
                 .then(data => {
                     setSearchResults(data);

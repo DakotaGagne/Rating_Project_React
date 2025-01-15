@@ -28,7 +28,7 @@ import CreditsPage from "./pages/CreditsPage";
 
 
 
-function App() {
+export default function App() {
   // Constants and States
   const darkMode = useDarkMode();
   const [user, setUser] = useState(null);
@@ -49,8 +49,8 @@ function App() {
     // set mobile state on resize 
     
     const handleResize = () => {
-      // setMobile(window.innerWidth<mobileLimit||parser.getPlatformType()==="mobile");
-      setMobile(window.innerWidth<mobileLimit);
+      setMobile(window.innerWidth<mobileLimit||parser.getPlatformType()==="mobile");
+      // setMobile(window.innerWidth<mobileLimit);
 
       setWindowWidth(window.innerWidth);
     };
@@ -107,5 +107,3 @@ function App() {
     </div>
   );
 };
-
-export default App;

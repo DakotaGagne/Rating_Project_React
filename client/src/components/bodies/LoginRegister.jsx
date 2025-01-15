@@ -21,6 +21,10 @@ import { clean } from 'profanity-cleaner';
 
 
 export default function LoginRegister( { darkMode, user } ) {
+
+    //SERVER URL
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
     // If true, display login form. If false, display register form
     const [loginMode, setLoginMode] = useState(true);
     // Error and Success messages, and their respective timeouts
@@ -79,7 +83,7 @@ export default function LoginRegister( { darkMode, user } ) {
             setError(err);
         } else {
             let url = loginMode?"login":"register";
-            fetch(`http://localhost:3000/auth/local/${url}`, {
+            fetch(`${SERVER_URL}/auth/local/${url}`, {
                 method: "POST",
                 mode: "cors",
                 headers: {Accept: 'application/json','Content-Type': 'application/json'},

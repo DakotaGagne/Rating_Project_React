@@ -5,12 +5,18 @@ If setUser is passed as an argument, the function will set the user state to the
 Makes it so that the user is authenticated on page load, the evidence is stored in the user variable
 But when the user wants to perform a secure action (create post, etc), the user is authenticated again, and the user data is used to perform the action
 */
+import Cookies from 'js-cookie';;
 
-import Cookies from 'js-cookie';
+
+
 export default function authenticate(setUser=null){
+
+    //SERVER URL
+    const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+    // Get the localUserJWT cookie
     const localUserJWT = Cookies.get('localUserJWT');
     // Fetch user data from server and return a promise
-    return fetch('http://localhost:3000/auth/login/success', {
+    return fetch(`${SERVER_URL}/auth/login/success`, {
         method: 'GET',
         credentials: 'include',
         headers: {

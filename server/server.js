@@ -35,8 +35,6 @@ import authRouter from './routes/auth.js';
 // CONSTANTS
 // Directory name
 const __dirname = dirname(fileURLToPath(import.meta.url));
-//CLIENT URL
-const CLIENT_URL = "http://localhost:5173";
 
 // Express
 const app = express();
@@ -75,7 +73,7 @@ app.use(passport.session());
 
 app.use(cors(
   {
-    origin: CLIENT_URL,
+    origin: process.env.CLIENT_URL,
     methods: "GET,POST,OPTIONS,PUT,PATCH,DELETE",
     credentials: true
   }
