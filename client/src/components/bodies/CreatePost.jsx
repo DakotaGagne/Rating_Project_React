@@ -23,7 +23,7 @@ import PosterImage from "../posts/PosterImage";
 import PostHorizontal from "../posts/PostHorizontal";
 import PostVertical from "../posts/PostVertical";
 import authenticate from "../../utils/authenticate";
-import postManipulation from "../../utils/post-management";
+import postManipulation from "../../utils/postManipulation";
 
 
 
@@ -54,6 +54,8 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
     const [success, setSuccess] = useState(""); // The success alert message to display (element only appears if this is not "")
     const successDuration = 3000; // The duration of the success alert
+
+    const [createdPost, setCreatedPost] = useState(false); // The post that was created (used to display the post after creation)
 
     const [deleteWarning, setDeleteWarning] = useState(false); // The delete warning alert message to display (element only appears if this is true)
     const deleteWarningDuration = 4000; // The duration of the delete warning alert
@@ -225,8 +227,8 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
     function manipulatePost(method){
         // Creates, Updates, and Deletes Posts
         // See utils/post-management.js for more details
-        if(method=="create"&&checkForm())postManipulation.create(authenticate, newPost, searchResults[selectedAPI], setSuccess, setError, successDuration);
-        if(method=="update"&&checkForm())postManipulation.update(authenticate, newPost, postToEdit.id, searchResults[selectedAPI], setSuccess, setError, successDuration);
+        if(method=="create"&&checkForm())postManipulation.create(authenticate, newPost, searchResults[selectedAPI], setSuccess, setError, successDuration, createdPost, setCreatedPost);
+        if(method=="update"&&checkForm())postManipulation.update(authenticate, newPost, postToEdit.id, searchResults[selectedAPI], setSuccess, setError, successDuration, createdPost, setCreatedPost);
         if(method=="delete"){
             if(deleteWarning)postManipulation.delete(authenticate, postToEdit, setSuccess, setError, successDuration);
             else setDeleteWarning(true);
