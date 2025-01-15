@@ -25,7 +25,7 @@ export default function PosterImage( { url, darkMode, create } ) {
             image={url}
             alt="Poster"
             // className={`poster-def poster-box-shadow ${darkMode.get?"poster-shadow-l":"poster-shadow-d"} ${create?"w-100 h-auto":""}`}
-            className={`poster-def border border my-1 ms-2 ${darkMode.get?"border-light":"border-dark"} ${create?"w-100 h-auto":""}`}
+            className={`poster-def border border my-1 ms-2 me-1 ${darkMode.get?"border-light":"border-dark"} ${create?"w-100 h-auto":""}`}
 
             sx={{
                 flexShrink: 0,

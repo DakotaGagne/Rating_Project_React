@@ -3,7 +3,7 @@
 
 /* Font */
 .font-domine {
-  font-family: 'Domine', serif;
+  font-family: "Roboto", sans-serif;
 }
 
 /* BG Classes */
@@ -32,20 +32,6 @@
 }
 
 /* Box Shadow Classes */
-
-.poster-shadow-l {
-  box-shadow: 0 2px 6px 0 #8f95a0, 0 -2px 6px 0 #8f95a0 inset;
-}
-.poster-shadow-d {
-  box-shadow: 0 4px 12px 0 #000000, 0 -4px 12px 0 #000000 inset;
-}
-
-.card-shadow-d {
-  box-shadow: 0 10px 20px 0 #0000004f, 0 -10px 20px 0 #0000004f;
-}
-.card-shadow-l {
-  box-shadow: 0 4px 8px 0 #ffffff1e, 0 -3px 8px 0 #ffffff1e;
-}
 
 /* Misc Classes */
 

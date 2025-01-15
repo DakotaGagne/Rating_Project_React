@@ -382,7 +382,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                             </Col>
                         </Row>
                         <Row className="mt-3">
-                            <Col xs={12}>
+                            <Col xs={12} className="pb-3">
                                 {/* Error and Success Alerts, and Create, Update, Delete Buttons */}
                                 {!editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>manipulatePost("create")}>{`Create Post`}</Button>}
                                 {editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>manipulatePost("update")}>{`Update Post`}</Button>}

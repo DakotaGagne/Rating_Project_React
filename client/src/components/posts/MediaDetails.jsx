@@ -49,7 +49,7 @@ export default function MediaDetails( { darkMode, post } ) {
       <Container
        fluid 
        className={`sticky-top my-5 justify-content-center border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`} 
-       style={{height:"88vh", top:"12vh", overflowY:"scroll"}}
+       style={{height:"90vh", top:"9vh", overflowY:"scroll"}}
       >
         <Row>
           <Col lg={12} md={12} className="d-flex justify-content-center">

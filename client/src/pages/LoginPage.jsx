@@ -27,7 +27,7 @@ export default function LoginPage( { darkMode, user, mobile, windowWidth } ) {
             <Container>
                 <LoginRegister darkMode={darkMode} user={user} />
             </Container>
-            <Footer darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Footer windowWidth={windowWidth} />
         </div>
     ); 
 }

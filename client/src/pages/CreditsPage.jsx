@@ -26,7 +26,7 @@ export default function CreditsPage( { darkMode, user, mobile, windowWidth } ) {
             <Container>
                 <Credits />
             </Container>
-            <Footer user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Footer windowWidth={windowWidth} />
         </div>
     );
 }

@@ -27,7 +27,7 @@ export default function MainPage( { darkMode, user, mobile, windowWidth } ) {
             <Container>
                 <Posts darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
             </Container>
-            <Footer darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
+            <Footer windowWidth={windowWidth} />
         </div>
     );
 }

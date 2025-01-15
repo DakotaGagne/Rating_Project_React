@@ -26,7 +26,7 @@ export default function ProfilePage( { darkMode, user, mobile, windowWidth } ) {
             <Container>
                 <Profile darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
             </Container>
-            <Footer darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
+            <Footer windowWidth={windowWidth} />
         </div>
     ); 
 }
