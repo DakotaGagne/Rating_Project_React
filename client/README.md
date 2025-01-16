@@ -81,8 +81,10 @@ This could easily get to be too much work and perfectionism etc, so here is what
 - Posts db might need a time column to sort by instead of the id. Seems like now the id is being assigned old id values and messing up order
 - Github and Google ouath need links fixed - Sign in working, authentication is failing
 - Create post errors out first, then works (not every time either, only sometimes. initial suspicion is it has smth to do with server being asleep at the time. WIll need to troubleshoot firther)
+- Word wrapping needed on posts for large words (no spaces)
+- Poster not found should appear on the vertical posts if no poster
 
-# Changes since last commit
+# Changes done with last commit
 
 - Loading msg for main and profile page implemented
   - This includes a change to the fetch in main page, where it confirms the fetch was valid, and retries if not
