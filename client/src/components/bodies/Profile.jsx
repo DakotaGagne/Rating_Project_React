@@ -40,7 +40,6 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
     const dblClickTimeout = 500;
     const horizPostMin = 1400; // Used for determining if Horizontal Posts should be displayed
     const navigate = useNavigate();
-    const SERVER_URL = import.meta.VITE_SERVER_URL;
 
     // useEffect Hooks
 
