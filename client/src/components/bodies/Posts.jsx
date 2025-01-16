@@ -13,6 +13,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import MediaDetails from '../posts/MediaDetails';
 import PostHorizontal from '../posts/PostHorizontal';
 import PostVertical from '../posts/PostVertical';
+import LoadingMessage from '../helpers/LoadingMessage';
 
 
 
@@ -22,24 +23,37 @@ export default function Posts( { darkMode, mobile, windowWidth } ){
     // State Variables
     const [posts, setPosts] = useState([]);
     const [highlightedPost, setHighlightedPost] = useState(1);
+    const [postsLoaded, setPostsLoaded] = useState(false);
 
     const horizPostMin = 1400; // Used for determining if Horizontal Posts should be displayed
     const mediaDetailsMin = 992; // Used for determining if media details should be displayed
 
     const postMax = 30; // Maximum number of posts to display
 
-    useEffect(() => {
-        // Fetch Posts from Server
+
+    function fetchPosts(){
         fetch(`${SERVER_URL}/api/posts`)
-            .then(res => res.json())
-            .then(data => {
+        .then(res => res.json())
+        .then(data => {
+            if(data.success==false){
+                console.log("Posts Fetch Failed. Retrying in 1 second.");
+                setTimeout(fetchPosts, 1000);
+            } else {
                 if(data.posts.length>postMax)data.posts=data.posts.slice(0, postMax);
                 setPosts(data.posts);
+                if(data.posts.length>0)setPostsLoaded(true);
                 setHighlightedPost(data.posts[0].id);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+
+    useEffect(() => {
+        // Fetch Posts from Server
+        fetchPosts();
     }, []);
     
     return (
@@ -50,6 +64,7 @@ export default function Posts( { darkMode, mobile, windowWidth } ){
             2. Desktop small - Media Details on left, Vert Posts on the right. Media Details is 5, Vert Posts is 7
             3. Mobile - No Media Details, Vert Posts only. Vert Posts is 12
             */}
+            {!postsLoaded&&<LoadingMessage />}
             {
             mobile || windowWidth < mediaDetailsMin ?
                 // Mobile Mode, No Media Details

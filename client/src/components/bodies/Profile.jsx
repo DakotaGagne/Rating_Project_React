@@ -20,7 +20,7 @@ import PostHorizontal from '../posts/PostHorizontal';
 import DeleteAccountModal from '../helpers/DeleteAccountModal';
 import PostVertical from '../posts/PostVertical';
 import authenticate from '../../utils/authenticate';
-
+import LoadingMessage from '../helpers/LoadingMessage';
 
 
 export default function Profile( { darkMode, user, mobile, windowWidth } ) {
@@ -30,6 +30,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
     const [posts, setPosts] = useState([]);
     const [highlightedPost, setHighlightedPost] = useState(1);
     const [postClicked, setPostClicked] = useState(false);
+    const [postsLoaded, setPostsLoaded] = useState(false);
     // Error and Success Handling
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -39,6 +40,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
     const dblClickTimeout = 500;
     const horizPostMin = 1400; // Used for determining if Horizontal Posts should be displayed
     const navigate = useNavigate();
+    const SERVER_URL = import.meta.VITE_SERVER_URL;
 
     // useEffect Hooks
 
@@ -74,9 +76,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
                 }
             })
             .then(res => {if(res.ok){console.log("res: ", res);return res.json()} else throw new Error("Network response was not ok")})
-            .then(data => {
-                setPosts(data.posts);
-            })
+            .then(data => {setPosts(data.posts); setPostsLoaded(true);})
         })
         .catch(err => {
             console.log(err);
@@ -102,10 +102,9 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
         // Called from the modal in charge of handling confirmation
         // This function should make a request to the server to delete the account, and all posts associated with the account
         console.log("Deleting Account");
-        // const logout = () => {if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');window.open("http://localhost:3000/auth/logout", "_self");}
         authenticate().then(userData => {
             console.log("User Data: ", userData.user);
-            fetch(`${process.env.SERVER_URL}/auth/delete`, {
+            fetch(`${SERVER_URL}/auth/delete`, {
                 method: "DELETE",
                 headers: {
                     'Accept': 'application/json',
@@ -120,7 +119,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
                     // Logout
                     setSuccess("Account deletion successful! Redirecting to logout page...");
                     if(Cookies.get('localUserJWT'))Cookies.remove('localUserJWT');
-                    setTimeout(()=>window.open("http://localhost:3000/auth/logout", "_self"), successTimeout);
+                    setTimeout(()=>window.open(`${SERVER_URL}/auth/logout`, "_self"), successTimeout/2);
                 } else {
                     setError("Account deletion failed! If this issue persists, please contact support (info in credits page).");
                     throw new Error("Account deletion failed");
@@ -129,6 +128,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
         })
         .catch(err => {
             console.log(err);
+            setError("Account deletion failed! If this issue persists, please contact support (info in credits page).");
         });
     }
 
@@ -145,6 +145,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
                     </p>
                 </Col>
             </Row>
+            {!postsLoaded&&<LoadingMessage />}
             {posts.length>0&&
                 <div>
                 {!mobile&&windowWidth>=horizPostMin?
@@ -172,7 +173,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
                 </div>
                 
             }
-            {posts.length==0&&<Row>
+            {posts.length==0&&postsLoaded&&<Row>
                 <Col lg={2} md={0}></Col>
                 <Col className="py-5" lg={8} md={12}>
                     <Card className="py-5 text-center">

@@ -71,10 +71,21 @@ This could easily get to be too much work and perfectionism etc, so here is what
 
 # Production Errors / Bugs / To DO
 
-- Create post allowed repeatedly, make sure cant spam - Should be fixed
-- Github and Google ouath need links fixed - Sign in working, authentication is failing
-- Redirecting setup in react causing not found errors when reloading page. Smth to do with it being deployed as a static site I assume
+- May have a delay for api fetches, render a loading msg until the fetch is complete (especially profile and home page) - This is done for profile and home page, I dont know if it needs to exist elsewhere yet
+- Maybe make the fetch for posts happen every once in a while (at least schedule it for when it fails) - Timeout created for posts on main page, if there is an issue or error, it re fetches after 1 second
+- Profile becoming username in navbar should only occur if username is valid. Use profile otherwise - Should be fixed
+- Delete account not working - Possibly fixed
+- Redirecting setup in react causing not found errors when reloading page. Smth to do with it being deployed as a static site I assume - Mostly fixed, need redirecting to go back to the /#/page
+
+- Create post allowed repeatedly, make sure cant spam - Should be fixed - Not fixed
 - Posts db might need a time column to sort by instead of the id. Seems like now the id is being assigned old id values and messing up order
-- May have a delay for api fetches, render a loading msg until the fetch is complete (especially profile and home page)
-  - Profile becoming username in navbar should only occur if username is valid. Use profile otherwise
-- Delete account not working
+- Github and Google ouath need links fixed - Sign in working, authentication is failing
+- Create post errors out first, then works (not every time either, only sometimes. initial suspicion is it has smth to do with server being asleep at the time. WIll need to troubleshoot firther)
+
+# Changes since last commit
+
+- Loading msg for main and profile page implemented
+  - This includes a change to the fetch in main page, where it confirms the fetch was valid, and retries if not
+- Redirects checked to ensure working. Not sure if it will be diff online as opposed to offline (cant find an issue anymore so will have to wait and see)
+- Account deletion fixed (should be anyways)
+- Header says profile if waitin on acct info

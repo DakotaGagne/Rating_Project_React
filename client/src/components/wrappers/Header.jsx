@@ -48,7 +48,7 @@ export default function Header( { darkMode, user, mobile, windowWidth } ) {
                     <Nav variant="tabs" className="ms-auto text-center" activeKey={location.pathname}>
                         <Nav.Link onClick={()=>navigate("/")} eventKey="/" className="hovering">Home</Nav.Link>
                         {user==false&&<Nav.Link onClick={()=>navigate("/login")} eventKey="/login" className="hovering">Login/Register</Nav.Link>}
-                        {user&&<Nav.Link onClick={()=>navigate("/profile")} eventKey="/profile" className="hovering">{usernameFormatter(username, false)}</Nav.Link>}
+                        {user&&<Nav.Link onClick={()=>navigate("/profile")} eventKey="/profile" className="hovering">{username!=""?usernameFormatter(username, false):"Profile"}</Nav.Link>}
                         <Nav.Link onClick={()=>navigate("/create")} eventKey="/create" className="hovering">Create{windowWidth>=fullSize||windowWidth<collapsedMode?" Post":""}</Nav.Link>
                         {windowWidth>=collapsedMode&&<Nav.Link disabled >|</Nav.Link>}
                         <Nav.Link className="align-items-center hovering" as={Nav.Link} onClick={()=>darkMode.set(!darkMode.get)}>
