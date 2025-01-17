@@ -78,7 +78,10 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
     const location = useLocation();
     
     // Profanity exceptions
-    const wordExceptions = ["poop", "hell", "xxx", "crap", "funny", "darn", "dang", "fart"]; 
+    const wordExceptions = ["poop", "hell", "xxx", "crap", "funny", "darn", "dang", "fart"];
+
+    // Button Pressed Variable to ensure the user doesn't press the button multiple times
+    let buttonPressed = false;
 
     useEffect(() => {
         // Set to mobileMode if the user is on mobile or the window width is less than the minimum width
@@ -189,6 +192,10 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
         }
     }, [newPost.mediaTitle, newPost.mediaType]);
 
+    useEffect(() => {
+        if(error!="")buttonPressed=false;
+    }, [error])
+
     function checkForm(){
         // Checks that all form fields are filled out correctly, if not adds the errors to the error var
         // Profanity Cleaner
@@ -222,6 +229,8 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
     function manipulatePost(method){
         // Creates, Updates, and Deletes Posts
         // See utils/post-management.js for more details
+        if(buttonPressed)return;
+        if(method=="delete"&&deleteWarning||method=="create"||method=="update")buttonPressed=true;
         if(method=="create"&&checkForm())postManipulation.create(authenticate, newPost, searchResults[selectedAPI], setSuccess, setError, successDuration);
         if(method=="update"&&checkForm())postManipulation.update(authenticate, newPost, postToEdit.id, searchResults[selectedAPI], setSuccess, setError, successDuration);
         if(method=="delete"){
