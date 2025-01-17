@@ -77,12 +77,15 @@ This could easily get to be too much work and perfectionism etc, so here is what
 - Delete account not working - Possibly fixed
 - Redirecting setup in react causing not found errors when reloading page. Smth to do with it being deployed as a static site I assume - Mostly fixed, need redirecting to go back to the /#/page
 - Create post allowed repeatedly, make sure cant spam - Should be fixed - Not fixed - Should actually be fixed now
+- Poster not found should appear on the vertical posts if no poster - Done
 
-- Poster not found should appear on the vertical posts if no poster
+- Word wrapping needed on posts for large words (no spaces)
+- Make error message more specific for post creation (try again in a minute, the server might need time to wake up)
+- Maybe make login page accessible only after confirming server is awake, or msg that it may take up to a minute for the server to respond
+  - Maybe make a ping to server that occurs once every second or so on the app.jsx page, and have a state variable that gets passed along that represents server communication (and on login page make a card like the loading one that says waiting for connection to server. login will be available shortly) (same with create page possibly)
+  - Create post errors out first, then works (not every time either, only sometimes. initial suspicion is it has smth to do with server being asleep at the time. WIll need to troubleshoot further) (this might be tied to the ping idea)
 - Posts db might need a time column to sort by instead of the id. Seems like now the id is being assigned old id values and messing up order
 - Github and Google ouath need links fixed - Sign in working, authentication is failing
-- Create post errors out first, then works (not every time either, only sometimes. initial suspicion is it has smth to do with server being asleep at the time. WIll need to troubleshoot firther)
-- Word wrapping needed on posts for large words (no spaces)
 
 # Changes done with last commit
 

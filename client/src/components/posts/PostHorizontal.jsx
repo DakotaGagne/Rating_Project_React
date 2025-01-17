@@ -43,7 +43,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
       className={`d-flex my-5 border border-3 rounded border-secondary font-domine ${darkMode.get?"text-light bg-dark":"bg-light text-dark"} ${filter}`}
       onClick={() => {setHighlightedPost(post.id)}}
     >
-      <CardContent sx={{ pr: 2 }} className='p-2'>
+      <CardContent sx={{ pr: 2 }} className='p-2 text-break'>
         <Box mb={1}>
           <Box
             component="h3"
@@ -71,6 +71,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
           </ThemeProvider>
           <Divider className="my-1" />
           <Box
+            className="text-break"
             sx={{
               fontSize: 20,
               fontStyle: "italic",
@@ -83,6 +84,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
             {`${post.media_type}: ${post.media_title}`}
           </Box>
           <Box
+            className="text-break"
             sx={{
               fontSize: 20,
               fontStyle: "italic",
@@ -97,7 +99,7 @@ export default function PostHorizontal( { darkMode, post, highlightedPost, setHi
         </Box>
         <Box
           component="p"
-          className={`${darkMode.get?"text-secondary":"text-dark"}`}
+          className={`${darkMode.get?"text-secondary":"text-dark"} text-break`}
           sx={{ fontSize: 18, mb: "1.275rem", width: "100%" }}
         >
           {/* Post Content */}

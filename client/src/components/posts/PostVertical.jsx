@@ -104,10 +104,10 @@ export default function PostVertical( { darkMode, post, highlightedPost, setHigh
               >
 
                 {/* Media Type and Title */}
-                <span className={`fs-4 fst-italic ${darkMode.get?"text-muted":"text-dark"} text-top`}>
+                <span className={`fs-4 fst-italic ${darkMode.get?"text-muted":"text-dark"} text-top text-break`}>
                   {`${api_data.title||""} `}
                 </span>
-                <span className={`fs-5 fst-italic ${darkMode.get?"text-muted":"text-dark"} text-top`}>
+                <span className={`fs-5 fst-italic ${darkMode.get?"text-muted":"text-dark"} text-top text-break`}>
                   {` ${api_data.release_date?"("+api_data.release_date.substring(0,4)+") ":""}`}
                 </span>
                 {/* Rating component */}
@@ -132,7 +132,7 @@ export default function PostVertical( { darkMode, post, highlightedPost, setHigh
                 }}
               >
                 {/* Overview of the media item */}
-                <span className="text-top fs-5">
+                <span className="text-top fs-5 text-break">
                   { post.post_content }
                 </span>
               </Box>
