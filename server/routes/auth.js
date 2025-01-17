@@ -40,7 +40,7 @@ router.get("/login/success", (req, res) => {
         type: req.user.oauth
       }
     );
-  } else if(req.headers.authorization){
+  } else if(req.headers.authorization!=undefined){
     console.log('req.headers.authorization exists: ', req.headers.authorization);
     // Local Authentication
     const token = req.headers.authorization.split(' ')[1];

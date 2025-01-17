@@ -86,6 +86,7 @@ This could easily get to be too much work and perfectionism etc, so here is what
 - Make error message more specific for post creation (try again in a minute, the server might need time to wake up)
 - Posts db might need a time column to sort by instead of the id. Seems like now the id is being assigned old id values and messing up order
 - Github and Google ouath need links fixed - Sign in working, authentication is failing
+- I need to add an accept cookies modal
 
 # Changes done with last commit
 
