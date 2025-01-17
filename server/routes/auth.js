@@ -40,8 +40,8 @@ router.get("/login/success", (req, res) => {
         type: req.user.oauth
       }
     );
-  } else if(req.headers.authorization!=undefined){
-    console.log('req.headers.authorization exists and is not undefined: ', req.headers.authorization);
+  } else if(req.headers.authorization){
+    console.log('req.headers.authorization exists as: ', req.headers.authorization);
     // Local Authentication
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
