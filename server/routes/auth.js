@@ -41,7 +41,7 @@ router.get("/login/success", (req, res) => {
       }
     );
   } else if(req.headers.authorization!=undefined){
-    console.log('req.headers.authorization exists: ', req.headers.authorization);
+    console.log('req.headers.authorization exists and is not undefined: ', req.headers.authorization);
     // Local Authentication
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
