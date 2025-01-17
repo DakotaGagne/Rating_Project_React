@@ -15,8 +15,8 @@ export default function PosterImage( { url, darkMode, create } ) {
     
     // If the URL is null, undefined, empty, or contains "null", set the URL to the default poster image
     if(url==null||url==undefined||url==""||url.includes("null")){
-        if(darkMode.get)url="../../../public/poster_not_found_dark.jpg";
-        else url="../../../public/poster_not_found_light.jpg";
+        if(darkMode.get)url="/poster_not_found_dark.jpg";
+        else url="/poster_not_found_light.jpg";
     }
 
     

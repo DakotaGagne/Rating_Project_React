@@ -55,8 +55,6 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
     const [success, setSuccess] = useState(""); // The success alert message to display (element only appears if this is not "")
     const successDuration = 3000; // The duration of the success alert
 
-    const [createdPost, setCreatedPost] = useState(false); // The post that was created (used to display the post after creation)
-
     const [deleteWarning, setDeleteWarning] = useState(false); // The delete warning alert message to display (element only appears if this is true)
     const deleteWarningDuration = 4000; // The duration of the delete warning alert
 
@@ -80,8 +78,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
     const location = useLocation();
     
     // Profanity exceptions
-    const wordExceptions = ["poop", "hell", "xxx", "crap"]; 
-    
+    const wordExceptions = ["poop", "hell", "xxx", "crap", "funny", "darn", "dang", "fart"]; 
 
     useEffect(() => {
         // Set to mobileMode if the user is on mobile or the window width is less than the minimum width
@@ -194,11 +191,10 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
 
     function checkForm(){
         // Checks that all form fields are filled out correctly, if not adds the errors to the error var
-        // Profanity checker
-        let profanity = false;
-        if(clean(newPost.postTitle, {exceptions: wordExceptions})!=newPost.postTitle)profanity=true;
-        if(clean(newPost.postContent, {exceptions: wordExceptions})!=newPost.postContent)profanity=true;
-        if(!profanity&&searchResults.length>=selectedAPI&&
+        // Profanity Cleaner
+        newPost.postTitle = clean(newPost.postTitle, {exceptions: wordExceptions});
+        newPost.postContent = clean(newPost.postContent, {exceptions: wordExceptions});
+        if(searchResults.length>=selectedAPI&&
             selectedAPI>=0&&
             newPost.postTitle.length>=title_range[0]&&
             newPost.postTitle.length<=title_range[1]&&
@@ -208,8 +204,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
             return true;
         }
         let errors = "";
-        if(profanity)errors="Profanity detected! Please remove and try again!";
-        else if(searchResults.length<selectedAPI||selectedAPI<0)errors="No media selected!";
+        if(searchResults.length<selectedAPI||selectedAPI<0)errors="No media selected!";
         else if(newPost.postTitle.length<=0)errors="No post title!";
         else if(newPost.postContent.length<=0)errors="No post content!";
         else if(newPost.postTitle.length<title_range[0]||newPost.postTitle.length>title_range[1])errors=`Post title must be between ${title_range[0]} and ${title_range[1]} characters!`;
@@ -227,10 +222,10 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
     function manipulatePost(method){
         // Creates, Updates, and Deletes Posts
         // See utils/post-management.js for more details
-        if(method=="create"&&checkForm())postManipulation.create(authenticate, newPost, searchResults[selectedAPI], setSuccess, setError, successDuration, createdPost, setCreatedPost);
-        if(method=="update"&&checkForm())postManipulation.update(authenticate, newPost, postToEdit.id, searchResults[selectedAPI], setSuccess, setError, successDuration, createdPost, setCreatedPost);
+        if(method=="create"&&checkForm())postManipulation.create(authenticate, newPost, searchResults[selectedAPI], setSuccess, setError, successDuration);
+        if(method=="update"&&checkForm())postManipulation.update(authenticate, newPost, postToEdit.id, searchResults[selectedAPI], setSuccess, setError, successDuration);
         if(method=="delete"){
-            if(deleteWarning)postManipulation.delete(authenticate, postToEdit, setSuccess, setError, successDuration);
+            if(deleteWarning)postManipulation.delete(authenticate, postToEdit, setSuccess, setError, successDuration, navigate);
             else setDeleteWarning(true);
         }
     }
@@ -389,10 +384,10 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                         <Row className="mt-3">
                             <Col xs={12} className="pb-3">
                                 {/* Error and Success Alerts, and Create, Update, Delete Buttons */}
-                                {!editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>manipulatePost("create")}>{`Create Post`}</Button>}
-                                {editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>manipulatePost("update")}>{`Update Post`}</Button>}
+                                {!editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>{if(success=="")manipulatePost("create")}}>{`Create Post`}</Button>}
+                                {editMode&&<Button variant="primary" className="hovering-no-scale py-3 w-100" onClick={()=>{if(success=="")manipulatePost("update")}}>{`Update Post`}</Button>}
                                 {deleteWarning&&<Alert variant="danger" className="mt-3 w-100">{`Are you sure you want to delete this post? This action cannot be undone!`}</Alert>}
-                                {editMode&&<Button variant="danger" className="hovering-no-scale py-3 mt-2 w-100" onClick={()=>manipulatePost("delete")}>{`Delete Post`}</Button>}
+                                {editMode&&<Button variant="danger" className="hovering-no-scale py-3 mt-2 w-100" onClick={()=>{if(success=="")manipulatePost("delete")}}>{`Delete Post`}</Button>}
                             </Col>
                         </Row>
                     </Form>

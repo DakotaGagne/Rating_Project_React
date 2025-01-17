@@ -38,8 +38,8 @@ export default function MediaDetails( { darkMode, post } ) {
   function formattedURL(url){
     // Function to format the URL of the poster image
     if(url==null||url==undefined||url==""||url.includes("null")){
-      if(darkMode.get)return "../../../public/poster_not_found_dark.jpg";
-      return "../../../public/poster_not_found_light.jpg";
+      if(darkMode.get)return "/poster_not_found_dark.jpg";
+      return "/poster_not_found_light.jpg";
     }
     return url;
   }

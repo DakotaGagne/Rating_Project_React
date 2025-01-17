@@ -1,7 +1,6 @@
 import { usernameFormatter } from './formatting';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
 /*
 
 Helper functions for CreatePost.jsx
@@ -19,7 +18,7 @@ Returns an object with the following functions:
 
 
 const postManipulation = {
-    delete: (authenticate, postToEdit, setSuccess, setError, successDuration)=>{
+    delete: (authenticate, postToEdit, setSuccess, setError, successDuration, navigate)=>{
         // Authenticate user and delete post from database
         let postId = postToEdit.id;
         authenticate().then(userData => {
@@ -39,7 +38,7 @@ const postManipulation = {
             }).then(data => {
                 setSuccess("Post Deleted Successfully!");
                 setError("");
-                setTimeout(() => window.location.href='/profile', successDuration);
+                setTimeout(() =>navigate('/profile'), successDuration);
             })
             .catch(err => {
                 setError("Error deleting post!");
@@ -47,97 +46,86 @@ const postManipulation = {
             });
         });
     },
-    update: (authenticate, newPost, prevPostId, selectedMediaAPI, setSuccess, setError, successDuration, createdPost, setCreatedPost)=>{
+    update: (authenticate, newPost, prevPostId, selectedMediaAPI, setSuccess, setError, successDuration)=>{
         let mediaTypeUppercase = selectedMediaAPI.media_type.toLowerCase();
         mediaTypeUppercase = mediaTypeUppercase.charAt(0).toUpperCase() + mediaTypeUppercase.slice(1);
         // Authenticate user and update post in database
-        if(!createdPost){
-            authenticate().then(userData => {
-                let newPostData = {
-                    media_title: selectedMediaAPI.title,
-                    media_type: mediaTypeUppercase,
-                    media_rating: newPost.postRating,
-                    post_title: newPost.postTitle,
-                    post_author: usernameFormatter(userData.user.username, false),
-                    user_id: userData.user.id,
-                    post_content: newPost.postContent,
-                    api_data: JSON.stringify(selectedMediaAPI)
-                }
-                fetch(`${SERVER_URL}/api/update_post`, {
-                    method: "PUT",
-                    mode: "cors",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({prevPostId:prevPostId,  newPostData:newPostData}),
-                })
-                .then(res => {
-                    if(res.ok){
-                        setCreatedPost(true);
-                        setSuccess("Post Updated Successfully! Page will now reload...");
-                        setError("");
-                        setTimeout(()=>window.location.reload(), successDuration);
-                    } else {
-                        setError("Error updating post (server side)!");
-                        setSuccess("");
-                    }
-                })
-                
+        authenticate().then(userData => {
+            let newPostData = {
+                media_title: selectedMediaAPI.title,
+                media_type: mediaTypeUppercase,
+                media_rating: newPost.postRating,
+                post_title: newPost.postTitle,
+                post_author: usernameFormatter(userData.user.username, false),
+                user_id: userData.user.id,
+                post_content: newPost.postContent,
+                api_data: JSON.stringify(selectedMediaAPI)
+            }
+            fetch(`${SERVER_URL}/api/update_post`, {
+                method: "PUT",
+                mode: "cors",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({prevPostId:prevPostId,  newPostData:newPostData}),
             })
-            .catch(err => {
-                setError("Error updating post!");
-                console.log(err);
-            });
-        } else {
-            setSuccess("Post Updated Successfully! Page will now reload...");
-            setError("");
-        }
+            .then(res => {
+                if(res.ok){
+                    setSuccess("Post Updated Successfully! Page will now reload...");
+                    setError("");
+                    setTimeout(()=>window.location.reload(), successDuration);
+                } else {
+                    setError("Error updating post (server side)!");
+                    setSuccess("");
+                }
+            })
+            
+        })
+        .catch(err => {
+            setError("Error updating post!");
+            console.log(err);
+        });
     },
-    create: (authenticate, newPost, selectedMediaAPI, setSuccess, setError, successDuration, createdPost, setCreatedPost)=>{
+    create: (authenticate, newPost, selectedMediaAPI, setSuccess, setError, successDuration)=>{
         let mediaTypeUppercase = selectedMediaAPI.media_type.toLowerCase();
         mediaTypeUppercase = mediaTypeUppercase.charAt(0).toUpperCase() + mediaTypeUppercase.slice(1);
         // Authenticate user and create post in database
-        if(!createdPost){
-            authenticate().then(userData => {
-                console.log("User Data", userData);
-                let newPostData = {
-                    media_title: selectedMediaAPI.title,
-                    media_type: mediaTypeUppercase,
-                    media_rating: newPost.postRating,
-                    post_title: newPost.postTitle,
-                    post_author: usernameFormatter(userData.user.username, false),
-                    user_id: userData.user.id,
-                    post_content: newPost.postContent,
-                    api_data: JSON.stringify(selectedMediaAPI)
+        authenticate().then(userData => {
+            console.log("User Data", userData);
+            let newPostData = {
+                media_title: selectedMediaAPI.title,
+                media_type: mediaTypeUppercase,
+                media_rating: newPost.postRating,
+                post_title: newPost.postTitle,
+                post_author: usernameFormatter(userData.user.username, false),
+                user_id: userData.user.id,
+                post_content: newPost.postContent,
+                api_data: JSON.stringify(selectedMediaAPI)
+            }
+            fetch(`${SERVER_URL}/api/create_post`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newPostData),
+            })
+            .then(response => {
+                if(response.ok){
+                    setSuccess("Post Created Successfully! Page will now reload...");
+                    setError("");
+                    setTimeout(()=>window.location.reload(), successDuration);
+                } else {
+                    console.log(response);
+                    setError("Server Error creating post! If this issue persists, please contact support (Credits Page).");
+                    setSuccess("");
                 }
-                fetch(`${SERVER_URL}/api/create_post`, {
-                    method: "POST",
-                    mode: "cors",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(newPostData),
-                })
-                .then(response => {
-                    if(response.ok){
-                        setCreatedPost(true);
-                        setSuccess("Post Created! Reloading page...");
-                        setError("");
-                        setTimeout(() => window.location.reload(), successDuration);
-                    } else{
-                        setError("Error creating post (server side)!");
-                        setSuccess("");
-                    }
-                })   
             })   
-            .catch(err => {
-                setError("Error creating post!");
-                console.log(err);
-            });
-        } else {
-            setSuccess("Post Created! Reloading page...");
-            setError("");
-        }
+        })   
+        .catch(err => {
+            setError("Unknown Error creating post! If this issue persists, please contact support (Credits Page).");
+            console.log(err);
+        });
     }
 }
 
