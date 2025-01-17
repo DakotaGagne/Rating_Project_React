@@ -10,17 +10,18 @@ Props:
     - user: The current user of the website (false or string of type ["github", "google", "local"]). Used to determine if the user is logged in.
 */
 import React, {useState, useEffect} from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Await } from "react-router-dom";
 import {Container, Col, Row, Button, Alert, Form} from "react-bootstrap";
 import Cookies from 'js-cookie';
 import IconGithub from "../icons/IconGithub";
 import IconGoogle from "../icons/IconGoogle";
 import IconBxMessageSquareEdit from "../icons/IconBxMessageSquareEdit";
 import { clean } from 'profanity-cleaner';
+import AwaitingServerMessage from "../helpers/AwaitingServerMessage";
 
 
 
-export default function LoginRegister( { darkMode, user } ) {
+export default function LoginRegister( { darkMode, user, serverConn } ) {
 
     //SERVER URL
     const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -126,47 +127,51 @@ export default function LoginRegister( { darkMode, user } ) {
             </Alert>}
             <Row className="my-5 d-flex">
                 <Col xs={0} lg={4}></Col>
-                <Col xs={12} lg={4} className={`border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`}>
-                    {/* Login / Register Form */}
-                    <div className="p-3"></div>
-                    <h1 className="text-center"><IconBxMessageSquareEdit className="h-100 me-1 mb-2" />{loginMode?"Login":"Register"}</h1>
-                    {loginMode&&<p className="text-center">Welcome back! Please login to continue</p>}
-                    {!loginMode&&<p className="text-center">Welcome! Register Below.</p>}
-                    {!loginMode&&<Alert variant="warning" className="text-center">Please note that this is a personal project and while account security is prioritized, please do not use any usernames or passwords that you use on other sites.</Alert>}
-                    <div className="text-center"><Button  variant="link" onClick={() => setLoginMode(!loginMode)}>{loginMode?"No account? Register Here":"Already have an account? Login Here"}</Button></div>
-                    <Form>
-                        <Form.Group className="my-3">
-                            <Form.Label><b>Username</b></Form.Label>
-                            <Form.Control name="username" type="username" placeholder="Enter Username" value={formData.username} onChange={updateFormData} onKeyDown={checkSubmit} />
-                        </Form.Group>
-                        <Form.Group className="my-3">
-                            <Form.Label><b>Password</b></Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Enter Password" value={formData.password} onChange={updateFormData} onKeyDown={checkSubmit} />
-                        </Form.Group>
-                        {!loginMode&&
+                {serverConn?
+                    <Col xs={12} lg={4} className={`border border-3 rounded border-secondary ${darkMode.get?"text-light bg-dark card-shadow-l":"bg-light text-dark card-shadow-d"}`}>
+                        {/* Login / Register Form */}
+                        <div className="p-3"></div>
+                        <h1 className="text-center"><IconBxMessageSquareEdit className="h-100 me-1 mb-2" />{loginMode?"Login":"Register"}</h1>
+                        {loginMode&&<p className="text-center">Welcome back! Please login to continue</p>}
+                        {!loginMode&&<p className="text-center">Welcome! Register Below.</p>}
+                        {!loginMode&&<Alert variant="warning" className="text-center">Please note that this is a personal project and while account security is prioritized, please do not use any usernames or passwords that you use on other sites.</Alert>}
+                        <div className="text-center"><Button  variant="link" onClick={() => setLoginMode(!loginMode)}>{loginMode?"No account? Register Here":"Already have an account? Login Here"}</Button></div>
+                        <Form>
                             <Form.Group className="my-3">
-                                <Form.Label><b>Confirm Password</b></Form.Label>
-                                <Form.Control name="confirmPassword" type="password" placeholder="Confirm Password" value={formData.confirmPassword} onChange={updateFormData} onKeyDown={checkSubmit} />
+                                <Form.Label><b>Username</b></Form.Label>
+                                <Form.Control name="username" type="username" placeholder="Enter Username" value={formData.username} onChange={updateFormData} onKeyDown={checkSubmit} />
                             </Form.Group>
-                        }
-                        <Form.Group>
-                            <Button variant="primary" onClick={submitFormData} className="w-100 mt-3 hovering-no-scale">
-                                {loginMode?"Login":"Register"}
-                            </Button>
-                        </Form.Group>
-                        <Form.Group>
-                            <Button variant="outline-primary" onClick={googleSignIn} className="w-100 px-5 mt-2 border-rounded border-primary border hovering-no-scale">
-                                <IconGoogle className="me-2 fs-4"/>
-                                Sign in With Google
-                            </Button>
-                        </Form.Group>
-                        <Form.Group>
-                            <Button variant="outline-primary" onClick={githubSignIn} className="w-100 px-5 mt-2 mb-3 border-rounded border-primary border hovering-no-scale">
-                                <IconGithub className="me-2 fs-3"/>
-                                Sign in With Github</Button>
-                        </Form.Group>
-                    </Form>
-                </Col>
+                            <Form.Group className="my-3">
+                                <Form.Label><b>Password</b></Form.Label>
+                                <Form.Control name="password" type="password" placeholder="Enter Password" value={formData.password} onChange={updateFormData} onKeyDown={checkSubmit} />
+                            </Form.Group>
+                            {!loginMode&&
+                                <Form.Group className="my-3">
+                                    <Form.Label><b>Confirm Password</b></Form.Label>
+                                    <Form.Control name="confirmPassword" type="password" placeholder="Confirm Password" value={formData.confirmPassword} onChange={updateFormData} onKeyDown={checkSubmit} />
+                                </Form.Group>
+                            }
+                            <Form.Group>
+                                <Button variant="primary" onClick={submitFormData} className="w-100 mt-3 hovering-no-scale">
+                                    {loginMode?"Login":"Register"}
+                                </Button>
+                            </Form.Group>
+                            <Form.Group>
+                                <Button variant="outline-primary" onClick={googleSignIn} className="w-100 px-5 mt-2 border-rounded border-primary border hovering-no-scale">
+                                    <IconGoogle className="me-2 fs-4"/>
+                                    Sign in With Google
+                                </Button>
+                            </Form.Group>
+                            <Form.Group>
+                                <Button variant="outline-primary" onClick={githubSignIn} className="w-100 px-5 mt-2 mb-3 border-rounded border-primary border hovering-no-scale">
+                                    <IconGithub className="me-2 fs-3"/>
+                                    Sign in With Github</Button>
+                            </Form.Group>
+                        </Form>
+                    </Col>
+                :
+                    <AwaitingServerMessage />
+                }
                 <Col xs={0} lg={4}></Col>
             </Row>
         </Container>

@@ -78,21 +78,27 @@ This could easily get to be too much work and perfectionism etc, so here is what
 - Redirecting setup in react causing not found errors when reloading page. Smth to do with it being deployed as a static site I assume - Mostly fixed, need redirecting to go back to the /#/page
 - Create post allowed repeatedly, make sure cant spam - Should be fixed - Not fixed - Should actually be fixed now
 - Poster not found should appear on the vertical posts if no poster - Done
+- Word wrapping needed on posts for large words (no spaces) - Should be done
 
-- Word wrapping needed on posts for large words (no spaces)
-- Make error message more specific for post creation (try again in a minute, the server might need time to wake up)
 - Maybe make login page accessible only after confirming server is awake, or msg that it may take up to a minute for the server to respond
   - Maybe make a ping to server that occurs once every second or so on the app.jsx page, and have a state variable that gets passed along that represents server communication (and on login page make a card like the loading one that says waiting for connection to server. login will be available shortly) (same with create page possibly)
   - Create post errors out first, then works (not every time either, only sometimes. initial suspicion is it has smth to do with server being asleep at the time. WIll need to troubleshoot further) (this might be tied to the ping idea)
+- Make error message more specific for post creation (try again in a minute, the server might need time to wake up)
 - Posts db might need a time column to sort by instead of the id. Seems like now the id is being assigned old id values and messing up order
 - Github and Google ouath need links fixed - Sign in working, authentication is failing
 
 # Changes done with last commit
 
-- Should have prevented spam post creation (cannot create more than 1 at a time)
-- Fixed public folder to get the photos back for poster-not-found errors. Fixed the references of said images so VITE should be able to still reference them at build
+- Commented out line 48 of app.jsx (timeout for authenticating user, feel like that isnt needed)
+- Added ping mechanic to make sure login and create post only available upon confirmation of server connection
+- Removed mobile var from header (incl all files that declare header)
 
 # Prev Commit Changes
+
+- Word Breaking added to posts
+
+- Should have prevented spam post creation (cannot create more than 1 at a time)
+- Fixed public folder to get the photos back for poster-not-found errors. Fixed the references of said images so VITE should be able to still reference them at build
 
 - Loading msg for main and profile page implemented
   - This includes a change to the fetch in main page, where it confirms the fetch was valid, and retries if not

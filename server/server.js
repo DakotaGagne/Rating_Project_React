@@ -89,6 +89,7 @@ app.get('/api/posts', (req, res) => fetch_post_data(req, res, pg));
 app.get('/api/posts/user', (req, res) => fetch_post_data(req, res, pg, true));
 app.get('/api/posts/id', (req, res) => fetch_post_data(req, res, pg, true, true));
 app.get('/api/search', search);
+app.get('/ping', (req, res) => {res.status(200).send("Pong")}); // Used to confirm server is running
 
 // POST ROUTES
 app.post('/api/create_post', (req, res) => create_post(req, res, pg));

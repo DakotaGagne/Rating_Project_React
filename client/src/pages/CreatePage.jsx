@@ -20,12 +20,12 @@ import Footer from "../components/wrappers/Footer";
 
 
 
-export default function CreatePage( { darkMode, user, mobile, windowWidth } ) {
+export default function CreatePage( { darkMode, user, mobile, windowWidth, serverConn } ) {
     return (
         <div>
-            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
             <Container>
-                <CreatePost darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+                <CreatePost darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} serverConn={serverConn} />
             </Container>
             <Footer windowWidth={windowWidth} />
         </div>

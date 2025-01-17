@@ -23,7 +23,7 @@ import Footer from '../components/wrappers/Footer';
 export default function MainPage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
-            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
             <Container>
                 <Posts darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
             </Container>

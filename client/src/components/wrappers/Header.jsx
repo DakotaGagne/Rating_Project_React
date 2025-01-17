@@ -19,7 +19,7 @@ import authenticate from '../../utils/authenticate';
 import { usernameFormatter } from '../../utils/formatting';
 
 
-export default function Header( { darkMode, user, mobile, windowWidth } ) {
+export default function Header( { darkMode, user, windowWidth } ) {
     //SERVER URL
     const SERVER_URL = import.meta.env.VITE_SERVER_URL;
     // Clear Login Cookie and redirect to logout page

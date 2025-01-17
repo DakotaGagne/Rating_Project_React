@@ -138,7 +138,7 @@ export default function Profile( { darkMode, user, mobile, windowWidth } ) {
                 <Col xs={12} className="text-center">
                     <h1 className="fw-bolder">{"Profile Page"}</h1>
                 </Col>
-                <Col xs={12} className="text-center">
+                <Col xs={12} className="text-start">
                     <p className="border-bottom pb-2 fs-4">Below is all of your posts that you have made. If you <b><i>'double click'</i></b> on any posts, you can edit or delete them! <br/>
                     <i>If you wish to delete your account, please navigate to the bottom of the page and click "Delete Account"</i>
                     </p>

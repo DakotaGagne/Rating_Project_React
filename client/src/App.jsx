@@ -14,6 +14,7 @@ import useDarkMode from "./hooks/useDarkMode";
 // Utils
 import authenticate from './utils/authenticate';
 import Bowser from 'bowser';
+import ping from './utils/ping';
 
 // CSS Imports
 import "./App.css";
@@ -30,6 +31,7 @@ import CreditsPage from "./pages/CreditsPage";
 
 export default function App() {
   // Constants and States
+  const [serverConn, setServerConn] = useState(false);
   const darkMode = useDarkMode();
   const [user, setUser] = useState(null);
   const [mobile, setMobile] = useState(false);
@@ -38,7 +40,22 @@ export default function App() {
   
   const parser = Bowser.getParser(navigator.userAgent);
 
-  setTimeout(() => {authenticate(setUser);}, 1000);
+  function pingServer() {
+    console.log('Pinging Server');
+    ping().then(res => {
+      if(res.ok){
+        console.log('Server is connected');
+        setServerConn(true);
+      } else {
+        console.log('Server is not connected');
+        setServerConn(false);
+        setTimeout(pingServer, 1000);
+      } 
+    });
+  }
+  useEffect(() => {pingServer();}, []);
+
+  // setTimeout(() => {authenticate(setUser)}, 1000);
   // useEffects
   useEffect(() => {
     // Check if user is logged in (set user state)
@@ -79,6 +96,7 @@ export default function App() {
                   user={user}
                   mobile={mobile}
                   windowWidth={windowWidth}
+                  serverConn={serverConn}
               />}></Route>
               <Route path="/login" element={
                 <LoginPage 
@@ -86,6 +104,7 @@ export default function App() {
                   user={user}
                   mobile={mobile}
                   windowWidth={windowWidth}
+                  serverConn={serverConn}
               />}></Route>
               <Route path="/profile" element={
                 <ProfilePage 

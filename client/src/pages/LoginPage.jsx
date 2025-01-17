@@ -20,12 +20,12 @@ import Footer from "../components/wrappers/Footer";
 
 
 
-export default function LoginPage( { darkMode, user, mobile, windowWidth } ) {
+export default function LoginPage( { darkMode, user, mobile, windowWidth, serverConn } ) {
     return (
         <div>
-            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
             <Container>
-                <LoginRegister darkMode={darkMode} user={user} />
+                <LoginRegister darkMode={darkMode} user={user} serverConn={serverConn} />
             </Container>
             <Footer windowWidth={windowWidth} />
         </div>

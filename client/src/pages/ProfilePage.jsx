@@ -22,7 +22,7 @@ import Footer from "../components/wrappers/Footer";
 export default function ProfilePage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
-            <Header darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
+            <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
             <Container>
                 <Profile darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
             </Container>

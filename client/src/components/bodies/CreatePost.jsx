@@ -24,10 +24,11 @@ import PostHorizontal from "../posts/PostHorizontal";
 import PostVertical from "../posts/PostVertical";
 import authenticate from "../../utils/authenticate";
 import postManipulation from "../../utils/postManipulation";
+import AwaitingServerMessage from "../helpers/AwaitingServerMessage";
 
 
 
-export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
+export default function CreatePost( { darkMode, user, mobile, windowWidth, serverConn } ) {
     //SERVER URL
     const SERVER_URL = import.meta.env.VITE_SERVER_URL;
     
@@ -250,7 +251,7 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
         {error!=""&&<Alert className="position-fixed alert-fixed my-3" variant="danger" onClose={() => setError("")} dismissible>
             <Alert.Heading>{error}</Alert.Heading>
         </Alert>}
-        {postToEdit!=null&&<Container className={`d-flex flex-column my-5 justify-content-center ${!mobileMode&&"border border-3 rounded border-secondary"} ${!mobileMode?darkMode.get?"card-shadow-l":"card-shadow-d":""} ${darkMode.get?"text-light bg-dark":"bg-light text-dark"}`} >
+        {serverConn&&postToEdit!=null&&<Container className={`d-flex flex-column my-5 justify-content-center ${!mobileMode&&"border border-3 rounded border-secondary"} ${!mobileMode?darkMode.get?"card-shadow-l":"card-shadow-d":""} ${darkMode.get?"text-light bg-dark":"bg-light text-dark"}`} >
             <Row>
                 <Col lg={2} md={3} /><Col lg={8} md={6}>
                     {/* Post Example if in Edit Mode */}
@@ -277,7 +278,8 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
             <Row
                 style={{backgroundColor: mobileMode&&apiInputLabel.poster_path?"rgba(0,0,0,0.75)":""}}
             >
-                <Col lg={8}>
+                {serverConn?
+                    <Col lg={8}>
                     {/* Main Body of input */}                    
                     <Row className="mt-3">
                         {/* Page Title */}
@@ -400,8 +402,11 @@ export default function CreatePost( { darkMode, user, mobile, windowWidth } ) {
                             </Col>
                         </Row>
                     </Form>
-                </Col>
-                {!mobileMode&&
+                    </Col>
+                :
+                    <AwaitingServerMessage />
+                }
+                {!mobileMode&&serverConn&&
                 // Desktop Mode
                 <Col md={4}>
                     {/* Poster */}
