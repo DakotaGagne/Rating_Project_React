@@ -25,7 +25,7 @@
 
 - Github and Google ouath need links fixed - Sign in working, authentication is failing - Auth still failing, no solutions yet (possible override by jwt tokenizing oauth as well)
 - (Fixed) Maybe make login page accessible only after confirming server is awake, or msg that it may take up to a minute for the server to respond
-- Make the above happen for create post page as well
+- Make the above happen for create post page as well (should actually be happening)
 
 # Future Additions
 
