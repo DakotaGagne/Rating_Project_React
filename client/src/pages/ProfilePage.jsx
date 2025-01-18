@@ -16,6 +16,7 @@ import Container from 'react-bootstrap/Container';
 import Header from "../components/wrappers/Header";
 import Profile from "../components/bodies/Profile";
 import Footer from "../components/wrappers/Footer";
+import AcceptCookiesModal from "../components/helpers/AcceptCookiesModal";
 
 
 
@@ -23,6 +24,7 @@ export default function ProfilePage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
             <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
+            <AcceptCookiesModal />
             <Container>
                 <Profile darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} />
             </Container>

@@ -17,6 +17,7 @@ import Container from 'react-bootstrap/Container';
 import CreatePost from "../components/bodies/CreatePost";
 import Header from "../components/wrappers/Header";
 import Footer from "../components/wrappers/Footer";
+import AcceptCookiesModal from "../components/helpers/AcceptCookiesModal";
 
 
 
@@ -24,6 +25,7 @@ export default function CreatePage( { darkMode, user, mobile, windowWidth, serve
     return (
         <div>
             <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
+            <AcceptCookiesModal />
             <Container>
                 <CreatePost darkMode={darkMode} user={user} mobile={mobile} windowWidth={windowWidth} serverConn={serverConn} />
             </Container>

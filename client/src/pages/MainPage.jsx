@@ -17,6 +17,7 @@ import Container from 'react-bootstrap/Container';
 import Posts from '../components/bodies/Posts'
 import Header from '../components/wrappers/Header';
 import Footer from '../components/wrappers/Footer';
+import AcceptCookiesModal from "../components/helpers/AcceptCookiesModal";
 
 
 
@@ -24,6 +25,7 @@ export default function MainPage( { darkMode, user, mobile, windowWidth } ) {
     return (
         <div>
             <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
+            <AcceptCookiesModal />
             <Container>
                 <Posts darkMode={darkMode} mobile={mobile} windowWidth={windowWidth} />
             </Container>

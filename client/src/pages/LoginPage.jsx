@@ -17,6 +17,7 @@ import LoginRegister from "../components/bodies/LoginRegister";
 import Container from 'react-bootstrap/Container';
 import Header from "../components/wrappers/Header";
 import Footer from "../components/wrappers/Footer";
+import AcceptCookiesModal from "../components/helpers/AcceptCookiesModal";
 
 
 
@@ -24,6 +25,7 @@ export default function LoginPage( { darkMode, user, mobile, windowWidth, server
     return (
         <div>
             <Header darkMode={darkMode} user={user} windowWidth={windowWidth} />
+            <AcceptCookiesModal />
             <Container>
                 <LoginRegister darkMode={darkMode} user={user} serverConn={serverConn} />
             </Container>
