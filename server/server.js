@@ -60,31 +60,31 @@ pg.connect();
 app.use(morgan('tiny')); // ! Change to 'combined' for production (logs to file)
 app.use(bodyParser.json({ strict: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  cookieSession(
-    {
-      name:'session',
-      keys: [process.env.SESSION_SECRET],
-      domain: process.env.DOMAIN_NAME,
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
-  )
-)
 // app.use(
-//   session({
-//     name: "session",
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-//     rolling: true,
-//     cookie: {
+//   cookieSession(
+//     {
+//       name:'session',
+//       keys: [process.env.SESSION_SECRET],
 //       domain: process.env.DOMAIN_NAME,
-//       secure: false,
-//       httpOnly: true,
-//       maxAge: 24 * 60 * 60 * 1000,
+//       maxAge: 24 * 60 * 60 * 1000 // 24 hours
 //     }
-//   })
-// );
+//   )
+// )
+app.use(
+  session({
+    name: "session",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    rolling: true,
+    cookie: {
+      domain: process.env.DOMAIN_NAME,
+      secure: false,
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    }
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
