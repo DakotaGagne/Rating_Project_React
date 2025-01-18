@@ -29,6 +29,7 @@ const router = express.Router();
 
 // Get Routes Router
 router.get("/login/success", (req, res) => {
+  console.log('req.isAuthenticated(): ', req.isAuthenticated());
   if(req.user){
     // Oauth Authentication
     console.log('req.user exists: ', req.user);
