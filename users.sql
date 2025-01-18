@@ -29,4 +29,5 @@ INSERT INTO "public"."users" ("id", "username", "password", "oauth", "oauthid") 
 (22, 'savannah kirkeby', NULL, 'google', '112128740827961774449'),
 (32, 'Momma G', '$2b$10$.eQatLdOMGzWk3DJaSCQnOUK/uB4D1Lfmexdec9nskx1oel06Kzai', NULL, NULL),
 (33, 'Stryker69669', '$2b$10$lq04xNSjlW0IZLO8nlSjpOI7KFW3xH2Z0aY5o1ACFYQIJlBg.1Fw.', NULL, NULL),
-(5, '00001', '$2b$10$pc11aRlFMmkjMwsF3nJj9ex8LN9unHU06MLK2e6ZpHoUbogkkP0ku', NULL, NULL);
+(5, '00001', '$2b$10$pc11aRlFMmkjMwsF3nJj9ex8LN9unHU06MLK2e6ZpHoUbogkkP0ku', NULL, NULL),
+(2, 'Admin', '$2b$10$yAWON82gdwtCb5kzvI.1D.JF.kBFn.ofW1UEM0CvC9iPzLdicCrQC', NULL, NULL);
