@@ -156,7 +156,7 @@ export default function LoginRegister( { darkMode, user, serverConn } ) {
                                     {loginMode?"Login":"Register"}
                                 </Button>
                             </Form.Group>
-                            <Form.Group>
+                            {/* <Form.Group>
                                 <Button variant="outline-primary" onClick={googleSignIn} className="w-100 px-5 mt-2 border-rounded border-primary border hovering-no-scale">
                                     <IconGoogle className="me-2 fs-4"/>
                                     Sign in With Google
@@ -166,7 +166,7 @@ export default function LoginRegister( { darkMode, user, serverConn } ) {
                                 <Button variant="outline-primary" onClick={githubSignIn} className="w-100 px-5 mt-2 mb-3 border-rounded border-primary border hovering-no-scale">
                                     <IconGithub className="me-2 fs-3"/>
                                     Sign in With Github</Button>
-                            </Form.Group>
+                            </Form.Group> */}
                         </Form>
                     </Col>
                 :

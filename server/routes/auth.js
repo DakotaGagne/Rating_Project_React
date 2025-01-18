@@ -29,10 +29,10 @@ const router = express.Router();
 
 // Get Routes Router
 router.get("/login/success", (req, res) => {
-  console.log('req.isAuthenticated(): ', req.isAuthenticated());
+  // console.log('req.isAuthenticated(): ', req.isAuthenticated());
   if(req.user){
     // Oauth Authentication
-    console.log('req.user exists: ', req.user);
+    // console.log('req.user exists: ', req.user);
     res.status(200).json(
       {
         success: true,
@@ -42,7 +42,7 @@ router.get("/login/success", (req, res) => {
       }
     );
   } else if(req.headers.authorization){
-    console.log('req.headers.authorization exists as: ', req.headers.authorization);
+    // console.log('req.headers.authorization exists as: ', req.headers.authorization);
     // Local Authentication
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
