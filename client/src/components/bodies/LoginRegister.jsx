@@ -152,7 +152,7 @@ export default function LoginRegister( { darkMode, user, serverConn } ) {
                                 </Form.Group>
                             }
                             <Form.Group>
-                                <Button variant="primary" onClick={submitFormData} className="w-100 mt-3 hovering-no-scale">
+                                <Button variant="primary" onClick={submitFormData} className="w-100 mt-3 mb-5 hovering-no-scale">
                                     {loginMode?"Login":"Register"}
                                 </Button>
                             </Form.Group>
