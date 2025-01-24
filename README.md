@@ -1,10 +1,3 @@
-# Final Steps
-
-- Create resume section about project
-- Add to portfolio
-- Apply for jobs!
-- Maybe remake portfolio with React (as a static site)
-
 # Ratingly React Social Media Project
 
 ## Description
