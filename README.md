@@ -1,10 +1,3 @@
-# Final Steps
-
-- Create resume section about project
-- Add to portfolio
-- Apply for jobs!
-- Maybe remake portfolio with React (as a static site)
-
 # Ratingly React Social Media Project
 
 ## Description
@@ -46,7 +39,7 @@ In the future I hope to fully implement the Oauth Sign In system to the hosted p
 
 ## Hosting
 
-- This project is currently being hosted at 'ratingly.onrender.com'. Feel free to check it out! If you notice bugs or issues, please let me know via a submitted issue on the github page, or email me at 'dakotaevan10@gmail.com'
+- This project is currently being hosted at [ratingly.onrender.com](https://ratingly.onrender.com). Feel free to check it out! If you notice bugs or issues, please let me know via a submitted issue on the github page, or email me at 'dakotaevan10@gmail.com'
 
 ## Contributing
 
